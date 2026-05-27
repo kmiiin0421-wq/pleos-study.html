@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>현대차그룹 PLEOS 스터디 · 퀴즈 · 마인드맵</title>
+<style>
+  :root{
+    --bg:#0a0e1a; --bg2:#121829; --card:#161d31; --card2:#1c2541;
+    --line:#2a3552; --txt:#e8edf7; --sub:#9aa7c4; --accent:#00b4e6;
+    --c-overview:#4FC3F7; --c-os:#9b7af0; --c-connect:#26C6A6;
+    --c-ai:#FF8A5C; --c-eco:#FFCA45; --c-biz:#F06292;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Segoe UI","Malgun Gothic",sans-serif;background:linear-gradient(160deg,#0a0e1a,#0d1424);color:var(--txt);min-height:100vh}
+  header{padding:24px 24px 16px;text-align:center;border-bottom:1px solid var(--line);background:rgba(0,0,0,.2)}
+  header h1{font-size:25px;letter-spacing:.5px}
+  header h1 b{color:var(--accent)}
+  header p{color:var(--sub);margin-top:6px;font-size:14px}
+  .tabs{display:flex;justify-content:center;gap:8px;margin:16px auto 0;flex-wrap:wrap}
+  .tab{padding:10px 22px;border:1px solid var(--line);background:var(--card);color:var(--sub);
+    border-radius:999px;cursor:pointer;font-size:15px;transition:.18s;font-weight:600}
+  .tab:hover{color:var(--txt);border-color:var(--accent)}
+  .tab.active{background:var(--accent);color:#04141d;border-color:var(--accent)}
+  main{max-width:1280px;margin:0 auto;padding:22px 18px 56px}
+  .view{display:none;animation:fade .3s ease}
+  .view.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+  /* ---------- STUDY (guided path) ---------- */
+  .pathintro{text-align:center;color:var(--sub);font-size:14px;margin-bottom:16px}
+  .searchwrap{max-width:520px;margin:0 auto 22px}
+  #search{width:100%;padding:11px 14px;border-radius:10px;border:1px solid var(--line);
+    background:var(--card);color:var(--txt);font-size:14px}
+  #search::placeholder{color:var(--sub)}
+  .pathbar{display:flex;justify-content:center;gap:0;margin:0 auto 24px;flex-wrap:wrap;max-width:920px}
+  .pdot{display:flex;align-items:center;gap:0;cursor:pointer}
+  .pdot .num{width:30px;height:30px;border-radius:50%;border:2px solid var(--line);display:flex;
+    align-items:center;justify-content:center;font-size:13px;font-weight:700;background:var(--card);
+    color:var(--sub);transition:.2s;flex-shrink:0}
+  .pdot.active .num{background:var(--accent);border-color:var(--accent);color:#04141d}
+  .pdot.done .num{border-color:var(--accent);color:var(--accent)}
+  .pdot .lbl{font-size:12px;color:var(--sub);margin:0 6px 0 6px;white-space:nowrap}
+  .pdot.active .lbl{color:var(--txt);font-weight:700}
+  .pline{width:26px;height:2px;background:var(--line);flex-shrink:0}
+
+  .steps{max-width:900px;margin:0 auto}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden;transition:.2s}
+  .step.active{border-color:var(--accent);box-shadow:0 6px 26px rgba(0,180,230,.12)}
+  .step-head{display:flex;align-items:center;gap:14px;padding:18px 20px;cursor:pointer}
+  .step-head .badge{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+    font-size:19px;flex-shrink:0;background:var(--card2)}
+  .step-head .htext h3{font-size:17px}
+  .step-head .htext p{font-size:13px;color:var(--sub);margin-top:3px}
+  .step-head .chev{margin-left:auto;color:var(--sub);font-size:13px;transition:.2s}
+  .step.active .step-head .chev{transform:rotate(180deg);color:var(--accent)}
+  .step-body{max-height:0;overflow:hidden;transition:max-height .35s ease}
+  .step-inner{padding:4px 20px 20px}
+  .step-lead{background:var(--card2);border-radius:10px;padding:13px 15px;font-size:14px;line-height:1.6;color:#cdd6ee;margin-bottom:14px;border-left:3px solid var(--accent)}
+
+  .krow{border:1px solid var(--line);border-left-width:4px;border-radius:10px;margin-bottom:9px;background:var(--bg2);transition:.15s}
+  .krow:hover{border-color:var(--accent)}
+  .krow-head{display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer}
+  .krow-head .kt{font-size:15.5px;font-weight:700}
+  .krow-head .ken{font-size:12px;color:var(--sub)}
+  .krow-head .tog{margin-left:auto;color:var(--accent);font-size:13px;font-weight:700}
+  .krow .kshort{padding:0 14px 12px 14px;font-size:13.5px;color:#c6cfe6;line-height:1.55;margin-top:-4px}
+  .krow .kdetail{max-height:0;overflow:hidden;transition:.3s;font-size:13px;color:#aeb9d6;line-height:1.65}
+  .krow.open .kdetail{max-height:360px;padding:0 14px 12px}
+  .subchips{display:flex;flex-wrap:wrap;gap:6px;padding:0 14px 12px}
+  .subchip{font-size:11.5px;padding:4px 10px;border-radius:999px;font-weight:600}
+  .nextbtn{margin-top:6px}
+  .btn{padding:11px 24px;border:none;border-radius:10px;background:var(--accent);color:#04141d;
+    font-size:14px;font-weight:700;cursor:pointer;transition:.15s}
+  .btn:hover{filter:brightness(1.1)}
+  .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--txt)}
+
+  /* ---------- QUIZ ---------- */
+  .quizbox{max-width:720px;margin:0 auto}
+  .modegrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .modegrid .qstart{transition:.18s;padding:26px 22px}
+  .modegrid .qstart:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(0,0,0,.4)}
+  @media(max-width:620px){.modegrid{grid-template-columns:1fr}}
+  .qstart{text-align:center;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:40px 24px}
+  .qstart h2{font-size:22px;margin-bottom:10px}
+  .qstart p{color:var(--sub);margin-bottom:22px}
+  .progress{height:8px;background:var(--card);border-radius:999px;overflow:hidden;margin-bottom:18px}
+  .progress>div{height:100%;background:var(--accent);width:0;transition:.3s}
+  .qcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px}
+  .qmeta{color:var(--sub);font-size:13px;margin-bottom:8px}
+  .qtext{font-size:19px;line-height:1.5;margin-bottom:20px;font-weight:600}
+  .opt{display:block;width:100%;text-align:left;padding:14px 16px;margin-bottom:10px;border-radius:10px;
+    border:1px solid var(--line);background:var(--card2);color:var(--txt);cursor:pointer;font-size:15px;transition:.15s}
+  .opt:hover:not(:disabled){border-color:var(--accent)}
+  .opt.correct{background:rgba(38,198,166,.18);border-color:#26C6A6}
+  .opt.wrong{background:rgba(240,98,146,.16);border-color:#F06292}
+  .opt:disabled{cursor:default}
+  .explain{margin-top:6px;padding:14px;border-radius:10px;background:var(--bg2);border:1px solid var(--line);
+    font-size:14px;line-height:1.6;color:#c6cfe6;display:none}
+  .explain.show{display:block}
+  .qnav{display:flex;justify-content:space-between;margin-top:18px;align-items:center}
+  .result{text-align:center;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:40px 24px}
+  .result .score{font-size:52px;font-weight:800;color:var(--accent)}
+  .result .msg{font-size:18px;margin:10px 0 24px}
+
+  /* ---------- MINDMAP ---------- */
+  .legend{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin:2px 0 12px;font-size:12.5px;color:var(--sub)}
+  .legend span{display:inline-flex;align-items:center;gap:5px}
+  .legend i{width:11px;height:11px;border-radius:3px;display:inline-block}
+  .mapwrap{position:relative}
+  .mapcanvas{position:relative;width:100%;height:74vh;min-height:460px;
+    background:radial-gradient(circle at 50% 46%,#15233f,#0a0e1a 72%);
+    border:1px solid var(--line);border-radius:16px;overflow:hidden;touch-action:none}
+  .mapcanvas svg{width:100%;height:100%;display:block;cursor:grab}
+  .mapcanvas svg:active{cursor:grabbing}
+  .zoomctrl{position:absolute;left:12px;bottom:12px;display:flex;flex-direction:column;gap:6px;z-index:5}
+  .zoomctrl button{width:38px;height:38px;border-radius:9px;border:1px solid var(--line);
+    background:rgba(18,24,41,.92);color:var(--txt);font-size:18px;font-weight:700;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;line-height:1;transition:.15s}
+  .zoomctrl button:hover{border-color:var(--accent);color:var(--accent)}
+  .zoomctrl .rst{font-size:13px}
+  .detailpanel{position:absolute;top:14px;right:14px;width:268px;max-height:calc(74vh - 28px);overflow:auto;
+    background:rgba(18,24,41,.94);backdrop-filter:blur(4px);border:1px solid var(--line);border-radius:14px;
+    padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+  .detailpanel .cat{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+  .detailpanel h3{font-size:19px;margin:6px 0}
+  .detailpanel .en{font-size:12px;color:var(--sub);margin-bottom:10px}
+  .detailpanel .d{font-size:13.5px;line-height:1.65;color:#c6cfe6}
+  .detailpanel .hint{color:var(--sub);font-size:13px;line-height:1.6}
+  .detailpanel .pchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+  .node{cursor:pointer}
+  .node text{font-family:"Segoe UI","Malgun Gothic",sans-serif;font-weight:700;pointer-events:none}
+  .node rect{transition:.15s}
+  .node:hover rect{filter:brightness(1.22)}
+  .edge{fill:none;stroke-opacity:.5}
+  @media(max-width:780px){
+    /* 맵 칸과 설명 칸 레이아웃 고정 — 맵은 위 고정 높이, 설명은 아래 고정 높이.
+       맵 내부만 줌/팬 되고 두 칸의 위치·크기는 변하지 않는다 */
+    .mapwrap{display:flex;flex-direction:column;gap:10px}
+    .mapcanvas{height:46vh;min-height:300px;flex:0 0 auto}
+    .detailpanel{position:static;width:100%;height:30vh;min-height:180px;max-height:none;
+      margin:0;flex:0 0 auto;backdrop-filter:none}
+    .pdot .lbl{display:none}
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1><b>PLEOS</b> 스터디 보드 · 현대자동차그룹 SDV 소프트웨어</h1>
+  <p>단계별로 익히고 → 퀴즈로 점검하고 → 마인드맵으로 한눈에</p>
+  <div class="tabs">
+    <button class="tab active" data-view="study">📚 학습</button>
+    <button class="tab" data-view="quiz">📝 퀴즈</button>
+    <button class="tab" data-view="map">🧠 마인드맵</button>
+  </div>
+</header>
+
+<main>
+  <!-- STUDY -->
+  <section class="view active" id="study">
+    <p class="pathintro">큰 개념에서 시작해 한 단계씩 좁혀 들어가는 학습 경로입니다. 단계를 눌러 펼치고, 키워드를 눌러 자세히 보세요.</p>
+    <div class="searchwrap"><input id="search" type="text" placeholder="🔍 키워드 바로 찾기 (예: Gleo, OTA, 존 컨트롤러)"></div>
+    <div class="pathbar" id="pathbar"></div>
+    <div class="steps" id="steps"></div>
+    <div class="steps" id="searchResults" style="display:none"></div>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="view" id="quiz">
+    <div class="quizbox" id="quizbox"></div>
+  </section>
+
+  <!-- MAP -->
+  <section class="view" id="map">
+    <div class="legend" id="legend"></div>
+    <div class="mapwrap">
+      <div class="mapcanvas">
+        <svg id="svg" viewBox="0 0 1600 1180" preserveAspectRatio="xMidYMid meet"></svg>
+        <div class="zoomctrl">
+          <button id="zin" title="확대" aria-label="확대">＋</button>
+          <button id="zout" title="축소" aria-label="축소">−</button>
+          <button id="zreset" class="rst" title="원래대로" aria-label="원래대로">⟳</button>
+        </div>
+      </div>
+      <div class="detailpanel" id="panel">
+        <div class="hint">노드를 클릭하면 설명이 여기 표시됩니다.<br><br>중심 <b>PLEOS</b> → 6개 영역 → 키워드 → 세부 태그로 가지가 뻗어 있어요. 손가락(핀치)·휠·＋/− 버튼으로 확대·이동할 수 있습니다.</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* ============== DATA ============== */
+const CATS = [
+  {id:"overview", name:"개요·브랜드",   hex:"#4FC3F7"},
+  {id:"os",       name:"OS·아키텍처",   hex:"#9b7af0"},
+  {id:"connect",  name:"Pleos Connect", hex:"#26C6A6"},
+  {id:"ai",       name:"AI·인터페이스", hex:"#FF8A5C"},
+  {id:"eco",      name:"개발자 생태계", hex:"#FFCA45"},
+  {id:"biz",      name:"적용·비전",     hex:"#F06292"},
+];
+const catHex = id => (CATS.find(c=>c.id===id)||{}).hex;
+const catName = id => (CATS.find(c=>c.id===id)||{}).name;
+
+const KW = [
+  {t:"PLEOS (플레오스)", en:"Pleo(라틴어 '더 많은') + OS", cat:"overview",
+   s:"현대차그룹의 통합 모빌리티 소프트웨어 브랜드이자 기술 플랫폼.",
+   d:"라틴어 'Pleo'(더 많은)와 운영체제(OS)를 결합한 이름. SDV 비전의 핵심으로 '바퀴 달린 스마트폰' 시대를 상징한다. Vehicle OS·Connect·Playground·App Market·Cloud를 아우르는 우산 브랜드.",
+   subs:["우산 브랜드","'Pleo'+OS","바퀴 달린 스마트폰"]},
+  {t:"Pleos 25", en:"Developer Conference 2025", cat:"overview",
+   s:"2025년 개최된 현대차그룹 개발자 컨퍼런스.",
+   d:"그룹의 소프트웨어 비전과 Pleos Vehicle OS·Pleos Connect를 처음 공개한 자리. 제조사·공급업체만 접근하던 차량 SW 개발 환경을 외부 개발자에게 개방한다는 방향을 선언했다.",
+   subs:["2025 컨퍼런스","비전 공개","개발 환경 개방"]},
+  {t:"SDV", en:"Software-Defined Vehicle", cat:"overview",
+   s:"소프트웨어로 정의되는 차량. PLEOS가 지향하는 패러다임.",
+   d:"하드웨어보다 소프트웨어가 차량의 기능과 경험을 주도하는 차량. 출고 이후에도 OTA로 기능이 계속 진화한다. Pleos Connect는 현대차그룹의 첫 SDV 결과물이다.",
+   subs:["SW 주도","OTA 진화","경험 중심"]},
+
+  {t:"Pleos Vehicle OS", en:"차량용 운영체제", cat:"os",
+   s:"차량을 소프트웨어 중심으로 운영하기 위한 차량용 OS.",
+   d:"E&E 아키텍처를 기반으로 차량이 지속적으로 연결·업데이트되도록 지원한다. 하드웨어와 소프트웨어를 분리(디커플링)한 구조가 핵심으로, 인포테인먼트용 Pleos Connect와 구분되는 '차량 제어' 계층의 OS다.",
+   subs:["차량 제어 계층","E&E 기반","지속 업데이트"]},
+  {t:"E&E 아키텍처", en:"Electrical & Electronic Architecture", cat:"os",
+   s:"차량 내 전자·전기 시스템 구성 구조.",
+   d:"Pleos Vehicle OS의 토대. 분산된 다수의 제어기 대신 중앙집중형 컴퓨팅으로 전환하여 소프트웨어 업데이트와 기능 통합을 쉽게 만든다.",
+   subs:["중앙집중형","전자·전기 구조"]},
+  {t:"HPVC", en:"High Performance Vehicle Computer", cat:"os",
+   s:"고성능 차량 컴퓨터.",
+   d:"여러 기능을 통합 처리하는 고성능 중앙 컴퓨터. 흩어져 있던 다수의 제어기(ECU)를 대체하며, 존 컨트롤러와 함께 차량 전자 구조의 두 축을 이룬다.",
+   subs:["중앙 컴퓨터","ECU 통합","고성능"]},
+  {t:"Zone Controller", en:"존 컨트롤러", cat:"os",
+   s:"차량을 구역(zone)별로 나눠 제어하는 컨트롤러.",
+   d:"차량을 위치 기반 구역으로 나눠 배선·제어를 단순화한다. HPVC와 함께 적용해 기존 제어기 수를 약 66% 감축한다.",
+   subs:["구역 제어","배선 단순화"]},
+  {t:"HW/SW 디커플링", en:"하드웨어-소프트웨어 분리", cat:"os",
+   s:"하드웨어와 소프트웨어를 분리하는 설계 원칙.",
+   d:"하드웨어 교체 없이 소프트웨어 업데이트만으로 신기능을 추가·개선할 수 있게 한다. SDV를 가능하게 하는 근본 설계 사상.",
+   subs:["HW 교체 불필요","SW 업데이트"]},
+  {t:"제어기 66% 감축", en:"66% ECU Reduction", cat:"os",
+   s:"하드웨어 통합 효과.",
+   d:"HPVC와 존 컨트롤러로 전자 구조를 통합해 기존 제어기 수를 약 66% 줄인다. 원가·복잡도 절감과 SW 업데이트 용이성을 확보한다.",
+   subs:["HW 통합","원가 절감"]},
+
+  {t:"Pleos Connect", en:"차세대 인포테인먼트 시스템", cat:"connect",
+   s:"AAOS 기반 차세대 인포테인먼트 시스템. 그룹 첫 SDV 결과물.",
+   d:"직관성·안전성·개방성 3대 지향점을 갖는다. 2026년 4월 양산형이 공개됐고, 익숙한 모바일 앱·콘텐츠를 차량에서 자연스럽게 쓰도록 설계됐다. Gleo AI·App Market·OTA가 결합된다.",
+   subs:["직관성","안전성","개방성"]},
+  {t:"AAOS", en:"Android Automotive OS", cat:"connect",
+   s:"Pleos Connect의 기반 OS.",
+   d:"구글의 차량용 안드로이드. 모바일 친화적 환경을 제공해 검증된 앱 생태계와 익숙한 UX를 차량으로 가져온다.",
+   subs:["안드로이드","앱 생태계","모바일 친화"]},
+  {t:"디스플레이 구성", en:"Central + Slim Display", cat:"connect",
+   s:"대형 중앙 스크린 + 슬림 디스플레이.",
+   d:"대형 중앙 스크린은 주행정보 화면·앱 화면·하단 바(빠른 실행)로 구성된다. 운전자 정면 슬림 디스플레이는 속도·미디어·턴바이턴 길안내를 보여준다. 데이터 기반으로 레이아웃을 재구성한다.",
+   subs:["대형 중앙 스크린","슬림 디스플레이","하단 바"]},
+  {t:"3핑거 제스처", en:"Touch-free Gesture", cat:"connect",
+   s:"세 손가락 동작으로 조작하는 터치프리 인터페이스.",
+   d:"화면을 직접 만지지 않고 세 손가락 제스처로 제어한다. 스티어링 휠 물리 버튼과 함께 운전 중 안전성과 편의성을 높인다.",
+   subs:["터치프리","스티어링 버튼"]},
+  {t:"OTA", en:"Over-the-Air Update", cat:"connect",
+   s:"무선 소프트웨어 업데이트.",
+   d:"출고 이후에도 무선으로 소프트웨어를 갱신해 기능을 지속적으로 추가·개선한다. SDV의 핵심 가치를 구현하는 수단.",
+   subs:["무선 업데이트","기능 추가"]},
+
+  {t:"Gleo AI (글레오)", en:"LLM 기반 에이전트 AI", cat:"ai",
+   s:"Pleos Connect의 핵심 음성·에이전트 AI 비서.",
+   d:"갈릴레오 갈릴레이에서 영감을 받은 이름. LLM 기반으로 단순 명령 실행을 넘어 사용자 의도와 대화 맥락을 이해한다. 여러 명령을 동시에 처리하고 '거기' 같은 추상 표현도 이전 대화로 해석한다. 좌석(화자) 위치를 인식해 말한 사람 자리만 열선 시트를 켜는 등 개인화 제어가 가능하다. 뉴스·날씨·스포츠 웹 검색도 지원.",
+   subs:["LLM 기반","맥락 이해","멀티 커맨드","좌석 인식","갈릴레오"]},
+
+  {t:"Pleos Playground", en:"개방형 개발 플랫폼", cat:"eco",
+   s:"외부 개발자를 위한 개방형 소프트웨어 개발 플랫폼.",
+   d:"차량 API와 개발 도구를 제공해 누구나 차량용 앱·서비스를 만들 수 있게 한다. Pleos 생태계 확장의 엔진.",
+   subs:["차량 API","개발 도구","앱 개발"]},
+  {t:"Pleos App Market", en:"앱 마켓", cat:"eco",
+   s:"Pleos 차량용 앱 마켓.",
+   d:"서드파티 앱을 차량에 제공하는 마켓. 초기 파트너로 NAVER, YouTube, Spotify, 지니(genie), essential 등이 참여한다.",
+   subs:["NAVER","YouTube","Spotify","지니/essential"]},
+  {t:"개발 환경 개방", en:"Open Ecosystem", cat:"eco",
+   s:"차량·클라우드·데이터·액세서리 개발 환경 개방.",
+   d:"제조사·공급업체만 접근하던 모든 차량용 SW 개발 환경을 외부에 개방한다. PLEOS가 폐쇄형이 아닌 '개방형 생태계'를 표방하는 근거.",
+   subs:["차량/클라우드","데이터 분석","액세서리"]},
+  {t:"Pleos Cloud·데이터", en:"Cloud & Data", cat:"eco",
+   s:"클라우드와 데이터 분석 기반.",
+   d:"주행 데이터를 수집·분석해 내비게이션 등 서비스를 고도화한다. 차량-클라우드 연결로 실시간 지도·교통 데이터를 활용한다.",
+   subs:["주행 데이터","실시간 지도","서비스 고도화"]},
+
+  {t:"더 뉴 그랜저 / IONIQ 3", en:"최초 탑재 차종", cat:"biz",
+   s:"Pleos Connect 최초 탑재 차종.",
+   d:"국내는 2026년 5월 출시되는 '더 뉴 그랜저'에 최초 탑재, 유럽은 아이오닉 3(IONIQ 3)에 적용된다. 이후 신차에 순차 확대된다.",
+   subs:["국내 최초","유럽 IONIQ 3","2026.5"]},
+  {t:"2030년 2,000만 대", en:"2030 Target", cat:"biz",
+   s:"확산 목표.",
+   d:"현대차·기아·제네시스 전반에 걸쳐 2030년까지 Pleos Connect 탑재 차량 2,000만 대 확보를 목표로 생태계를 강화한다.",
+   subs:["현대·기아·제네시스","생태계 확장"]},
+];
+const kwByTerm = t => KW.find(k=>k.t===t);
+
+/* ============== TABS ============== */
+document.querySelectorAll(".tab").forEach(t=>{
+  t.onclick=()=>{
+    document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+    document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));
+    t.classList.add("active");
+    document.getElementById(t.dataset.view).classList.add("active");
+    if(t.dataset.view==="map") renderMap();
+  };
+});
+
+/* ============== STUDY · guided path ============== */
+const STEPS = [
+  {icon:"🌍", title:"1. 큰 그림 — PLEOS란?",
+   lead:"먼저 PLEOS가 무엇이고, 왜 등장했는지부터. 현대차그룹이 차량을 '소프트웨어로 정의'하기 위해 만든 우산 브랜드입니다.",
+   terms:["PLEOS (플레오스)","SDV","Pleos 25"]},
+  {icon:"🔀", title:"2. 두 개의 축 — 무엇으로 나뉘나?",
+   lead:"PLEOS는 크게 차량을 움직이는 '제어 OS'와, 사용자가 만나는 '인포테인먼트'로 나뉩니다. 이 둘을 먼저 구분하세요.",
+   terms:["Pleos Vehicle OS","Pleos Connect"]},
+  {icon:"⚙️", title:"3. 차량을 떠받치는 구조 (Vehicle OS 심화)",
+   lead:"차량 제어 OS는 어떤 하드웨어 구조 위에서 돌아갈까요? 전자 구조를 통합·단순화하는 개념들입니다.",
+   terms:["E&E 아키텍처","HPVC","Zone Controller","HW/SW 디커플링","제어기 66% 감축"]},
+  {icon:"🖥️", title:"4. 사용자가 만나는 화면 (Connect 심화)",
+   lead:"실제 탑승자가 경험하는 인포테인먼트 영역. 어떤 OS·화면·조작·지능으로 구성되는지 살펴봅니다.",
+   terms:["AAOS","디스플레이 구성","3핑거 제스처","OTA","Gleo AI (글레오)"]},
+  {icon:"🧩", title:"5. 개방형 생태계 — 누가 키우나?",
+   lead:"PLEOS는 폐쇄형이 아닙니다. 외부 개발자와 앱이 들어오는 개방 생태계가 핵심 차별점입니다.",
+   terms:["Pleos Playground","Pleos App Market","개발 환경 개방","Pleos Cloud·데이터"]},
+  {icon:"🚀", title:"6. 적용과 비전 — 어디로 가나?",
+   lead:"마지막으로 실제 탑재 차종과 확산 목표로 전체 그림을 마무리합니다.",
+   terms:["더 뉴 그랜저 / IONIQ 3","2030년 2,000만 대"]},
+];
+let currentStep = 0;
+const visited = new Set([0]);
+
+function kwRowHTML(k){
+  const color=catHex(k.cat);
+  const chips=k.subs.map(s=>`<span class="subchip" style="background:${color}22;color:${color};border:1px solid ${color}66">${s}</span>`).join("");
+  return `<div class="krow" style="border-left-color:${color}">
+    <div class="krow-head">
+      <span class="kt">${k.t}</span><span class="ken">${k.en}</span>
+      <span class="tog">＋ 자세히</span>
+    </div>
+    <div class="kshort">${k.s}</div>
+    <div class="kdetail"><p style="padding-top:4px">${k.d}</p></div>
+    <div class="subchips">${chips}</div>
+  </div>`;
+}
+function bindRows(scope){
+  scope.querySelectorAll(".krow").forEach(row=>{
+    row.querySelector(".krow-head").onclick=()=>{
+      row.classList.toggle("open");
+      row.querySelector(".tog").textContent=row.classList.contains("open")?"− 접기":"＋ 자세히";
+    };
+  });
+}
+function renderPathbar(){
+  const pb=document.getElementById("pathbar"); pb.innerHTML="";
+  STEPS.forEach((s,i)=>{
+    if(i>0){const ln=document.createElement("div");ln.className="pline";pb.appendChild(ln);}
+    const d=document.createElement("div");
+    d.className="pdot"+(i===currentStep?" active":"")+(visited.has(i)&&i!==currentStep?" done":"");
+    d.innerHTML=`<div class="num">${visited.has(i)&&i!==currentStep?"✓":(i+1)}</div><div class="lbl">${s.title.split(". ")[1].split(" —")[0].split(" (")[0]}</div>`;
+    d.onclick=()=>openStep(i);
+    pb.appendChild(d);
+  });
+}
+function renderSteps(){
+  const cont=document.getElementById("steps"); cont.innerHTML="";
+  STEPS.forEach((s,i)=>{
+    const rows=s.terms.map(t=>kwRowHTML(kwByTerm(t))).join("");
+    const nextBtn = i<STEPS.length-1
+      ? `<button class="btn nextbtn" data-next="${i+1}">다음 단계 →</button>`
+      : `<button class="btn ghost nextbtn" data-goquiz="1">학습 완료! 퀴즈 풀기 →</button>`;
+    const el=document.createElement("div");
+    el.className="step"+(i===currentStep?" active":"");
+    el.innerHTML=`
+      <div class="step-head" data-step="${i}">
+        <div class="badge">${s.icon}</div>
+        <div class="htext"><h3>${s.title}</h3><p>${s.terms.length}개 키워드</p></div>
+        <div class="chev">▼</div>
+      </div>
+      <div class="step-body"><div class="step-inner">
+        <div class="step-lead">${s.lead}</div>
+        ${rows}
+        <div style="margin-top:12px">${nextBtn}</div>
+      </div></div>`;
+    cont.appendChild(el);
+  });
+  // bind
+  cont.querySelectorAll(".step-head").forEach(h=>h.onclick=()=>openStep(+h.dataset.step));
+  cont.querySelectorAll("[data-next]").forEach(b=>b.onclick=()=>openStep(+b.dataset.next,true));
+  cont.querySelectorAll("[data-goquiz]").forEach(b=>b.onclick=()=>document.querySelector('[data-view=quiz]').click());
+  bindRows(cont);
+  syncBodies();
+}
+function syncBodies(){
+  document.querySelectorAll("#steps .step").forEach((st,i)=>{
+    const body=st.querySelector(".step-body");
+    if(i===currentStep){st.classList.add("active");body.style.maxHeight=body.querySelector(".step-inner").scrollHeight+40+"px";}
+    else{st.classList.remove("active");body.style.maxHeight="0";}
+  });
+}
+function openStep(i,scroll){
+  currentStep = (currentStep===i && !scroll) ? -1 : i;  // clicking active header collapses
+  if(currentStep>=0) visited.add(currentStep);
+  renderPathbar(); syncBodies();
+  if(scroll && currentStep>=0){
+    const st=document.querySelectorAll("#steps .step")[currentStep];
+    st.scrollIntoView({behavior:"smooth",block:"center"});
+  }
+}
+// search
+document.getElementById("search").oninput=e=>{
+  const q=e.target.value.trim().toLowerCase();
+  const stepsEl=document.getElementById("steps");
+  const pb=document.getElementById("pathbar");
+  const res=document.getElementById("searchResults");
+  if(!q){stepsEl.style.display="";pb.style.display="";res.style.display="none";return;}
+  stepsEl.style.display="none";pb.style.display="none";res.style.display="";
+  const hits=KW.filter(k=>(k.t+k.en+k.s+k.d+k.subs.join("")).toLowerCase().includes(q));
+  res.innerHTML=`<div class="step active"><div class="step-head"><div class="badge">🔍</div>
+    <div class="htext"><h3>검색 결과</h3><p>${hits.length}개</p></div></div>
+    <div class="step-body" style="max-height:none"><div class="step-inner">
+    ${hits.map(k=>kwRowHTML(k)).join("")||'<div class="step-lead">일치하는 키워드가 없습니다.</div>'}
+    </div></div></div>`;
+  bindRows(res);
+};
+renderPathbar(); renderSteps();
+
+/* ============== QUIZ ============== */
+/* (1) 개념 학습 퀴즈 */
+const CONCEPT_Q=[
+  {q:"'PLEOS'라는 이름은 무엇의 결합인가?",
+   o:["라틴어 'Pleo(더 많은)' + OS","'Please' + EOS","'Pleasure' + SDV","'Plus' + OS"],a:0,
+   e:"라틴어 'Pleo'(더 많은)와 운영체제(OS)의 결합으로, 현대차그룹의 모빌리티 비전을 상징한다."},
+  {q:"Pleos Connect의 기반이 되는 운영체제는?",
+   o:["iOS","Tizen","AAOS (Android Automotive OS)","QNX"],a:2,
+   e:"Pleos Connect는 AAOS 기반으로, 익숙한 모바일 앱·콘텐츠를 차량에서 쓸 수 있게 한다."},
+  {q:"Pleos Connect의 핵심 AI 비서 이름과 그 영감의 원천은?",
+   o:["Gleo AI – 갈릴레오 갈릴레이","Bixby – 별자리","Clova – 클로버","Nugu – 부엉이"],a:0,
+   e:"Gleo AI는 갈릴레오 갈릴레이에서 영감을 받은 LLM 기반 에이전트 AI다."},
+  {q:"HPVC와 Zone Controller로 통합해 얻는 효과로 옳은 것은?",
+   o:["주행거리 66% 증가","기존 제어기 약 66% 감축","연비 66% 개선","화면 밝기 66% 향상"],a:1,
+   e:"고성능 컴퓨터(HPVC)와 존 컨트롤러로 전자 구조를 통합해 기존 제어기를 약 66% 줄인다."},
+  {q:"SDV(Software-Defined Vehicle)의 핵심 개념으로 가장 적절한 것은?",
+   o:["하드웨어 성능이 차량을 정의","소프트웨어가 차량의 기능·경험을 주도","엔진 배기량이 등급을 결정","디자인이 차량 가치를 정의"],a:1,
+   e:"SDV는 소프트웨어가 차량 기능과 경험을 주도하며, 출고 후에도 OTA로 진화한다."},
+  {q:"Gleo AI의 차별화된 기능이 아닌 것은?",
+   o:["여러 명령 동시 처리","'거기' 같은 추상 표현을 맥락으로 해석","좌석(화자) 위치 인식 개인화","연료를 자동으로 주유"],a:3,
+   e:"Gleo AI는 맥락 이해·멀티 커맨드·좌석 인식 개인화·웹 검색을 지원하지만, 자동 주유는 해당하지 않는다."},
+  {q:"외부 개발자에게 차량 API와 도구를 제공하는 개방형 개발 플랫폼은?",
+   o:["Pleos App Market","Pleos Playground","Pleos Cloud","Pleos Connect"],a:1,
+   e:"Pleos Playground는 개발자가 차량용 앱·서비스를 만들 수 있도록 API와 도구를 제공한다."},
+  {q:"Pleos App Market의 초기 파트너로 언급된 서비스가 아닌 것은?",
+   o:["NAVER","Spotify","YouTube","Netflix"],a:3,
+   e:"초기 파트너로 NAVER, YouTube, Spotify, 지니(genie), essential 등이 참여한다. Netflix는 언급되지 않았다."},
+  {q:"Pleos Connect가 국내에서 최초로 탑재되는 차종은?",
+   o:["더 뉴 그랜저","아반떼","팰리세이드","코나"],a:0,
+   e:"국내는 2026년 5월 출시되는 '더 뉴 그랜저'에 최초 탑재되고, 유럽은 IONIQ 3에 적용된다."},
+  {q:"Pleos Vehicle OS의 토대가 되는 아키텍처는?",
+   o:["V8 아키텍처","E&E(전자·전기) 아키텍처","ARM 아키텍처","x86 아키텍처"],a:1,
+   e:"Pleos Vehicle OS는 E&E(Electrical & Electronic) 아키텍처를 기반으로 한다."},
+  {q:"Pleos Connect가 내세우는 3대 지향점은?",
+   o:["속도·연비·내구성","직관성·안전성·개방성","가격·디자인·브랜드","무게·크기·소재"],a:1,
+   e:"Pleos Connect는 직관성·안전성·개방성을 3대 지향점으로 설계됐다."},
+  {q:"현대차그룹의 2030년 Pleos Connect 탑재 목표 대수는?",
+   o:["200만 대","2,000만 대","2억 대","20만 대"],a:1,
+   e:"현대차·기아·제네시스 전반에 걸쳐 2030년까지 2,000만 대 탑재를 목표로 한다."},
+  {q:"HW/SW 디커플링 설계가 가능하게 하는 것은?",
+   o:["하드웨어 교체 없이 SW 업데이트만으로 기능 개선","연료 효율 자동 최적화","타이어 마모 감소","차체 경량화"],a:0,
+   e:"하드웨어와 소프트웨어를 분리해, HW 교체 없이 OTA 업데이트만으로 신기능을 추가·개선할 수 있다."},
+];
+
+/* (2) PLEOS27 체험전시 기획 퀴즈 — 방문객이 PLEOS 기술·서비스를 '체험'하게 만드는 전시 아이템/콘텐츠 설계 준비 */
+const PLANNING_Q=[
+  {q:"PLEOS27 입구존에서 방문객에게 'PLEOS가 무엇인지'를 30초 안에 각인시키는 체험물로 가장 적절한 것은?",
+   o:["6개 영역을 한눈에 잇는 인터랙티브 마인드맵 + 한 줄 정의 키오스크","HPVC 회로 기판 전시",
+      "임원 인터뷰 영상 상영관","제어기 66% 감축 수치 패널"],a:0,
+   e:"입구존은 '큰 그림 각인'이 목적. PLEOS(브랜드)→6개 영역의 구조를 인터랙티브하게 보여주는 마인드맵형 체험물이 짧은 시간에 전체 개념을 잡아준다. 세부 기술 전시는 안쪽 존으로 배치한다."},
+  {q:"'Gleo AI의 맥락 이해'를 방문객이 직접 체감하게 하는 체험 아이템 설계로 가장 효과적인 것은?",
+   o:["AI 사양 스펙 패널 부착","'거기 근처 맛집 찾아줘'처럼 앞말을 이어 말하는 연속 대화 부스",
+      "음성인식 정확도 그래프 전시","LLM 구조 다이어그램"],a:1,
+   e:"맥락 이해는 '이어 말하기'를 직접 해봐야 와닿는다. 방문객이 대명사·생략이 섞인 연속 대화를 던지고 AI가 문맥으로 알아듣는 시나리오 부스가 체감도가 가장 높다."},
+  {q:"'좌석(화자) 인식 개인화'를 보여줄 체험존을 만들 때 핵심 연출 장치는?",
+   o:["1인용 시뮬레이터","다인승 시트 목업 — 말한 좌석만 조명·콘텐츠·열선이 반응","대형 LED 월","VR 헤드셋"],a:1,
+   e:"개인화의 포인트는 '말한 사람 자리만' 반응하는 것. 여러 좌석 목업에서 방문객이 각 자리에서 말하면 그 좌석만 반응하는 연출이 좌석 인식을 직관적으로 증명한다."},
+  {q:"'OTA로 차가 계속 진화한다'는 추상적 개념을 전시에서 체감시키는 콘텐츠로 가장 적절한 것은?",
+   o:["정적인 사양 비교표","같은 차가 업데이트 전·후로 새 기능이 생기는 Before/After 실시간 데모",
+      "OTA 서버 사진","펌웨어 코드 스크롤 영상"],a:1,
+   e:"OTA의 가치는 '출고 후에도 새로워진다'는 시간 변화. 동일 차량/화면이 업데이트 전후로 달라지는 Before/After 데모가 SDV의 핵심을 체험으로 번역해준다."},
+  {q:"개발자 방문객에게 'PLEOS는 개방형 생태계'임을 체험시키는 핸즈온 콘텐츠로 가장 적합한 것은?",
+   o:["완성된 앱 카탈로그 열람","Playground에서 즉석으로 미니 앱을 만들어 App Market 데모 기기에 올려보기",
+      "API 문서 인쇄물 배포","앱 매출 순위표 전시"],a:1,
+   e:"개방성은 '직접 만들어 올려보는' 경험이 가장 강력하다. Playground(개발)→App Market(배포)의 흐름을 짧게 압축한 핸즈온이 개발자 방문객의 참여 동기를 만든다."},
+  {q:"'폰에서 쓰던 앱을 차에서 그대로' 메시지를 체험 동선으로 풀 때 가장 직관적인 연출은?",
+   o:["AAOS 로고 패널","방문객 휴대폰의 앱이 차량 화면으로 자연스럽게 이어지는 연속성 체험",
+      "안드로이드 버전 연혁표","앱 아이콘 모자이크 벽"],a:1,
+   e:"AAOS 기반의 모바일 연속성은 '내 폰 → 차 화면'으로 끊김 없이 이어지는 장면을 직접 보여줄 때 체감된다. 기술명보다 연결되는 순간을 연출한다."},
+  {q:"전시 동선이 짧을 때 '데이터 기반 개인화 추천'을 빠르게 보여주는 인터랙티브 콘텐츠는?",
+   o:["주행 데이터 로그 원본 표시","방문객이 취향/목적지를 입력하면 즉석 맞춤 추천이 뜨는 키오스크",
+      "클라우드 서버 구조도","데이터 보안 정책 안내문"],a:1,
+   e:"Pleos Cloud·데이터의 가치는 '나에게 맞춰지는' 결과. 방문객 입력→즉석 맞춤 결과를 보여주는 인터랙션이 데이터 개인화를 짧은 동선에서 증명한다."},
+  {q:"운전석 체험 아이템에서 '안전성'을 메시지로 강조하려면 어떤 인터랙션을 전면에 둬야 하나?",
+   o:["대형 스크린 풀스크린 영상 시청","화면을 만지지 않는 음성(Gleo AI)·3핑거 제스처로 조작하는 체험",
+      "게임 콘텐츠 플레이","좌석 마사지 체험"],a:1,
+   e:"운전자 대상 체험은 '시선을 떼지 않는' 조작이 핵심 메시지. 음성·터치프리 제스처로 기능을 다루는 체험이 안전성 가치를 몸으로 학습시킨다. 리치 콘텐츠는 동승석 체험으로 분리한다."},
+  {q:"운전석존과 동승석존을 나눠 설계할 때, 두 존의 콘텐츠를 구분하는 가장 타당한 기준은?",
+   o:["좌석 가격","안전성 — 운전석은 음성·요약 최소 정보, 동승석은 영상 등 리치 콘텐츠",
+      "화면 크기","앱 개수"],a:1,
+   e:"운전자/동승자 분기의 본질은 안전성이다. 운전석존은 시선 분산을 줄인 음성·요약 체험으로, 동승석존은 몰입형 리치 콘텐츠로 차등 설계한다."},
+  {q:"중앙 디스플레이를 직접 만져보는 체험물에서 '하단 바'의 역할을 방문객이 이해하도록 하려면?",
+   o:["하단 바에 경고 알림만 띄운다","자주 쓰는 앱을 하단 바에서 빠르게 띄워보는 미션형 인터랙션",
+      "하단 바를 영상 재생 전용으로 둔다","하단 바를 숨긴다"],a:1,
+   e:"하단 바는 '빠른 실행' 진입점이다. 방문객에게 '○○ 앱을 하단 바에서 열어보세요' 같은 미션을 주면 화면 정보구조(주행정보/앱/하단 바)를 체험으로 익히게 된다."},
+  {q:"PLEOS27 체험을 '한 번 보고 끝'이 아니라 재방문·지속 관심으로 잇는 콘텐츠 장치로 가장 SDV다운 것은?",
+   o:["일회성 경품 추첨","OTA를 은유해 회차/시즌마다 체험 미션이 업데이트되는 누적형 스탬프 프로그램",
+      "방명록 작성","브로슈어 배포"],a:1,
+   e:"SDV·OTA의 '계속 진화한다'는 정신을 전시 운영에 적용하면, 시즌마다 갱신되는 체험 미션·누적 스탬프가 재방문 동기를 만든다. 메시지와 운영 방식을 일치시키는 설계다."},
+  {q:"현대·기아·제네시스에 걸친 'PLEOS의 확장성'을 체험으로 전달하려면 어떤 전시 구성이 적절한가?",
+   o:["가장 비싼 차 한 대만 전시","브랜드가 다른 여러 차량에서 동일한 PLEOS 경험이 이어지는 비교 체험존",
+      "판매량 그래프 패널","로고 모음 벽"],a:1,
+   e:"2030년 2,000만 대·멀티 브랜드 확장은 '브랜드가 달라도 같은 경험'으로 체감된다. 서로 다른 차량에서 동일한 Gleo AI·UI를 체험하는 비교존이 확장성을 설득력 있게 보여준다."},
+];
+
+const QUIZZES={
+  concept:{icon:"🧠", title:"개념 학습 퀴즈",
+    desc:"키워드의 정의와 사실을 정확히 익혔는지 점검합니다.",
+    color:"var(--c-overview)", qs:CONCEPT_Q},
+  planning:{icon:"🎯", title:"PLEOS27 체험전시 기획 퀴즈",
+    desc:"방문객이 PLEOS 기술·서비스를 직접 체험하도록, 전시 아이템·콘텐츠를 설계하는 감각을 기릅니다.",
+    color:"var(--c-eco)", qs:PLANNING_Q},
+};
+
+let qi=0, score=0, answered=false, order=[], QSET=[], QMETA=null;
+function shuffle(a){return a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(v=>v[1]);}
+function quizHome(){
+  const cards=Object.entries(QUIZZES).map(([key,z])=>
+    `<div class="qstart" style="text-align:left;border-color:${z.color};cursor:pointer" onclick="quizStart('${key}')">
+       <div style="font-size:34px">${z.icon}</div>
+       <h2 style="margin-top:6px">${z.title}</h2>
+       <p style="margin:8px 0 16px">${z.desc}<br><span style="color:var(--sub)">${z.qs.length}문항 · 4지선다 · 즉시 해설</span></p>
+       <button class="btn" style="background:${z.color}" onclick="event.stopPropagation();quizStart('${key}')">시작하기 →</button>
+     </div>`).join("");
+  document.getElementById("quizbox").innerHTML=
+    `<h2 style="text-align:center;margin-bottom:6px">📝 어떤 퀴즈를 풀까요?</h2>
+     <p style="text-align:center;color:var(--sub);margin-bottom:20px">목적에 맞는 모드를 고르세요.</p>
+     <div class="modegrid">${cards}</div>`;
+}
+function quizStart(key){
+  QMETA=QUIZZES[key]; QSET=QMETA.qs;
+  qi=0;score=0;answered=false;order=shuffle([...QSET.keys()]);renderQ();
+}
+function renderQ(){
+  answered=false;
+  const Q=QSET[order[qi]];
+  const pct=(qi/QSET.length)*100;
+  let opts=Q.o.map((o,i)=>`<button class="opt" data-i="${i}" onclick="answer(${i})">${o}</button>`).join("");
+  document.getElementById("quizbox").innerHTML=
+   `<div class="progress"><div style="width:${pct}%;background:${QMETA.color}"></div></div>
+    <div class="qcard">
+      <div class="qmeta">${QMETA.icon} ${QMETA.title} · 문제 ${qi+1} / ${QSET.length} · 점수 ${score}</div>
+      <div class="qtext">${Q.q}</div>${opts}
+      <div class="explain" id="explain"></div>
+      <div class="qnav">
+        <button class="btn ghost" onclick="quizHome()">← 퀴즈 선택</button>
+        <button class="btn" id="nextBtn" style="display:none" onclick="nextQ()">다음 →</button></div>
+    </div>`;
+}
+function answer(i){
+  if(answered)return; answered=true;
+  const Q=QSET[order[qi]];
+  document.querySelectorAll(".opt").forEach(b=>{
+    b.disabled=true; const bi=+b.dataset.i;
+    if(bi===Q.a)b.classList.add("correct");
+    if(bi===i&&i!==Q.a)b.classList.add("wrong");
+  });
+  if(i===Q.a)score++;
+  const ex=document.getElementById("explain");
+  ex.innerHTML=(i===Q.a?"✅ 정답! ":"❌ 오답. ")+Q.e; ex.classList.add("show");
+  document.getElementById("nextBtn").style.display="block";
+}
+function nextQ(){qi++; if(qi>=QSET.length){quizResult();return;} renderQ();}
+function quizResult(){
+  const pct=Math.round(score/QSET.length*100);
+  const planning=QMETA===QUIZZES.planning;
+  let msg=pct===100?(planning?"🏆 기획 감각 완벽! 개념을 자유자재로 연결했어요.":"🏆 완벽합니다! PLEOS 마스터!"):
+          pct>=70?"👏 훌륭해요! 거의 다 이해했어요.":
+          pct>=40?"📖 좋아요. 학습 탭에서 한 번 더 복습해볼까요?":"💪 학습 탭으로 돌아가 키워드를 다시 살펴보세요!";
+  const key=planning?"planning":"concept";
+  document.getElementById("quizbox").innerHTML=
+   `<div class="result"><div class="score" style="color:${QMETA.color}">${score}/${QSET.length}</div>
+      <div class="msg">${QMETA.icon} ${QMETA.title} · ${msg} (정답률 ${pct}%)</div>
+      <button class="btn" style="background:${QMETA.color}" onclick="quizStart('${key}')">다시 풀기</button>
+      <button class="btn ghost" onclick="quizHome()">다른 퀴즈 선택</button>
+      <button class="btn ghost" onclick="document.querySelector('[data-view=study]').click()">학습으로</button>
+    </div>`;
+}
+quizHome();
+
+/* ============== MINDMAP (3-level radial, fits in view) ============== */
+let mapDrawn=false;
+function renderMap(){
+  const lg=document.getElementById("legend");
+  if(!lg.childElementCount) lg.innerHTML=CATS.map(c=>`<span><i style="background:${c.hex}"></i>${c.name}</span>`).join("");
+  if(mapDrawn) return; mapDrawn=true;
+
+  const svg=document.getElementById("svg");
+  const NS="http://www.w3.org/2000/svg";
+  const CX=800, CY=590, R1=215, R2=400, R3=545;
+  const edges=[], nodes=[];
+
+  nodes.push({x:CX,y:CY,label:"PLEOS",hex:"#00b4e6",type:"center",
+    data:{t:"PLEOS",en:"현대차그룹 통합 소프트웨어 브랜드",cat:null,
+      d:"라틴어 'Pleo(더 많은)' + OS. 차량을 '바퀴 달린 스마트폰'으로 만드는 현대차그룹의 SDV 소프트웨어 우산 브랜드. 6개 영역으로 구성됩니다.",subs:[]}});
+
+  CATS.forEach((c,i)=>{
+    const cAng=-90 + i*60;
+    const ar=cAng*Math.PI/180;
+    const cxp=CX+R1*Math.cos(ar), cyp=CY+R1*Math.sin(ar);
+    edges.push({x1:CX,y1:CY,x2:cxp,y2:cyp,hex:c.hex,w:3.5});
+    nodes.push({x:cxp,y:cyp,label:c.name,hex:c.hex,type:"cat",
+      data:{t:c.name,en:"영역",cat:c.id,d:catDesc(c.id),subs:[]}});
+
+    const leaves=KW.filter(k=>k.cat===c.id);
+    const cap=3;
+    const weights=leaves.map(k=>Math.max(Math.min(k.subs.length,cap),1));
+    const totalW=weights.reduce((a,b)=>a+b,0);
+    const sectorW=54;                       // degrees
+    let cursor=cAng - sectorW/2;
+    leaves.forEach((k,idx)=>{
+      const w=weights[idx], sliceW=sectorW*w/totalW;
+      const leafAng=cursor+sliceW/2;
+      const lr=leafAng*Math.PI/180;
+      const lx=CX+R2*Math.cos(lr), ly=CY+R2*Math.sin(lr);
+      edges.push({x1:cxp,y1:cyp,x2:lx,y2:ly,hex:c.hex,w:2});
+      nodes.push({x:lx,y:ly,label:shortLabel(k.t),hex:c.hex,type:"leaf",data:k});
+
+      const subs=k.subs.slice(0,cap);
+      const pad=sliceW*0.14, a0=cursor+pad, a1=cursor+sliceW-pad;
+      subs.forEach((s,si)=>{
+        const sa=(subs.length===1)?(a0+a1)/2 : a0+(a1-a0)*si/(subs.length-1);
+        const sr=sa*Math.PI/180;
+        const sx=CX+R3*Math.cos(sr), sy=CY+R3*Math.sin(sr);
+        edges.push({x1:lx,y1:ly,x2:sx,y2:sy,hex:c.hex,w:1});
+        nodes.push({x:sx,y:sy,label:s,hex:c.hex,type:"sub",data:k});
+      });
+      cursor+=sliceW;
+    });
+  });
+
+  // glow filter for center
+  const defs=document.createElementNS(NS,"defs");
+  defs.innerHTML=`<filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+    <feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>`;
+  svg.appendChild(defs);
+
+  // everything draggable/zoomable goes inside this layer
+  const layer=document.createElementNS(NS,"g"); layer.setAttribute("id","zoomLayer");
+  svg.appendChild(layer);
+
+  edges.forEach(e=>{
+    const p=document.createElementNS(NS,"path");
+    const mx=(e.x1+e.x2)/2, my=(e.y1+e.y2)/2;
+    p.setAttribute("d",`M${e.x1},${e.y1} Q${mx},${my} ${e.x2},${e.y2}`);
+    p.setAttribute("class","edge"); p.setAttribute("stroke",e.hex); p.setAttribute("stroke-width",e.w);
+    layer.appendChild(p);
+  });
+
+  nodes.forEach(n=>{
+    const g=document.createElementNS(NS,"g");
+    g.setAttribute("class","node"); g.setAttribute("transform",`translate(${n.x},${n.y})`);
+    const fs = n.type==="center"?32 : n.type==="cat"?19 : n.type==="leaf"?15 : 12.5;
+    const padX = n.type==="center"?26 : n.type==="sub"?10 : 14;
+    const h = n.type==="center"?52 : n.type==="cat"?38 : n.type==="leaf"?30 : 24;
+    const w = Math.max(n.label.length*fs*0.62 + padX*2, n.type==="center"?150:46);
+    const rect=document.createElementNS(NS,"rect");
+    rect.setAttribute("x",-w/2);rect.setAttribute("y",-h/2);
+    rect.setAttribute("width",w);rect.setAttribute("height",h);rect.setAttribute("rx",h/2);
+    if(n.type==="center"){rect.setAttribute("fill",n.hex);rect.setAttribute("filter","url(#glow)");}
+    else if(n.type==="cat"){rect.setAttribute("fill",n.hex);}
+    else if(n.type==="leaf"){rect.setAttribute("fill","#161d31");rect.setAttribute("stroke",n.hex);rect.setAttribute("stroke-width","2.2");}
+    else {rect.setAttribute("fill",n.hex);rect.setAttribute("fill-opacity","0.16");rect.setAttribute("stroke",n.hex);rect.setAttribute("stroke-width","1.4");}
+    const tx=document.createElementNS(NS,"text");
+    tx.setAttribute("text-anchor","middle");tx.setAttribute("dy","0.35em");tx.setAttribute("font-size",fs);
+    tx.setAttribute("fill", (n.type==="center"||n.type==="cat")?"#06121c" : n.hex);
+    if(n.type==="cat")tx.setAttribute("fill","#06121c");
+    tx.textContent=n.label;
+    g.appendChild(rect);g.appendChild(tx);
+    g.onclick=()=>showDetail(n);
+    layer.appendChild(g);
+  });
+
+  setupPanZoom(svg, layer);
+}
+
+/* ---- pan / zoom controller (wheel · pinch · drag · buttons) ---- */
+function setupPanZoom(svg, layer){
+  let k=1, tx=0, ty=0;
+  const MIN=0.6, MAX=6;
+  const apply=()=>layer.setAttribute("transform",`translate(${tx},${ty}) scale(${k})`);
+  const toUser=(cx,cy)=>{const p=svg.createSVGPoint();p.x=cx;p.y=cy;return p.matrixTransform(svg.getScreenCTM().inverse());};
+  function zoomAround(P,f){
+    const k2=Math.min(MAX,Math.max(MIN,k*f));
+    tx=P.x-(k2/k)*(P.x-tx); ty=P.y-(k2/k)*(P.y-ty); k=k2; apply();
+  }
+  const center=()=>{const r=svg.getBoundingClientRect();return toUser(r.left+r.width/2,r.top+r.height/2);};
+  document.getElementById("zin").onclick=()=>zoomAround(center(),1.25);
+  document.getElementById("zout").onclick=()=>zoomAround(center(),1/1.25);
+  document.getElementById("zreset").onclick=()=>{k=1;tx=0;ty=0;apply();};
+
+  svg.addEventListener("wheel",e=>{e.preventDefault();zoomAround(toUser(e.clientX,e.clientY), e.deltaY<0?1.12:1/1.12);},{passive:false});
+
+  // pointer-based pan & pinch
+  const pts=new Map(); let prev=null;
+  function gesture(){
+    const a=[...pts.values()];
+    if(a.length===1) return {mode:1,c:a[0]};
+    if(a.length>=2){const m={x:(a[0].x+a[1].x)/2,y:(a[0].y+a[1].y)/2};
+      return {mode:2,c:m,d:Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y)};}
+    return null;
+  }
+  svg.addEventListener("pointerdown",e=>{svg.setPointerCapture(e.pointerId);pts.set(e.pointerId,{x:e.clientX,y:e.clientY});prev=gesture();});
+  svg.addEventListener("pointermove",e=>{
+    if(!pts.has(e.pointerId))return;
+    pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    const g=gesture(); if(!g||!prev||g.mode!==prev.mode){prev=g;return;}
+    if(g.mode===1){const Pn=toUser(g.c.x,g.c.y),Pp=toUser(prev.c.x,prev.c.y);tx+=Pn.x-Pp.x;ty+=Pn.y-Pp.y;apply();}
+    else{ zoomAround(toUser(g.c.x,g.c.y), g.d/prev.d);
+      const Pn=toUser(g.c.x,g.c.y),Pp=toUser(prev.c.x,prev.c.y);tx+=Pn.x-Pp.x;ty+=Pn.y-Pp.y;apply(); }
+    prev=g;
+  });
+  const up=e=>{pts.delete(e.pointerId);prev=gesture();};
+  svg.addEventListener("pointerup",up);
+  svg.addEventListener("pointercancel",up);
+  svg.addEventListener("pointerleave",up);
+}
+function shortLabel(t){return t.split(" (")[0].split(" /")[0];}
+function catDesc(id){return{
+  overview:"PLEOS의 정체성 — 브랜드 의미, 공개 무대(Pleos 25), 지향 패러다임(SDV).",
+  os:"차량 제어 계층 — Vehicle OS와 이를 떠받치는 전자 구조(E&E·HPVC·존 컨트롤러·디커플링·66% 감축).",
+  connect:"사용자가 만나는 인포테인먼트 — AAOS 기반 Pleos Connect와 화면·제스처·OTA.",
+  ai:"지능형 인터페이스 — LLM 기반 에이전트 AI 'Gleo AI'.",
+  eco:"개방형 생태계 — Playground·App Market·개발 환경 개방·클라우드/데이터.",
+  biz:"사업·확산 — 최초 탑재 차종, 2030년 2,000만 대 목표."}[id];}
+function showDetail(n){
+  const d=n.data, color=n.hex;
+  const catLabel = d.cat ? catName(d.cat) : (n.type==="cat"?"영역":"중심 브랜드");
+  const chips=(d.subs&&d.subs.length)
+    ? `<div class="pchips">${d.subs.map(s=>`<span class="subchip" style="background:${color}22;color:${color};border:1px solid ${color}66">${s}</span>`).join("")}</div>`:"";
+  document.getElementById("panel").innerHTML=
+    `<div class="cat" style="color:${color}">${catLabel}</div>
+     <h3>${d.t}</h3><div class="en">${d.en||""}</div>
+     <div class="d">${d.d}</div>${chips}`;
+}
+</script>
+</body>
+</html>
