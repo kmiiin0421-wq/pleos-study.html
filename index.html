@@ -77,9 +77,10 @@
 
   /* ---------- QUIZ ---------- */
   .quizbox{max-width:720px;margin:0 auto}
-  .modegrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-  .modegrid .qstart{transition:.18s;padding:26px 22px}
+  .modegrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+  .modegrid .qstart{transition:.18s;padding:24px 20px}
   .modegrid .qstart:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(0,0,0,.4)}
+  .modegrid .qstart h2{font-size:18px}
   @media(max-width:620px){.modegrid{grid-template-columns:1fr}}
   .qstart{text-align:center;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:40px 24px}
   .qstart h2{font-size:22px;margin-bottom:10px}
@@ -133,6 +134,102 @@
   .node rect{transition:.15s}
   .node:hover rect{filter:brightness(1.22)}
   .edge{fill:none;stroke-opacity:.5}
+  /* ---------- CONCEPT MAP ---------- */
+  .cmapwrap{display:grid;grid-template-columns:1fr 320px;gap:14px;align-items:start}
+  .cmapcanvas{position:relative;width:100%;height:72vh;min-height:480px;
+    background:radial-gradient(circle at 50% 50%,#15233f,#0a0e1a 75%);
+    border:1px solid var(--line);border-radius:16px;overflow:hidden;touch-action:none}
+  .cmapcanvas svg{width:100%;height:100%;display:block;cursor:grab}
+  .cmapcanvas svg:active{cursor:grabbing}
+  .cnode{cursor:pointer}
+  .cnode rect{transition:.15s}
+  .cnode text{font-family:"Segoe UI","Malgun Gothic",sans-serif;font-weight:700;pointer-events:none}
+  .cnode:hover rect{filter:brightness(1.25)}
+  .cnode.selected rect{stroke:#fff;stroke-width:3.5}
+  .cnode.related rect{stroke-width:2.4}
+  .cnode.dimmed{opacity:.28}
+  .cedge{fill:none;stroke-opacity:.35;transition:.2s}
+  .cedge.highlight{stroke-opacity:.95;stroke-width:3.2}
+  .cedge.dimmed{stroke-opacity:.08}
+  .cedgelabel{font-size:10.5px;fill:var(--sub);pointer-events:none;opacity:0;transition:.2s}
+  .cedgelabel.show{opacity:1;fill:#e8edf7}
+  .cinsight{background:rgba(18,24,41,.94);border:1px solid var(--line);border-radius:14px;
+    padding:14px;max-height:72vh;min-height:480px;overflow:auto;display:flex;flex-direction:column;gap:10px}
+  .cselrow{display:flex;flex-direction:column;gap:8px}
+  .csel{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--bg2)}
+  .csel.filled{border-color:var(--accent)}
+  .cslot{font-size:11px;font-weight:700;color:var(--sub);letter-spacing:.4px;text-transform:uppercase}
+  .cval{font-size:14.5px;font-weight:700;margin-top:3px;color:#cdd6ee}
+  .csel.filled .cval{color:var(--txt)}
+  .cresetbtn{align-self:flex-start;padding:7px 14px;font-size:12.5px}
+  .cbody{font-size:13.5px;line-height:1.65;color:#c6cfe6}
+  .cbody .hint{color:var(--sub);font-size:13px;line-height:1.6}
+  .cbody .kind{display:inline-block;font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:999px;
+    margin-bottom:8px;letter-spacing:.3px;text-transform:uppercase}
+  .cbody .kind.direct{background:rgba(38,198,166,.18);color:#26C6A6;border:1px solid #26C6A6}
+  .cbody .kind.shared{background:rgba(79,195,247,.18);color:#4FC3F7;border:1px solid #4FC3F7}
+  .cbody .kind.path  {background:rgba(255,202,69,.18);color:#FFCA45;border:1px solid #FFCA45}
+  .cbody .kind.none  {background:rgba(154,167,196,.18);color:var(--sub);border:1px solid var(--sub)}
+  .cbody .kind.solo  {background:rgba(155,122,240,.18);color:#9b7af0;border:1px solid #9b7af0}
+  .cbody b.pair{color:var(--accent)}
+  .cbody .meta{color:var(--sub);font-size:12.5px;margin-top:10px}
+  .csearchwrap{max-width:640px;margin:0 auto 12px;position:relative}
+  #csearch{width:100%;padding:11px 14px;border-radius:10px;border:1px solid var(--line);
+    background:var(--card);color:var(--txt);font-size:14px}
+  #csearch::placeholder{color:var(--sub)}
+  .csearchhits{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .csearchhit{font-size:12.5px;padding:6px 11px;border-radius:999px;cursor:pointer;font-weight:600;
+    background:var(--card);border:1px solid var(--line);transition:.15s}
+  .csearchhit:hover{border-color:var(--accent);color:var(--accent)}
+  .csearchhit.match{box-shadow:0 0 0 2px rgba(0,180,230,.35)}
+  .cnode.search-hit rect{stroke:#fff;stroke-width:3.5;filter:drop-shadow(0 0 6px #fff)}
+
+  /* ---------- USE-CASE LIBRARY ---------- */
+  .libwrap{display:grid;grid-template-columns:240px 1fr;gap:18px;align-items:start}
+  .libfilters{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;
+    position:sticky;top:14px;max-height:calc(100vh - 40px);overflow:auto}
+  .libfilters input{width:100%;padding:9px 12px;border-radius:9px;border:1px solid var(--line);
+    background:var(--bg2);color:var(--txt);font-size:13.5px;margin-bottom:14px}
+  .libfilters h4{font-size:12px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;
+    color:var(--sub);margin:14px 0 8px}
+  .libfilters h4:first-of-type{margin-top:4px}
+  .libchipgroup{display:flex;flex-wrap:wrap;gap:5px}
+  .libchip{font-size:11.5px;padding:5px 10px;border-radius:999px;cursor:pointer;
+    background:var(--bg2);border:1px solid var(--line);color:var(--sub);font-weight:600;transition:.12s}
+  .libchip:hover{color:var(--txt);border-color:var(--accent)}
+  .libchip.on{background:var(--accent);color:#04141d;border-color:var(--accent)}
+  .libresetbtn{margin-top:16px;font-size:12px;padding:6px 12px;width:100%}
+  .libcount{font-size:13px;color:var(--sub);margin:0 0 10px 4px}
+  .libgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .libcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 16px 14px;
+    display:flex;flex-direction:column;gap:8px;transition:.15s;border-top:3px solid var(--accent)}
+  .libcard:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,.32)}
+  .libcard.kind-self{border-top-color:var(--c-overview)}
+  .libcard.kind-bench{border-top-color:var(--c-biz)}
+  .libcard.kind-analysis{border-top-color:var(--c-eco)}
+  .libcard .lhead{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+  .libcard .lbrand{font-size:11.5px;font-weight:700;color:var(--sub);letter-spacing:.3px}
+  .libcard .lkind{font-size:10.5px;font-weight:800;padding:3px 8px;border-radius:999px;
+    text-transform:uppercase;letter-spacing:.3px;flex-shrink:0}
+  .lkind.kind-self{background:rgba(79,195,247,.18);color:var(--c-overview);border:1px solid var(--c-overview)}
+  .lkind.kind-bench{background:rgba(240,98,146,.18);color:var(--c-biz);border:1px solid var(--c-biz)}
+  .lkind.kind-analysis{background:rgba(255,202,69,.18);color:var(--c-eco);border:1px solid var(--c-eco)}
+  .libcard h3{font-size:15.5px;line-height:1.4}
+  .libcard .lmeta{font-size:11.5px;color:var(--sub)}
+  .libcard .lsum{font-size:13.5px;line-height:1.6;color:#cdd6ee}
+  .libcard ul.lpts{padding-left:18px;margin:2px 0 4px;font-size:12.5px;line-height:1.55;color:#aeb9d6}
+  .libcard ul.lpts li{margin-bottom:3px}
+  .libcard .ltags{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
+  .libtag{font-size:10.5px;padding:3px 8px;border-radius:6px;font-weight:600;background:var(--bg2);
+    color:var(--sub);border:1px solid var(--line)}
+  .libtag.tcat{color:#cdd6ee}
+  .libtag.tfmt{color:var(--c-connect);border-color:var(--c-connect)}
+  .libcard .lfoot{display:flex;justify-content:space-between;align-items:center;font-size:11.5px;
+    color:var(--sub);margin-top:4px;border-top:1px solid var(--line);padding-top:9px}
+  .libcard .lfoot a{color:var(--accent);text-decoration:none;font-weight:600}
+  .libcard .lfoot a:hover{text-decoration:underline}
+  .libempty{padding:40px 20px;text-align:center;color:var(--sub);grid-column:1/-1}
+
   @media(max-width:780px){
     /* 맵 칸과 설명 칸 레이아웃 고정 — 맵은 위 고정 높이, 설명은 아래 고정 높이.
        맵 내부만 줌/팬 되고 두 칸의 위치·크기는 변하지 않는다 */
@@ -141,17 +238,24 @@
     .detailpanel{position:static;width:100%;height:30vh;min-height:180px;max-height:none;
       margin:0;flex:0 0 auto;backdrop-filter:none}
     .pdot .lbl{display:none}
+    .cmapwrap{grid-template-columns:1fr}
+    .cmapcanvas{height:48vh;min-height:320px}
+    .cinsight{max-height:none;min-height:200px}
+    .libwrap{grid-template-columns:1fr}
+    .libfilters{position:static;max-height:none}
   }
 </style>
 </head>
 <body>
 <header>
   <h1><b>PLEOS</b> 스터디 보드 · 현대자동차그룹 SDV 소프트웨어</h1>
-  <p>단계별로 익히고 → 퀴즈로 점검하고 → 마인드맵으로 한눈에</p>
+  <p>단계별로 익히고 → 퀴즈로 점검 → 마인드맵으로 한눈에 → 컨셉맵으로 관계 탐색</p>
   <div class="tabs">
     <button class="tab active" data-view="study">📚 학습</button>
     <button class="tab" data-view="quiz">📝 퀴즈</button>
     <button class="tab" data-view="map">🧠 마인드맵</button>
+    <button class="tab" data-view="cmap">🕸️ 컨셉맵</button>
+    <button class="tab" data-view="lib">📁 활용사례</button>
   </div>
 </header>
 
@@ -175,7 +279,7 @@
     <div class="legend" id="legend"></div>
     <div class="mapwrap">
       <div class="mapcanvas">
-        <svg id="svg" viewBox="0 0 1600 1180" preserveAspectRatio="xMidYMid meet"></svg>
+        <svg id="svg" viewBox="0 0 1760 1320" preserveAspectRatio="xMidYMid meet"></svg>
         <div class="zoomctrl">
           <button id="zin" title="확대" aria-label="확대">＋</button>
           <button id="zout" title="축소" aria-label="축소">−</button>
@@ -184,6 +288,52 @@
       </div>
       <div class="detailpanel" id="panel">
         <div class="hint">노드를 클릭하면 설명이 여기 표시됩니다.<br><br>중심 <b>PLEOS</b> → 6개 영역 → 키워드 → 세부 태그로 가지가 뻗어 있어요. 손가락(핀치)·휠·＋/− 버튼으로 확대·이동할 수 있습니다.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONCEPT MAP -->
+  <section class="view" id="cmap">
+    <p class="pathintro">두 개념을 차례로 클릭하면 교차 인사이트가 나타납니다. 같은 색은 같은 영역, 선은 두 개념의 관계입니다.</p>
+    <div class="csearchwrap">
+      <input id="csearch" type="text" placeholder="🔍 개념 검색 (예: Gleo, OTA, 셔클, AVF)" autocomplete="off">
+      <div id="csearchHits" class="csearchhits"></div>
+    </div>
+    <div class="legend" id="legend2"></div>
+    <div class="cmapwrap">
+      <div class="cmapcanvas">
+        <svg id="csvg" viewBox="0 0 1720 1180" preserveAspectRatio="xMidYMid meet"></svg>
+        <div class="zoomctrl">
+          <button id="czin" title="확대">＋</button>
+          <button id="czout" title="축소">−</button>
+          <button id="czreset" class="rst" title="원래대로">⟳</button>
+        </div>
+      </div>
+      <div class="cinsight" id="cinsight">
+        <div class="cselrow">
+          <div class="csel" id="csel1"><div class="cslot">1️⃣ 첫 번째 개념</div><div class="cval">개념을 클릭하세요</div></div>
+          <div class="csel" id="csel2"><div class="cslot">2️⃣ 두 번째 개념</div><div class="cval">두 번째 개념 클릭</div></div>
+        </div>
+        <button class="btn ghost cresetbtn" id="cresetSel">선택 초기화</button>
+        <div class="cbody" id="cbody">
+          <div class="hint">두 개념을 차례로 클릭하면 둘 사이의 직접 관계, 공통 접점, 또는 연결 경로가 여기에 표시됩니다.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- USE CASE LIBRARY -->
+  <section class="view" id="lib">
+    <p class="pathintro">현대차그룹 자체 사례와 동종업계 벤치마크를 한 곳에서. 검색·필터로 빠르게 찾고 카드를 눌러 출처로 이동하세요.</p>
+    <div class="libwrap">
+      <aside class="libfilters" id="libfilters">
+        <input id="libSearch" type="text" placeholder="🔍 케이스 검색 (예: OTA, 셔클, AAOS)" autocomplete="off">
+        <div id="libFilterPanels"></div>
+        <button class="btn ghost libresetbtn" id="libReset">필터 초기화</button>
+      </aside>
+      <div>
+        <div class="libcount" id="libCount"></div>
+        <div class="libgrid" id="libgrid"></div>
       </div>
     </div>
   </section>
@@ -203,27 +353,41 @@ const catHex = id => (CATS.find(c=>c.id===id)||{}).hex;
 const catName = id => (CATS.find(c=>c.id===id)||{}).name;
 
 const KW = [
+  /* ===== 개요·브랜드 (overview) ===== */
   {t:"PLEOS (플레오스)", en:"Pleo(라틴어 '더 많은') + OS", cat:"overview",
    s:"현대차그룹의 통합 모빌리티 소프트웨어 브랜드이자 기술 플랫폼.",
-   d:"라틴어 'Pleo'(더 많은)와 운영체제(OS)를 결합한 이름. SDV 비전의 핵심으로 '바퀴 달린 스마트폰' 시대를 상징한다. Vehicle OS·Connect·Playground·App Market·Cloud를 아우르는 우산 브랜드.",
-   subs:["우산 브랜드","'Pleo'+OS","바퀴 달린 스마트폰"]},
-  {t:"Pleos 25", en:"Developer Conference 2025", cat:"overview",
-   s:"2025년 개최된 현대차그룹 개발자 컨퍼런스.",
-   d:"그룹의 소프트웨어 비전과 Pleos Vehicle OS·Pleos Connect를 처음 공개한 자리. 제조사·공급업체만 접근하던 차량 SW 개발 환경을 외부 개발자에게 개방한다는 방향을 선언했다.",
-   subs:["2025 컨퍼런스","비전 공개","개발 환경 개방"]},
+   d:"'더 많은'을 뜻하는 라틴어 'Pleo'와 운영체제(OS)를 결합한 이름으로, 사용자 중심 가치를 '더해' 기술을 진화시킨다는 의미를 담았다. 움직이는 모든 디바이스가 자율적으로 이동하고 스마트하게 관리되도록 돕는 모빌리티 소프트웨어 플랫폼이며, Vehicle OS·Connect·Playground·App Market·Cloud를 아우르는 우산 브랜드다. '바퀴 달린 스마트폰' 시대를 상징한다.",
+   subs:["우산 브랜드","'Pleo(더 많은)'+OS","사용자 중심 가치","바퀴 달린 스마트폰"]},
+  {t:"Pleos 25", en:"개발자 컨퍼런스 2025", cat:"overview",
+   s:"2025년 3월 28일 서울 코엑스에서 열린 현대차그룹 개발자 컨퍼런스.",
+   d:"그룹의 소프트웨어 비전과 Pleos Vehicle OS·Pleos Connect·Pleos Playground를 처음 공개한 자리. 24개 트랙 세션, 26개 개발사의 베타 앱 시연, SDK를 활용한 앱 개발·배포 실습이 진행됐다. 전시는 SDV 존·Pleos Connect 앱 존·클라우드 모빌리티 존으로 구성됐다. 제조사·공급업체만 접근하던 차량 SW 개발 환경을 외부 개발자에게 개방한다는 방향을 선언했다.",
+   subs:["2025.3.28 코엑스","24개 트랙 세션","26개 개발사","3개 전시 존"]},
   {t:"SDV", en:"Software-Defined Vehicle", cat:"overview",
    s:"소프트웨어로 정의되는 차량. PLEOS가 지향하는 패러다임.",
-   d:"하드웨어보다 소프트웨어가 차량의 기능과 경험을 주도하는 차량. 출고 이후에도 OTA로 기능이 계속 진화한다. Pleos Connect는 현대차그룹의 첫 SDV 결과물이다.",
-   subs:["SW 주도","OTA 진화","경험 중심"]},
+   d:"하드웨어보다 소프트웨어가 차량의 기능과 경험을 주도하는 차량. 출고 이후에도 OTA로 기능이 계속 진화한다. Pleos Connect는 현대차그룹의 첫 SDV 결과물(첫 가시적 성과)이며, 궁극적으로는 AI가 차량을 정의하는 'AI 정의 차량'으로의 발전을 지향한다.",
+   subs:["SW 주도","OTA 진화","경험 중심","첫 결과물=Connect"]},
+  {t:"클라우드 모빌리티", en:"Cloud Mobility", cat:"overview",
+   s:"모든 모빌리티가 클라우드 위 소프트웨어로 연결되는 비전.",
+   d:"송창현 AVP본부장이 제시한 방향. 차량을 넘어 모든 형태의 모빌리티가 클라우드 상의 소프트웨어로 연결되어 데이터·서비스가 끊김 없이 이어지는 것을 목표로 한다. PLEOS는 이를 구현하는 소프트웨어 토대다.",
+   subs:["클라우드 연결","송창현 비전","데이터 연속성"]},
+  {t:"AI 정의 차량", en:"AI-Defined Vehicle, SDV의 다음 단계", cat:"overview",
+   s:"SDV를 넘어 AI가 경험을 정의하는 차량으로의 장기 비전.",
+   d:"현대차그룹은 SDV를 첫 단계로 보고, 차량-사람 상호작용을 고도화해 AI가 주행 경험을 정의하는 'AI 정의 차량'으로 나아간다는 장기 비전을 제시했다. Gleo AI가 그 출발점이다.",
+   subs:["SDV의 다음","AI 중심 경험"]},
+  {t:"AVP본부 · 송창현", en:"Advanced Vehicle Platform", cat:"overview",
+   s:"PLEOS·SDV 전략을 이끄는 현대차·기아 조직과 수장.",
+   d:"송창현 사장이 현대차·기아 AVP(Advanced Vehicle Platform)본부장으로서 Pleos 25 키노트를 맡아 소프트웨어 비전을 발표했다. AVP본부가 그룹의 SDV·소프트웨어 개발을 총괄한다.",
+   subs:["송창현 사장","AVP본부","SW 개발 총괄"]},
 
+  /* ===== OS·아키텍처 (os) ===== */
   {t:"Pleos Vehicle OS", en:"차량용 운영체제", cat:"os",
-   s:"차량을 소프트웨어 중심으로 운영하기 위한 차량용 OS.",
-   d:"E&E 아키텍처를 기반으로 차량이 지속적으로 연결·업데이트되도록 지원한다. 하드웨어와 소프트웨어를 분리(디커플링)한 구조가 핵심으로, 인포테인먼트용 Pleos Connect와 구분되는 '차량 제어' 계층의 OS다.",
-   subs:["차량 제어 계층","E&E 기반","지속 업데이트"]},
+   s:"차량을 소프트웨어 중심으로 운영하기 위해 자체 개발한 차량 제어 OS.",
+   d:"E&E 아키텍처를 기반으로 모듈형·표준화 구조를 채택해 지속적인 연결·업데이트와 기능 확장을 가능케 한다. 하드웨어와 소프트웨어를 분리(디커플링)한 구조가 핵심으로, 인포테인먼트용 Pleos Connect와 구분되는 '차량 제어' 계층의 OS다.",
+   subs:["차량 제어 계층","E&E 기반","모듈형·표준화","지속 업데이트"]},
   {t:"E&E 아키텍처", en:"Electrical & Electronic Architecture", cat:"os",
    s:"차량 내 전자·전기 시스템 구성 구조.",
-   d:"Pleos Vehicle OS의 토대. 분산된 다수의 제어기 대신 중앙집중형 컴퓨팅으로 전환하여 소프트웨어 업데이트와 기능 통합을 쉽게 만든다.",
-   subs:["중앙집중형","전자·전기 구조"]},
+   d:"Pleos Vehicle OS의 토대. 고성능 차량 컴퓨터(HPVC)와 존 컨트롤러를 결합해 분산된 다수의 제어기 대신 중앙집중형 컴퓨팅으로 전환하고, 시스템 성능과 안정성을 높이며 소프트웨어 업데이트·기능 통합을 쉽게 만든다.",
+   subs:["중앙집중형","HPVC+존 컨트롤러","성능·안정성"]},
   {t:"HPVC", en:"High Performance Vehicle Computer", cat:"os",
    s:"고성능 차량 컴퓨터.",
    d:"여러 기능을 통합 처리하는 고성능 중앙 컴퓨터. 흩어져 있던 다수의 제어기(ECU)를 대체하며, 존 컨트롤러와 함께 차량 전자 구조의 두 축을 이룬다.",
@@ -240,41 +404,76 @@ const KW = [
    s:"하드웨어 통합 효과.",
    d:"HPVC와 존 컨트롤러로 전자 구조를 통합해 기존 제어기 수를 약 66% 줄인다. 원가·복잡도 절감과 SW 업데이트 용이성을 확보한다.",
    subs:["HW 통합","원가 절감"]},
+  {t:"NPU", en:"Neural Processing Unit", cat:"os",
+   s:"차량에 탑재되는 AI 연산 전용 프로세서.",
+   d:"카메라·레이더 데이터를 딥러닝으로 처리하는 자율주행·AI 연산을 차량 내에서 효율적으로 수행하기 위한 전용 칩. 경량화 AI 모델, 대규모 학습 인프라와 함께 현대차그룹 AI 전략의 하드웨어 축이다.",
+   subs:["AI 연산 전용","딥러닝 처리","경량 AI 모델"]},
 
+  /* ===== Pleos Connect (connect) ===== */
   {t:"Pleos Connect", en:"차세대 인포테인먼트 시스템", cat:"connect",
    s:"AAOS 기반 차세대 인포테인먼트 시스템. 그룹 첫 SDV 결과물.",
-   d:"직관성·안전성·개방성 3대 지향점을 갖는다. 2026년 4월 양산형이 공개됐고, 익숙한 모바일 앱·콘텐츠를 차량에서 자연스럽게 쓰도록 설계됐다. Gleo AI·App Market·OTA가 결합된다.",
-   subs:["직관성","안전성","개방성"]},
+   d:"직관성·안전성·개방성 3대 핵심 가치를 갖는 AAOS 기반 시스템. 2026년 2분기부터 순차 적용되며, 익숙한 모바일 앱·콘텐츠를 차량에서 자연스럽게 쓰도록 설계됐다. Gleo AI·App Market·OTA·Pleos ID가 결합된다.",
+   subs:["직관성","안전성","개방성","2026 2분기"]},
   {t:"AAOS", en:"Android Automotive OS", cat:"connect",
    s:"Pleos Connect의 기반 OS.",
    d:"구글의 차량용 안드로이드. 모바일 친화적 환경을 제공해 검증된 앱 생태계와 익숙한 UX를 차량으로 가져온다.",
    subs:["안드로이드","앱 생태계","모바일 친화"]},
-  {t:"디스플레이 구성", en:"Central + Slim Display", cat:"connect",
-   s:"대형 중앙 스크린 + 슬림 디스플레이.",
-   d:"대형 중앙 스크린은 주행정보 화면·앱 화면·하단 바(빠른 실행)로 구성된다. 운전자 정면 슬림 디스플레이는 속도·미디어·턴바이턴 길안내를 보여준다. 데이터 기반으로 레이아웃을 재구성한다.",
-   subs:["대형 중앙 스크린","슬림 디스플레이","하단 바"]},
-  {t:"3핑거 제스처", en:"Touch-free Gesture", cat:"connect",
-   s:"세 손가락 동작으로 조작하는 터치프리 인터페이스.",
-   d:"화면을 직접 만지지 않고 세 손가락 제스처로 제어한다. 스티어링 휠 물리 버튼과 함께 운전 중 안전성과 편의성을 높인다.",
-   subs:["터치프리","스티어링 버튼"]},
+  {t:"디스플레이 구성", en:"중앙 대화면 3영역 + 슬림 디스플레이", cat:"connect",
+   s:"대형 중앙 스크린(3영역) + 운전자 전방 슬림 디스플레이.",
+   d:"중앙 대화면은 ①주행정보 화면(속도·경고·ADAS 작동 현황·차량 3D 그래픽) ②앱 화면(내비·차량 설정·멀티미디어) ③하단 바(공조·내비 등 자주 쓰는 기능)로 구성된다. 운전자 전방 15°~30° 시야각에 슬림 디스플레이를 둬 시선 분산을 최소화하고 속도·미디어·턴바이턴 길안내를 보여준다.",
+   subs:["주행정보 화면","앱 화면","하단 바","슬림 15~30°"]},
+  {t:"분할·풀스크린 UX", en:"Split / Full Screen", cat:"connect",
+   s:"두 앱 동시 실행 또는 전체화면 확장.",
+   d:"스플릿 스크린으로 두 앱을 동시에 띄우거나 한 앱을 전체화면으로 확장할 수 있다. 정차 시에는 미디어 콘텐츠를 풀스크린으로 즐기는 UX를 제공한다.",
+   subs:["스플릿 스크린","전체화면 확장","정차 시 풀스크린"]},
+  {t:"3핑거 제스처·물리 버튼", en:"터치프리 제스처 + 물리 버튼", cat:"connect",
+   s:"세 손가락 제스처와 물리 버튼을 결합한 하이브리드 조작.",
+   d:"화면을 직접 만지지 않고 세 손가락 제스처로 앱 위치를 바꾸거나 불필요한 앱을 빠르게 정리한다. 미디어 볼륨·공조 등 주행 중 자주 쓰는 기능은 스티어링 휠과 중앙 화면 하단의 물리 버튼으로 제어한다. 터치스크린·슬림 디스플레이·물리 버튼을 결합한 하이브리드 제어로 안전성과 편의성을 높인다.",
+   subs:["터치프리 제스처","물리 버튼","하이브리드 제어"]},
   {t:"OTA", en:"Over-the-Air Update", cat:"connect",
    s:"무선 소프트웨어 업데이트.",
    d:"출고 이후에도 무선으로 소프트웨어를 갱신해 기능을 지속적으로 추가·개선한다. SDV의 핵심 가치를 구현하는 수단.",
    subs:["무선 업데이트","기능 추가"]},
+  {t:"데이터 기반 개인화", en:"Data-driven Personalization", cat:"connect",
+   s:"사용 데이터를 분석해 화면·메뉴를 맞춤 구성.",
+   d:"사용자 행동 데이터를 분석해 자주 쓰는 메뉴를 상단에 배치하고 최근 사용 앱을 자동으로 추가하는 등 레이아웃을 개인화한다. 모듈형 인터페이스로 운전자가 직접 화면을 구성할 수도 있다.",
+   subs:["자주 쓰는 메뉴 상단","최근 앱 자동 추가","모듈형 구성"]},
+  {t:"Pleos 내비게이션", en:"Navigation", cat:"connect",
+   s:"국내 최대 규모 주행 데이터 기반 길안내.",
+   d:"전국에서 수집되는 국내 최대 규모의 주행 데이터를 기반으로 경로를 안내한다. 턴바이턴 정보는 좌상단 팝업으로 제공되고 실시간 교통·온라인 지도를 동적으로 내려받는다. Gleo AI로 '판교역 일식집 찾아줘'처럼 음성에서 바로 길안내로 이어지며, 전기차는 도착 시 예상 배터리 잔량을 고려해 충전소를 자동 추천한다.",
+   subs:["국내 최대 주행 데이터","턴바이턴 팝업","실시간 교통","EV 충전소 추천"]},
+  {t:"Pleos ID", en:"통합 사용자 프로필", cat:"connect",
+   s:"여러 Pleos Connect 차량에서 쓰는 개인 프로필.",
+   d:"하나의 프로필로 어느 Pleos Connect 차량에 타든 개인 맞춤 설정·서비스를 그대로 불러온다. 데이터 기반 개인화와 결합해 차량이 달라도 일관된 경험을 제공한다.",
+   subs:["통합 프로필","차량 간 동기화","맞춤 서비스"]},
 
+  /* ===== AI·인터페이스 (ai) ===== */
   {t:"Gleo AI (글레오)", en:"LLM 기반 에이전트 AI", cat:"ai",
    s:"Pleos Connect의 핵심 음성·에이전트 AI 비서.",
-   d:"갈릴레오 갈릴레이에서 영감을 받은 이름. LLM 기반으로 단순 명령 실행을 넘어 사용자 의도와 대화 맥락을 이해한다. 여러 명령을 동시에 처리하고 '거기' 같은 추상 표현도 이전 대화로 해석한다. 좌석(화자) 위치를 인식해 말한 사람 자리만 열선 시트를 켜는 등 개인화 제어가 가능하다. 뉴스·날씨·스포츠 웹 검색도 지원.",
-   subs:["LLM 기반","맥락 이해","멀티 커맨드","좌석 인식","갈릴레오"]},
+   d:"갈릴레오 갈릴레이에서 영감을 받은 이름. LLM 기반 생성형 AI로 정해진 명령어가 아닌 자연스러운 대화를 이해한다. 방언·불완전한 문장·'거기'·'이 근처' 같은 추상 표현을 맥락으로 해석하고, '라디오 끄고 에어컨 켜고 무드등 바꿔줘'처럼 여러 명령을 한 번에 순차 처리한다. 좌석(화자) 위치를 인식해 말한 사람 자리의 창문·시트만 제어하는 개인화가 가능하고, '지금 너무 더운데?' 같은 간접 표현에도 능동적으로 대응한다. 창문·공조·시트·트렁크 등 차량 전반을 음성 제어하되 주행 안전에 영향을 주는 명령은 제한하며, 뉴스·날씨·스포츠 웹 검색과 대화 기록 확인용 전용 앱도 제공한다.",
+   subs:["LLM·생성형","맥락 이해","멀티 커맨드","좌석(화자) 인식","능동적 대응","안전 명령 제한"]},
 
+  /* ===== 개발자 생태계 (eco) ===== */
   {t:"Pleos Playground", en:"개방형 개발 플랫폼", cat:"eco",
    s:"외부 개발자를 위한 개방형 소프트웨어 개발 플랫폼.",
-   d:"차량 API와 개발 도구를 제공해 누구나 차량용 앱·서비스를 만들 수 있게 한다. Pleos 생태계 확장의 엔진.",
-   subs:["차량 API","개발 도구","앱 개발"]},
+   d:"차량 API와 개발 도구를 제공해 누구나 차량용 앱·서비스를 만들 수 있게 한다. SDK 문서·샘플 코드·디자인 가이드·디버깅 도구는 물론, 실제 차량 없이 앱을 개발·테스트하는 가상 환경까지 제공해 개발 편의성과 효율을 극대화한다. Pleos 생태계 확장의 엔진.",
+   subs:["차량 API","SDK·샘플 코드","가상 개발·테스트","디버깅 도구"]},
+  {t:"AAOS SDK · 확장 SDK", en:"SDK Stack", cat:"eco",
+   s:"기본 AAOS SDK + Pleos Connect 확장 SDK.",
+   d:"구글 AAOS의 기본 SDK에 더해 Pleos Connect가 제공하는 확장 SDK·API로 차량 고유 기능까지 다룰 수 있다. 표준 인터페이스를 함께 제공해 외부 개발자가 차량용 앱을 폭넓게 만들 수 있다.",
+   subs:["AAOS 기본 SDK","Pleos 확장 SDK","표준 인터페이스"]},
   {t:"Pleos App Market", en:"앱 마켓", cat:"eco",
-   s:"Pleos 차량용 앱 마켓.",
-   d:"서드파티 앱을 차량에 제공하는 마켓. 초기 파트너로 NAVER, YouTube, Spotify, 지니(genie), essential 등이 참여한다.",
-   subs:["NAVER","YouTube","Spotify","지니/essential"]},
+   s:"누구나 만든 앱을 차량에 배포·업데이트하는 마켓.",
+   d:"스마트폰 연결 없이 동작하는 차량용 앱 마켓. 초기 앱으로 네이버 오토, 네이버 웨일, 유튜브, 스포티파이, SBS 고릴라, 지니(genie), essential 등이 참여한다. 향후 게임·차량 관리·라이프스타일 서비스로 확대된다.",
+   subs:["네이버 오토/웨일","유튜브·스포티파이","SBS고릴라·지니·essential","스마트폰 불필요"]},
+  {t:"Plug & Play", en:"PnP 액세서리 연결", cat:"eco",
+   s:"클러스터·버튼 바 등 액세서리를 별도 설정 없이 연결.",
+   d:"클러스터, 버튼 바 등 외부 하드웨어 액세서리를 별도 설정 없이 꽂아 바로 쓰는 연결 방식. Pleos Playground가 표준 인터페이스와 하드웨어 개발 정보를 제공해 액세서리 생태계까지 개방한다.",
+   subs:["무설정 연결","액세서리 생태계","표준 인터페이스"]},
+  {t:"글로벌 파트너", en:"Partners", cat:"eco",
+   s:"Pleos 25에 함께한 주요 글로벌 파트너들.",
+   d:"구글(AAOS·서비스 연계), 네이버(AI·검색·지도·콘텐츠 최적화), 삼성전자(SmartThings로 스마트홈-차량 연결), 쏘카(API 기반 차량 공유 고도화), 우버(자율주행차 파운드리로 로보택시 확장), 유니티(차량 내 게임·실시간 3D 엔진)가 참여해 모바일-차량 연결성과 앱 생태계 확장을 함께 모색했다.",
+   subs:["구글·네이버·삼성","쏘카·우버·유니티","모바일-차량 연결"]},
   {t:"개발 환경 개방", en:"Open Ecosystem", cat:"eco",
    s:"차량·클라우드·데이터·액세서리 개발 환경 개방.",
    d:"제조사·공급업체만 접근하던 모든 차량용 SW 개발 환경을 외부에 개방한다. PLEOS가 폐쇄형이 아닌 '개방형 생태계'를 표방하는 근거.",
@@ -284,6 +483,7 @@ const KW = [
    d:"주행 데이터를 수집·분석해 내비게이션 등 서비스를 고도화한다. 차량-클라우드 연결로 실시간 지도·교통 데이터를 활용한다.",
    subs:["주행 데이터","실시간 지도","서비스 고도화"]},
 
+  /* ===== 적용·비전 (biz) ===== */
   {t:"더 뉴 그랜저 / IONIQ 3", en:"최초 탑재 차종", cat:"biz",
    s:"Pleos Connect 최초 탑재 차종.",
    d:"국내는 2026년 5월 출시되는 '더 뉴 그랜저'에 최초 탑재, 유럽은 아이오닉 3(IONIQ 3)에 적용된다. 이후 신차에 순차 확대된다.",
@@ -292,6 +492,22 @@ const KW = [
    s:"확산 목표.",
    d:"현대차·기아·제네시스 전반에 걸쳐 2030년까지 Pleos Connect 탑재 차량 2,000만 대 확보를 목표로 생태계를 강화한다.",
    subs:["현대·기아·제네시스","생태계 확장"]},
+  {t:"레벨 2+ 자율주행", en:"Level 2+ by 2027", cat:"biz",
+   s:"2027년 말 적용을 목표하는 자율주행 단계.",
+   d:"카메라·레이더 인식과 AI 딥러닝 판단 구조를 결합해 2027년 말까지 레벨 2+ 자율주행 적용을 목표로 한다. 경량 AI 모델, 차량 최적화 NPU, 대규모 학습 인프라가 뒷받침한다.",
+   subs:["2027년 말 목표","카메라·레이더+AI","NPU 기반"]},
+  {t:"AVF (자율주행차 파운드리)", en:"Autonomous Vehicle Foundry", cat:"biz",
+   s:"자율주행 사업자에게 개발·운영을 지원하는 파운드리.",
+   d:"개발 키트, 플릿 관리, 양산, 인증까지 자율주행에 필요한 전 과정을 지원하는 플랫폼. 우버와 협력해 로보택시 서비스 확장을 추진한다.",
+   subs:["개발 키트·양산","플릿 관리·인증","우버 로보택시"]},
+  {t:"NUMA", en:"Next Urban Mobility Alliance", cat:"biz",
+   s:"도시·국가 단위 모빌리티 혁신 협의체.",
+   d:"교통약자 지원·지방 소멸 대응·기후 위기 해결을 목표로 하는 연합. '이동의 자유'를 위한 셔클(수요응답형 교통, DRT)·교통약자용 R1 디바이스·나노 모빌리티, 자율주행 생태계(AVF), 차량-모바일-스마트홈을 잇는 앱 생태계의 세 축으로 운영된다.",
+   subs:["교통약자 지원","셔클 DRT","R1·나노 모빌리티","3대 협력 축"]},
+  {t:"셔클 (SHUCLE)", en:"수요응답형 교통(DRT)", cat:"biz",
+   s:"수요에 따라 경로가 바뀌는 합승형 모빌리티 서비스.",
+   d:"이용자의 호출 수요에 맞춰 실시간으로 경로를 만드는 수요응답형 교통(DRT) 플랫폼. NUMA의 '이동의 자유' 축에서 교통 사각지대를 메우는 핵심 서비스로, Pleos·클라우드 모빌리티와 연결된다.",
+   subs:["수요응답형(DRT)","실시간 경로","교통 사각지대"]},
 ];
 const kwByTerm = t => KW.find(k=>k.t===t);
 
@@ -303,27 +519,35 @@ document.querySelectorAll(".tab").forEach(t=>{
     t.classList.add("active");
     document.getElementById(t.dataset.view).classList.add("active");
     if(t.dataset.view==="map") renderMap();
+    if(t.dataset.view==="cmap") renderCmap();
+    if(t.dataset.view==="lib") renderLib();
   };
 });
 
 /* ============== STUDY · guided path ============== */
 const STEPS = [
   {icon:"🌍", title:"1. 큰 그림 — PLEOS란?",
-   lead:"먼저 PLEOS가 무엇이고, 왜 등장했는지부터. 현대차그룹이 차량을 '소프트웨어로 정의'하기 위해 만든 우산 브랜드입니다.",
-   terms:["PLEOS (플레오스)","SDV","Pleos 25"]},
+   lead:"먼저 PLEOS가 무엇이고, 왜 등장했는지부터. 현대차그룹이 차량을 '소프트웨어로 정의'하기 위해 만든 우산 브랜드이자, 2025년 개발자 컨퍼런스 'Pleos 25'에서 공개한 비전입니다.",
+   terms:["PLEOS (플레오스)","SDV","Pleos 25","클라우드 모빌리티","AI 정의 차량","AVP본부 · 송창현"]},
   {icon:"🔀", title:"2. 두 개의 축 — 무엇으로 나뉘나?",
    lead:"PLEOS는 크게 차량을 움직이는 '제어 OS'와, 사용자가 만나는 '인포테인먼트'로 나뉩니다. 이 둘을 먼저 구분하세요.",
    terms:["Pleos Vehicle OS","Pleos Connect"]},
-  {icon:"⚙️", title:"3. 차량을 떠받치는 구조 (Vehicle OS 심화)",
-   lead:"차량 제어 OS는 어떤 하드웨어 구조 위에서 돌아갈까요? 전자 구조를 통합·단순화하는 개념들입니다.",
-   terms:["E&E 아키텍처","HPVC","Zone Controller","HW/SW 디커플링","제어기 66% 감축"]},
-  {icon:"🖥️", title:"4. 사용자가 만나는 화면 (Connect 심화)",
-   lead:"실제 탑승자가 경험하는 인포테인먼트 영역. 어떤 OS·화면·조작·지능으로 구성되는지 살펴봅니다.",
-   terms:["AAOS","디스플레이 구성","3핑거 제스처","OTA","Gleo AI (글레오)"]},
-  {icon:"🧩", title:"5. 개방형 생태계 — 누가 키우나?",
-   lead:"PLEOS는 폐쇄형이 아닙니다. 외부 개발자와 앱이 들어오는 개방 생태계가 핵심 차별점입니다.",
-   terms:["Pleos Playground","Pleos App Market","개발 환경 개방","Pleos Cloud·데이터"]},
-  {icon:"🚀", title:"6. 적용과 비전 — 어디로 가나?",
+  {icon:"⚙️", title:"3. 차량을 떠받치는 구조 — Vehicle OS 심화",
+   lead:"차량 제어 OS는 어떤 하드웨어 구조 위에서 돌아갈까요? 전자 구조를 통합·단순화하고 AI 연산을 떠받치는 개념들입니다.",
+   terms:["E&E 아키텍처","HPVC","Zone Controller","HW/SW 디커플링","제어기 66% 감축","NPU"]},
+  {icon:"🖥️", title:"4. 사용자가 만나는 화면 — Connect 심화",
+   lead:"실제 탑승자가 경험하는 인포테인먼트 영역. 어떤 OS·화면·조작·서비스로 구성되는지 살펴봅니다.",
+   terms:["AAOS","디스플레이 구성","분할·풀스크린 UX","3핑거 제스처·물리 버튼","OTA","데이터 기반 개인화","Pleos 내비게이션","Pleos ID"]},
+  {icon:"🤖", title:"5. 지능형 비서 — Gleo AI",
+   lead:"Pleos Connect의 두뇌. 단순 음성인식을 넘어 대화 맥락과 의도를 이해하는 LLM 기반 에이전트 AI입니다.",
+   terms:["Gleo AI (글레오)"]},
+  {icon:"🧩", title:"6. 개방형 생태계 — 누가 키우나?",
+   lead:"PLEOS는 폐쇄형이 아닙니다. 외부 개발자와 앱, 글로벌 파트너가 들어오는 개방 생태계가 핵심 차별점입니다.",
+   terms:["Pleos Playground","AAOS SDK · 확장 SDK","Pleos App Market","Plug & Play","글로벌 파트너","개발 환경 개방","Pleos Cloud·데이터"]},
+  {icon:"🛣️", title:"7. 자율주행과 미래 모빌리티",
+   lead:"PLEOS는 차량 안에 머물지 않습니다. 자율주행 로드맵과 도시 단위 모빌리티 동맹으로 확장됩니다.",
+   terms:["레벨 2+ 자율주행","AVF (자율주행차 파운드리)","NUMA","셔클 (SHUCLE)"]},
+  {icon:"🚀", title:"8. 적용과 비전 — 어디로 가나?",
    lead:"마지막으로 실제 탑재 차종과 확산 목표로 전체 그림을 마무리합니다.",
    terms:["더 뉴 그랜저 / IONIQ 3","2030년 2,000만 대"]},
 ];
@@ -426,110 +650,294 @@ document.getElementById("search").oninput=e=>{
 renderPathbar(); renderSteps();
 
 /* ============== QUIZ ============== */
-/* (1) 개념 학습 퀴즈 */
-const CONCEPT_Q=[
+/* (1) 개념 스터디 · 기술 및 서비스 — Pleos의 OS·아키텍처·인포테인먼트·AI·개발 생태계 */
+const CONCEPT_TECH_Q=[
   {q:"'PLEOS'라는 이름은 무엇의 결합인가?",
    o:["라틴어 'Pleo(더 많은)' + OS","'Please' + EOS","'Pleasure' + SDV","'Plus' + OS"],a:0,
-   e:"라틴어 'Pleo'(더 많은)와 운영체제(OS)의 결합으로, 현대차그룹의 모빌리티 비전을 상징한다."},
-  {q:"Pleos Connect의 기반이 되는 운영체제는?",
-   o:["iOS","Tizen","AAOS (Android Automotive OS)","QNX"],a:2,
-   e:"Pleos Connect는 AAOS 기반으로, 익숙한 모바일 앱·콘텐츠를 차량에서 쓸 수 있게 한다."},
-  {q:"Pleos Connect의 핵심 AI 비서 이름과 그 영감의 원천은?",
-   o:["Gleo AI – 갈릴레오 갈릴레이","Bixby – 별자리","Clova – 클로버","Nugu – 부엉이"],a:0,
-   e:"Gleo AI는 갈릴레오 갈릴레이에서 영감을 받은 LLM 기반 에이전트 AI다."},
-  {q:"HPVC와 Zone Controller로 통합해 얻는 효과로 옳은 것은?",
-   o:["주행거리 66% 증가","기존 제어기 약 66% 감축","연비 66% 개선","화면 밝기 66% 향상"],a:1,
-   e:"고성능 컴퓨터(HPVC)와 존 컨트롤러로 전자 구조를 통합해 기존 제어기를 약 66% 줄인다."},
+   e:"'더 많은'을 뜻하는 라틴어 'Pleo'와 운영체제(OS)의 결합으로, 사용자 중심 가치를 더해 기술을 진화시킨다는 의미를 담았다."},
   {q:"SDV(Software-Defined Vehicle)의 핵심 개념으로 가장 적절한 것은?",
    o:["하드웨어 성능이 차량을 정의","소프트웨어가 차량의 기능·경험을 주도","엔진 배기량이 등급을 결정","디자인이 차량 가치를 정의"],a:1,
    e:"SDV는 소프트웨어가 차량 기능과 경험을 주도하며, 출고 후에도 OTA로 진화한다."},
-  {q:"Gleo AI의 차별화된 기능이 아닌 것은?",
-   o:["여러 명령 동시 처리","'거기' 같은 추상 표현을 맥락으로 해석","좌석(화자) 위치 인식 개인화","연료를 자동으로 주유"],a:3,
-   e:"Gleo AI는 맥락 이해·멀티 커맨드·좌석 인식 개인화·웹 검색을 지원하지만, 자동 주유는 해당하지 않는다."},
-  {q:"외부 개발자에게 차량 API와 도구를 제공하는 개방형 개발 플랫폼은?",
-   o:["Pleos App Market","Pleos Playground","Pleos Cloud","Pleos Connect"],a:1,
-   e:"Pleos Playground는 개발자가 차량용 앱·서비스를 만들 수 있도록 API와 도구를 제공한다."},
-  {q:"Pleos App Market의 초기 파트너로 언급된 서비스가 아닌 것은?",
-   o:["NAVER","Spotify","YouTube","Netflix"],a:3,
-   e:"초기 파트너로 NAVER, YouTube, Spotify, 지니(genie), essential 등이 참여한다. Netflix는 언급되지 않았다."},
-  {q:"Pleos Connect가 국내에서 최초로 탑재되는 차종은?",
-   o:["더 뉴 그랜저","아반떼","팰리세이드","코나"],a:0,
-   e:"국내는 2026년 5월 출시되는 '더 뉴 그랜저'에 최초 탑재되고, 유럽은 IONIQ 3에 적용된다."},
+  {q:"Pleos Vehicle OS와 Pleos Connect의 관계로 옳은 것은?",
+   o:["둘 다 인포테인먼트 OS다","Vehicle OS는 차량 '제어' 계층, Connect는 '인포테인먼트' 계층","Connect가 Vehicle OS의 하위 모듈이다","둘은 동일한 시스템의 다른 이름이다"],a:1,
+   e:"Pleos Vehicle OS는 차량을 움직이는 제어 계층의 OS이고, Pleos Connect는 사용자가 만나는 인포테인먼트 계층이다."},
   {q:"Pleos Vehicle OS의 토대가 되는 아키텍처는?",
    o:["V8 아키텍처","E&E(전자·전기) 아키텍처","ARM 아키텍처","x86 아키텍처"],a:1,
    e:"Pleos Vehicle OS는 E&E(Electrical & Electronic) 아키텍처를 기반으로 한다."},
-  {q:"Pleos Connect가 내세우는 3대 지향점은?",
-   o:["속도·연비·내구성","직관성·안전성·개방성","가격·디자인·브랜드","무게·크기·소재"],a:1,
-   e:"Pleos Connect는 직관성·안전성·개방성을 3대 지향점으로 설계됐다."},
-  {q:"현대차그룹의 2030년 Pleos Connect 탑재 목표 대수는?",
-   o:["200만 대","2,000만 대","2억 대","20만 대"],a:1,
-   e:"현대차·기아·제네시스 전반에 걸쳐 2030년까지 2,000만 대 탑재를 목표로 한다."},
-  {q:"HW/SW 디커플링 설계가 가능하게 하는 것은?",
+  {q:"E&E 아키텍처에서 차량 전자 구조의 두 축을 이루는 요소는?",
+   o:["엔진과 변속기","HPVC(고성능 차량 컴퓨터)와 존 컨트롤러","배터리와 모터","센서와 액추에이터"],a:1,
+   e:"고성능 차량 컴퓨터(HPVC)와 구역별 존 컨트롤러를 결합해 중앙집중형 구조로 전환한다."},
+  {q:"HPVC와 Zone Controller로 전자 구조를 통합해 얻는 대표 효과는?",
+   o:["주행거리 66% 증가","기존 제어기(ECU) 약 66% 감축","연비 66% 개선","화면 밝기 66% 향상"],a:1,
+   e:"흩어진 다수의 제어기를 통합해 기존 제어기 수를 약 66% 줄여 원가·복잡도를 낮춘다."},
+  {q:"HW/SW 디커플링(하드웨어-소프트웨어 분리) 설계가 가능하게 하는 것은?",
    o:["하드웨어 교체 없이 SW 업데이트만으로 기능 개선","연료 효율 자동 최적화","타이어 마모 감소","차체 경량화"],a:0,
-   e:"하드웨어와 소프트웨어를 분리해, HW 교체 없이 OTA 업데이트만으로 신기능을 추가·개선할 수 있다."},
+   e:"하드웨어와 소프트웨어를 분리해, HW 교체 없이 OTA 업데이트만으로 신기능을 추가·개선할 수 있다. SDV를 가능케 하는 근본 사상이다."},
+  {q:"현대차그룹이 차량에 탑재하는 NPU(Neural Processing Unit)의 역할은?",
+   o:["오디오 증폭 전용 칩","AI·딥러닝 연산을 차량 내에서 효율적으로 수행하는 전용 칩","배터리 충전 제어","에어백 점화 제어"],a:1,
+   e:"NPU는 카메라·레이더 데이터의 딥러닝 처리 등 AI 연산을 차량 내에서 효율적으로 수행하는 전용 프로세서다."},
+  {q:"Pleos Connect의 기반이 되는 운영체제는?",
+   o:["iOS","Tizen","AAOS (Android Automotive OS)","QNX"],a:2,
+   e:"Pleos Connect는 AAOS 기반으로, 익숙한 모바일 앱·콘텐츠를 차량에서 쓸 수 있게 한다."},
+  {q:"Pleos Connect가 내세우는 3대 핵심 가치는?",
+   o:["속도·연비·내구성","직관성·안전성·개방성","가격·디자인·브랜드","무게·크기·소재"],a:1,
+   e:"Pleos Connect는 직관성·안전성·개방성을 3대 핵심 가치로 설계됐다."},
+  {q:"Pleos Connect의 중앙 대화면을 구성하는 세 영역이 아닌 것은?",
+   o:["주행정보 화면","앱 화면","하단 바","뒷좌석 전용 게임 화면"],a:3,
+   e:"중앙 대화면은 주행정보 화면·앱 화면·하단 바의 세 영역으로 구성된다."},
+  {q:"운전자 전방의 슬림 디스플레이는 어느 시야각 범위에 배치되는가?",
+   o:["5°~10°","15°~30°","45°~60°","90° 이상"],a:1,
+   e:"전방 15°~30° 시야각에 슬림 디스플레이를 둬 시선 분산을 최소화한다."},
+  {q:"중앙 대화면 하단 바의 주된 역할은?",
+   o:["경고 알림만 표시","공조·내비 등 자주 쓰는 기능에 빠르게 접근","후방 카메라 전용 표시","광고 표시"],a:1,
+   e:"하단 바는 공조·내비게이션 등 자주 사용하는 기능을 빠르게 띄우는 진입점이다."},
+  {q:"Pleos Connect의 '분할·풀스크린 UX'에 대한 설명으로 옳은 것은?",
+   o:["앱은 항상 하나만 실행된다","스플릿으로 두 앱 동시 실행, 정차 시 미디어 풀스크린 가능","주행 중에만 전체화면이 된다","화면 분할 기능은 없다"],a:1,
+   e:"스플릿 스크린으로 두 앱을 동시에 띄우거나 한 앱을 전체화면으로 확장할 수 있고, 정차 시 미디어를 풀스크린으로 즐긴다."},
+  {q:"세 손가락(3핑거) 제스처의 용도로 옳은 것은?",
+   o:["볼륨 조절","앱 위치 변경 또는 불필요한 앱 정리","주행 모드 전환","비상등 점멸"],a:1,
+   e:"화면을 직접 만지지 않고 세 손가락 제스처로 앱 위치를 바꾸거나 불필요한 앱을 빠르게 정리한다."},
+  {q:"주행 중 미디어 볼륨·공조 등 자주 쓰는 기능을 안전하게 제어하기 위한 수단은?",
+   o:["스티어링 휠·화면 하단의 물리 버튼","음성만 사용","스마트폰 앱","뒷좌석 리모컨"],a:0,
+   e:"터치 의존을 줄이기 위해 스티어링 휠과 중앙 화면 하단의 물리 버튼으로 자주 쓰는 기능을 제어한다."},
+  {q:"OTA(Over-the-Air)의 의미로 옳은 것은?",
+   o:["유선 정비소 업데이트","무선으로 소프트웨어를 갱신해 기능을 추가·개선","타이어 공기압 점검","연료 자동 주입"],a:1,
+   e:"OTA는 출고 후에도 무선으로 소프트웨어를 갱신해 기능을 지속적으로 추가·개선하는 SDV의 핵심 수단이다."},
+  {q:"Pleos Connect의 '데이터 기반 개인화'가 하는 일은?",
+   o:["자주 쓰는 메뉴를 상단 배치하고 최근 앱을 자동 추가","연비를 자동 계산","타이어 교체 주기 안내","보험료 산정"],a:0,
+   e:"사용 데이터를 분석해 자주 쓰는 메뉴를 상단에 두고 최근 사용 앱을 자동으로 추가하는 등 레이아웃을 개인화한다."},
+  {q:"Pleos 내비게이션의 경로 안내가 기반으로 삼는 것은?",
+   o:["전국에서 수집되는 국내 최대 규모의 주행 데이터","위성 사진만","사용자 수기 입력","고정된 종이 지도"],a:0,
+   e:"전국에서 수집되는 국내 최대 규모의 주행 데이터를 기반으로 경로를 안내하고, 실시간 교통·온라인 지도를 동적으로 활용한다."},
+  {q:"전기차에서 Pleos 내비게이션이 충전소를 자동 추천할 때 고려하는 요소는?",
+   o:["탑승 인원","도착 시 예상 배터리 잔량","외기 온도만","타이어 마모도"],a:1,
+   e:"전기차는 목적지 도착 시 예상 배터리 잔량을 고려해 충전소를 자동으로 추천한다."},
+  {q:"여러 Pleos Connect 차량에서 동일한 개인 맞춤 설정을 불러오게 하는 것은?",
+   o:["Pleos ID","Pleos Cloud 결제","OTA 키","Zone Controller"],a:0,
+   e:"Pleos ID는 하나의 통합 프로필로 어느 Pleos Connect 차량에서든 맞춤 설정·서비스를 그대로 불러온다."},
+  {q:"Pleos Connect의 핵심 AI 비서 이름과 그 영감의 원천은?",
+   o:["Gleo AI – 갈릴레오 갈릴레이","Bixby – 별자리","Clova – 클로버","Nugu – 부엉이"],a:0,
+   e:"Gleo AI는 갈릴레오 갈릴레이에서 영감을 받은 LLM 기반 에이전트 AI다."},
+  {q:"Gleo AI가 '라디오 끄고, 에어컨 켜고, 무드등 바꿔줘'를 한 번에 처리하는 능력은?",
+   o:["멀티(복합) 커맨드 처리","음성 녹음","내비 검색","블루투스 페어링"],a:0,
+   e:"Gleo AI는 LLM 기반으로 여러 명령을 한 번의 발화로 받아 순차 처리하는 복합 명령 실행이 가능하다."},
+  {q:"Gleo AI의 '좌석(화자) 위치 인식' 기능이 가능하게 하는 것은?",
+   o:["말한 사람의 좌석만 골라 창문·시트 등을 제어","모든 좌석을 동시에 제어","운전석만 제어","제어 불가, 안내만 제공"],a:0,
+   e:"화자의 좌석 위치를 식별해 말한 사람 자리의 창문·시트 등만 개인화 제어한다."},
+  {q:"Gleo AI의 동작 중 '안전'을 위해 두는 제약은?",
+   o:["야간에는 작동하지 않는다","주행 안전에 영향을 주는 명령은 제한한다","고속도로에서만 작동한다","2명 이상 탑승 시에만 작동한다"],a:1,
+   e:"차량 전반을 음성 제어하되, 주행 안전에 영향을 줄 수 있는 명령은 제한한다."},
+  {q:"외부 개발자에게 차량 API·SDK와 가상 개발·테스트 환경을 제공하는 플랫폼은?",
+   o:["Pleos App Market","Pleos Playground","Pleos Cloud","Pleos Connect"],a:1,
+   e:"Pleos Playground는 SDK 문서·샘플 코드·디버깅 도구와 실제 차량 없이 앱을 개발·테스트하는 환경을 제공한다."},
+  {q:"Pleos App Market의 초기 참여 서비스가 아닌 것은?",
+   o:["네이버(오토/웨일)","Spotify","YouTube","Netflix"],a:3,
+   e:"초기 앱으로 네이버 오토·웨일, 유튜브, 스포티파이, SBS 고릴라, 지니, essential 등이 참여한다. Netflix는 언급되지 않았다."},
+  {q:"클러스터·버튼 바 등 액세서리를 별도 설정 없이 연결하는 방식은?",
+   o:["Plug & Play(PnP)","OTA","Pleos ID","Zone 연결"],a:0,
+   e:"Plug & Play는 외부 하드웨어 액세서리를 별도 설정 없이 연결해 액세서리 생태계까지 개방한다."},
 ];
 
-/* (2) PLEOS27 체험전시 기획 퀴즈 — 방문객이 PLEOS 기술·서비스를 '체험'하게 만드는 전시 아이템/콘텐츠 설계 준비 */
-const PLANNING_Q=[
-  {q:"PLEOS27 입구존에서 방문객에게 'PLEOS가 무엇인지'를 30초 안에 각인시키는 체험물로 가장 적절한 것은?",
-   o:["6개 영역을 한눈에 잇는 인터랙티브 마인드맵 + 한 줄 정의 키오스크","HPVC 회로 기판 전시",
-      "임원 인터뷰 영상 상영관","제어기 66% 감축 수치 패널"],a:0,
-   e:"입구존은 '큰 그림 각인'이 목적. PLEOS(브랜드)→6개 영역의 구조를 인터랙티브하게 보여주는 마인드맵형 체험물이 짧은 시간에 전체 개념을 잡아준다. 세부 기술 전시는 안쪽 존으로 배치한다."},
-  {q:"'Gleo AI의 맥락 이해'를 방문객이 직접 체감하게 하는 체험 아이템 설계로 가장 효과적인 것은?",
-   o:["AI 사양 스펙 패널 부착","'거기 근처 맛집 찾아줘'처럼 앞말을 이어 말하는 연속 대화 부스",
-      "음성인식 정확도 그래프 전시","LLM 구조 다이어그램"],a:1,
-   e:"맥락 이해는 '이어 말하기'를 직접 해봐야 와닿는다. 방문객이 대명사·생략이 섞인 연속 대화를 던지고 AI가 문맥으로 알아듣는 시나리오 부스가 체감도가 가장 높다."},
-  {q:"'좌석(화자) 인식 개인화'를 보여줄 체험존을 만들 때 핵심 연출 장치는?",
-   o:["1인용 시뮬레이터","다인승 시트 목업 — 말한 좌석만 조명·콘텐츠·열선이 반응","대형 LED 월","VR 헤드셋"],a:1,
-   e:"개인화의 포인트는 '말한 사람 자리만' 반응하는 것. 여러 좌석 목업에서 방문객이 각 자리에서 말하면 그 좌석만 반응하는 연출이 좌석 인식을 직관적으로 증명한다."},
-  {q:"'OTA로 차가 계속 진화한다'는 추상적 개념을 전시에서 체감시키는 콘텐츠로 가장 적절한 것은?",
-   o:["정적인 사양 비교표","같은 차가 업데이트 전·후로 새 기능이 생기는 Before/After 실시간 데모",
-      "OTA 서버 사진","펌웨어 코드 스크롤 영상"],a:1,
-   e:"OTA의 가치는 '출고 후에도 새로워진다'는 시간 변화. 동일 차량/화면이 업데이트 전후로 달라지는 Before/After 데모가 SDV의 핵심을 체험으로 번역해준다."},
-  {q:"개발자 방문객에게 'PLEOS는 개방형 생태계'임을 체험시키는 핸즈온 콘텐츠로 가장 적합한 것은?",
-   o:["완성된 앱 카탈로그 열람","Playground에서 즉석으로 미니 앱을 만들어 App Market 데모 기기에 올려보기",
-      "API 문서 인쇄물 배포","앱 매출 순위표 전시"],a:1,
-   e:"개방성은 '직접 만들어 올려보는' 경험이 가장 강력하다. Playground(개발)→App Market(배포)의 흐름을 짧게 압축한 핸즈온이 개발자 방문객의 참여 동기를 만든다."},
-  {q:"'폰에서 쓰던 앱을 차에서 그대로' 메시지를 체험 동선으로 풀 때 가장 직관적인 연출은?",
-   o:["AAOS 로고 패널","방문객 휴대폰의 앱이 차량 화면으로 자연스럽게 이어지는 연속성 체험",
-      "안드로이드 버전 연혁표","앱 아이콘 모자이크 벽"],a:1,
-   e:"AAOS 기반의 모바일 연속성은 '내 폰 → 차 화면'으로 끊김 없이 이어지는 장면을 직접 보여줄 때 체감된다. 기술명보다 연결되는 순간을 연출한다."},
-  {q:"전시 동선이 짧을 때 '데이터 기반 개인화 추천'을 빠르게 보여주는 인터랙티브 콘텐츠는?",
-   o:["주행 데이터 로그 원본 표시","방문객이 취향/목적지를 입력하면 즉석 맞춤 추천이 뜨는 키오스크",
-      "클라우드 서버 구조도","데이터 보안 정책 안내문"],a:1,
-   e:"Pleos Cloud·데이터의 가치는 '나에게 맞춰지는' 결과. 방문객 입력→즉석 맞춤 결과를 보여주는 인터랙션이 데이터 개인화를 짧은 동선에서 증명한다."},
-  {q:"운전석 체험 아이템에서 '안전성'을 메시지로 강조하려면 어떤 인터랙션을 전면에 둬야 하나?",
-   o:["대형 스크린 풀스크린 영상 시청","화면을 만지지 않는 음성(Gleo AI)·3핑거 제스처로 조작하는 체험",
-      "게임 콘텐츠 플레이","좌석 마사지 체험"],a:1,
-   e:"운전자 대상 체험은 '시선을 떼지 않는' 조작이 핵심 메시지. 음성·터치프리 제스처로 기능을 다루는 체험이 안전성 가치를 몸으로 학습시킨다. 리치 콘텐츠는 동승석 체험으로 분리한다."},
-  {q:"운전석존과 동승석존을 나눠 설계할 때, 두 존의 콘텐츠를 구분하는 가장 타당한 기준은?",
-   o:["좌석 가격","안전성 — 운전석은 음성·요약 최소 정보, 동승석은 영상 등 리치 콘텐츠",
-      "화면 크기","앱 개수"],a:1,
-   e:"운전자/동승자 분기의 본질은 안전성이다. 운전석존은 시선 분산을 줄인 음성·요약 체험으로, 동승석존은 몰입형 리치 콘텐츠로 차등 설계한다."},
-  {q:"중앙 디스플레이를 직접 만져보는 체험물에서 '하단 바'의 역할을 방문객이 이해하도록 하려면?",
-   o:["하단 바에 경고 알림만 띄운다","자주 쓰는 앱을 하단 바에서 빠르게 띄워보는 미션형 인터랙션",
-      "하단 바를 영상 재생 전용으로 둔다","하단 바를 숨긴다"],a:1,
-   e:"하단 바는 '빠른 실행' 진입점이다. 방문객에게 '○○ 앱을 하단 바에서 열어보세요' 같은 미션을 주면 화면 정보구조(주행정보/앱/하단 바)를 체험으로 익히게 된다."},
-  {q:"PLEOS27 체험을 '한 번 보고 끝'이 아니라 재방문·지속 관심으로 잇는 콘텐츠 장치로 가장 SDV다운 것은?",
-   o:["일회성 경품 추첨","OTA를 은유해 회차/시즌마다 체험 미션이 업데이트되는 누적형 스탬프 프로그램",
-      "방명록 작성","브로슈어 배포"],a:1,
-   e:"SDV·OTA의 '계속 진화한다'는 정신을 전시 운영에 적용하면, 시즌마다 갱신되는 체험 미션·누적 스탬프가 재방문 동기를 만든다. 메시지와 운영 방식을 일치시키는 설계다."},
-  {q:"현대·기아·제네시스에 걸친 'PLEOS의 확장성'을 체험으로 전달하려면 어떤 전시 구성이 적절한가?",
-   o:["가장 비싼 차 한 대만 전시","브랜드가 다른 여러 차량에서 동일한 PLEOS 경험이 이어지는 비교 체험존",
-      "판매량 그래프 패널","로고 모음 벽"],a:1,
-   e:"2030년 2,000만 대·멀티 브랜드 확장은 '브랜드가 달라도 같은 경험'으로 체감된다. 서로 다른 차량에서 동일한 Gleo AI·UI를 체험하는 비교존이 확장성을 설득력 있게 보여준다."},
+/* (2) 개념 스터디 · 사업 방향 및 기타 — 컨퍼런스·파트너십·자율주행·미래 모빌리티·확산 전략 */
+const CONCEPT_BIZ_Q=[
+  {q:"개발자 컨퍼런스 'Pleos 25'가 열린 시기와 장소는?",
+   o:["2025년 3월, 서울 코엑스","2024년 12월, 부산 벡스코","2026년 4월, 일산 킨텍스","2025년 9월, 미국 라스베이거스"],a:0,
+   e:"Pleos 25는 2025년 3월 28일 서울 코엑스에서 개최됐다."},
+  {q:"Pleos 25에서 처음 공개된 핵심 결과물 묶음으로 옳은 것은?",
+   o:["Vehicle OS·Connect·Playground","엔진·변속기·서스펜션","타이어·휠·브레이크","보험·금융·리스 상품"],a:0,
+   e:"Pleos 25에서 Pleos Vehicle OS, Pleos Connect, 개발자 플랫폼 Pleos Playground가 공개됐다."},
+  {q:"Pleos 25 행사에서 진행된 기술 발표(트랙 세션)의 규모는?",
+   o:["총 24개 트랙 세션","총 4개","총 100개","세션 없이 전시만 진행"],a:0,
+   e:"총 24개의 트랙 세션과 26개 개발사의 베타 앱 시연, SDK 실습 프로그램이 진행됐다."},
+  {q:"Pleos 25의 전시 존 구성으로 옳은 것은?",
+   o:["SDV 존·Pleos Connect 앱 존·클라우드 모빌리티 존","엔진 존·디자인 존·역사관","유아 존·푸드 존·포토 존","판매 상담 존만 운영"],a:0,
+   e:"전시는 SDV 존, Pleos Connect 앱 존, 클라우드 모빌리티 존으로 구성됐다."},
+  {q:"Pleos 25의 키노트를 맡은 인물과 직책은?",
+   o:["송창현 – 현대차·기아 AVP본부장","정의선 – 회장","이재후 – 네이버앱 부문장","노아 지크 – 우버 총괄"],a:0,
+   e:"현대차·기아 AVP(Advanced Vehicle Platform)본부장 송창현 사장이 키노트를 맡아 소프트웨어 비전을 발표했다."},
+  {q:"송창현 AVP본부장이 제시한 'Cloud Mobility(클라우드 모빌리티)' 비전의 핵심은?",
+   o:["모든 모빌리티가 클라우드 위 소프트웨어로 연결","차량 가격을 클라우드에서 결정","구름 모양 디자인 적용","주차장을 클라우드로 운영"],a:0,
+   e:"모든 형태의 모빌리티가 클라우드 상의 소프트웨어로 연결되어 데이터·서비스가 끊김 없이 이어지는 것을 지향한다."},
+  {q:"현대차그룹이 SDV의 다음 단계로 제시한 장기 비전은?",
+   o:["AI 정의 차량(AI-Defined Vehicle)","무인 항공기","수소 발전소","로봇 청소기"],a:0,
+   e:"SDV를 첫 단계로 보고, 차량-사람 상호작용을 고도화해 AI가 경험을 정의하는 'AI 정의 차량'으로 나아간다는 비전을 제시했다."},
+  {q:"현대차그룹의 첫 SDV(가시적) 결과물로 소개된 것은?",
+   o:["Pleos Connect","수소전기차 넥쏘","로보틱스 아틀라스","UAM 기체"],a:0,
+   e:"Pleos Connect는 현대차그룹이 SDV로 나아가는 첫 가시적 결과물로 소개됐다."},
+  {q:"Pleos Connect가 국내에서 최초로 탑재되는 차종은?",
+   o:["더 뉴 그랜저","아반떼","팰리세이드","코나"],a:0,
+   e:"국내는 2026년 5월 출시되는 '더 뉴 그랜저'에 최초 탑재되고, 유럽은 IONIQ 3에 적용된다."},
+  {q:"Pleos Connect가 유럽 시장에서 최초로 적용되는 모델은?",
+   o:["IONIQ 3","코나 일렉트릭","투싼","산타페"],a:0,
+   e:"유럽에서는 아이오닉 3(IONIQ 3)에 Pleos Connect가 최초 적용된다."},
+  {q:"Pleos Connect의 본격적인 차량 적용(양산 탑재) 시작 시점은?",
+   o:["2026년 2분기부터 순차 적용","2024년 1분기","2028년 말","2030년 이후"],a:0,
+   e:"Pleos Connect는 2026년 2분기부터 순차적으로 차량에 적용된다."},
+  {q:"현대차그룹의 2030년 Pleos Connect 탑재 목표 대수는?",
+   o:["200만 대","2,000만 대","2억 대","20만 대"],a:1,
+   e:"현대차·기아·제네시스 전반에 걸쳐 2030년까지 약 2,000만 대 탑재를 목표로 한다."},
+  {q:"Pleos Connect 2,000만 대 목표가 걸쳐 있는 브랜드는?",
+   o:["현대차·기아·제네시스","현대차 단독","기아 단독","제네시스 단독"],a:0,
+   e:"확산 목표는 현대차·기아·제네시스 세 브랜드 전반에 걸쳐 설정됐다."},
+  {q:"Pleos 25에서 '구글(Google)'과의 협력 방향으로 옳은 것은?",
+   o:["AAOS 기반 SDV 차량과 구글 서비스 연계","엔진 공동 개발","타이어 공급","차체 도장"],a:0,
+   e:"구글과는 AAOS(안드로이드 오토모티브) 기반 SDV 차량과 구글 서비스 연계를 협력한다."},
+  {q:"'삼성전자'와의 협력에서 언급된 핵심 키워드는?",
+   o:["SmartThings로 스마트홈-차량 연결","반도체 위탁생산","TV 패널 공급","배터리 셀 공급"],a:0,
+   e:"삼성전자와는 SmartThings를 통해 스마트홈·모바일·차량을 연결하는 협력을 발표했다."},
+  {q:"'네이버(NAVER)'와의 협력 영역으로 가장 적절한 것은?",
+   o:["AI·검색·지도·콘텐츠 서비스 최적화","변속기 제어","서스펜션 튜닝","제동 시스템"],a:0,
+   e:"네이버와는 AI·검색·지도·콘텐츠 서비스를 차량에 최적화하는 협력을 진행한다."},
+  {q:"'쏘카(SOCAR)'와의 협력 방향으로 옳은 것은?",
+   o:["API 기반 차량 공유 서비스 고도화","자동차 보험 판매","주유소 운영","렌터카 차량 제조"],a:0,
+   e:"쏘카와는 API 기반으로 차량 공유 서비스를 고도화하는 협력을 모색한다."},
+  {q:"'우버(Uber)'와의 협력에서 핵심이 된 사업은?",
+   o:["자율주행차 파운드리(AVF)를 통한 로보택시 확장","택배 드론","전동 킥보드","주차 대행"],a:0,
+   e:"우버와는 자율주행차 파운드리(AVF)를 통해 로보택시 서비스 확장을 협력한다."},
+  {q:"'유니티(Unity)'와의 협력 영역은?",
+   o:["차량 내 게임·실시간 3D 렌더링","엔진 오일 개발","좌석 가죽 공급","휠 디자인"],a:0,
+   e:"유니티와는 차량 내 게임 콘텐츠와 실시간 3D 렌더링 역량 협력을 진행한다."},
+  {q:"자율주행 사업자에게 개발 키트·플릿 관리·양산·인증까지 지원하는 플랫폼은?",
+   o:["AVF(자율주행차 파운드리)","Pleos Playground","NUMA","App Market"],a:0,
+   e:"AVF(Autonomous Vehicle Foundry)는 자율주행에 필요한 개발 키트·플릿 관리·양산·인증을 종합 지원한다."},
+  {q:"현대차그룹이 제시한 레벨 2+ 자율주행 적용 목표 시점은?",
+   o:["2027년 말","2025년 초","2032년","이미 전 차종 적용 완료"],a:0,
+   e:"카메라·레이더 인식과 AI 딥러닝 판단을 결합해 2027년 말까지 레벨 2+ 자율주행 적용을 목표로 한다."},
+  {q:"현대차그룹 자율주행의 인식·판단 기술 구성으로 옳은 것은?",
+   o:["카메라·레이더 인식 + AI 딥러닝 판단","음파 탐지 단독","GPS 좌표 단독","운전자 수동 조작 전용"],a:0,
+   e:"카메라·레이더 기반 인식에 AI 딥러닝 판단 구조를 결합하며, 차량 최적화 NPU가 이를 뒷받침한다."},
+  {q:"도시·국가 단위 모빌리티 혁신 협의체 'NUMA'의 목표가 아닌 것은?",
+   o:["교통약자 지원","지방 소멸 대응","기후 위기 해결","차량 판매가 인상"],a:3,
+   e:"NUMA(Next Urban Mobility Alliance)는 교통약자 지원·지방 소멸 대응·기후 위기 해결을 목표로 한다."},
+  {q:"수요에 따라 실시간으로 경로가 만들어지는 수요응답형 교통(DRT) 서비스는?",
+   o:["셔클(SHUCLE)","우버 이츠","카카오T 대리","쏘카 존"],a:0,
+   e:"셔클은 호출 수요에 맞춰 실시간으로 경로를 구성하는 수요응답형 교통(DRT) 플랫폼으로, NUMA의 핵심 서비스다."},
+  {q:"NUMA의 '이동의 자유' 축에서 교통약자를 위해 제시된 디바이스는?",
+   o:["R1 · 나노 모빌리티","UAM 기체","수소 트럭","로보도그"],a:0,
+   e:"교통약자용 R1 디바이스와 소형 이동 수단인 나노 모빌리티가 '이동의 자유' 축에 포함된다."},
+  {q:"PLEOS의 '개방형 생태계' 전략을 가장 잘 설명하는 것은?",
+   o:["제조사만 접근하던 차량 SW 개발 환경을 외부 개발자에게 개방","모든 소스를 비공개로 유지","협력사 없이 단독 개발","앱 설치를 금지"],a:0,
+   e:"제조사·공급업체만 접근하던 차량·클라우드·데이터·액세서리 개발 환경을 외부에 개방한 것이 PLEOS 개방 전략의 핵심이다."},
+];
+
+
+/* (3) 개념 스터디 · 약자 학습 — 자료에 등장하는 모든 약어의 원어를 익힌다 */
+const ACRONYM_Q=[
+  {q:"'PLEOS'는 무엇의 결합인가?",
+   o:["라틴어 'Pleo(더 많은)' + OS","'Play' + 'EOS'","'Please' + 'OS'","'Plus' + 'EOS'"],a:0,
+   e:"'더 많은'을 뜻하는 라틴어 'Pleo'와 운영체제(OS)의 결합으로, 사용자 중심 가치를 더한다는 의미를 담았다."},
+  {q:"'SDV'의 풀이로 옳은 것은?",
+   o:["Standard Driving Vehicle","Software-Defined Vehicle","Self-Driving Van","Smart Display Vehicle"],a:1,
+   e:"SDV = Software-Defined Vehicle. 소프트웨어로 정의되는 차량."},
+  {q:"PLEOS의 장기 비전인 'ADV'의 풀이는?",
+   o:["Advanced Driving Vehicle","Auto Drive Vision","AI-Defined Vehicle","Automatic Door Vehicle"],a:2,
+   e:"ADV = AI-Defined Vehicle. AI가 차량 경험을 정의하는 SDV의 다음 단계."},
+  {q:"'AAOS'는 무엇의 약자인가?",
+   o:["Apple Auto OS","Android Automotive OS","Audio Automotive OS","Auto-Adaptive OS"],a:1,
+   e:"AAOS = Android Automotive OS. Pleos Connect의 기반 OS."},
+  {q:"'OS'의 풀이로 맞는 것은?",
+   o:["Open Standard","Operating System","Optical Sensor","Outer Shell"],a:1,
+   e:"OS = Operating System(운영체제)."},
+  {q:"전자·전기 아키텍처 'E&E'의 풀이는?",
+   o:["Energy & Engine","Electrical & Electronic","Engine & Exhaust","Embedded & External"],a:1,
+   e:"E&E = Electrical & Electronic. 차량 내 전자·전기 시스템 구성 구조."},
+  {q:"고성능 차량 컴퓨터 'HPVC'의 풀이는?",
+   o:["Hybrid Power Vehicle Computer","High Performance Vehicle Computer","Heavy Pressure Valve Controller","High Precision Voltage Controller"],a:1,
+   e:"HPVC = High Performance Vehicle Computer. 여러 기능을 통합 처리하는 고성능 중앙 컴퓨터."},
+  {q:"기존에 분산되어 있던 'ECU'의 풀이로 옳은 것은?",
+   o:["Engine Control Unit only","Electronic Control Unit","Embedded Computing Unit","External Communication Unit"],a:1,
+   e:"ECU = Electronic Control Unit(전자제어장치). HPVC+Zone Controller로 약 66% 감축된 대상."},
+  {q:"'OTA'의 풀이는?",
+   o:["On-The-Air","Over-the-Air","Online Tracking Agent","Off-Track Adjustment"],a:1,
+   e:"OTA = Over-the-Air. 무선으로 소프트웨어를 갱신하는 방식."},
+  {q:"Gleo AI의 핵심 기술 'LLM'의 풀이는?",
+   o:["Light Learning Machine","Large Language Model","Long-Lived Memory","Local Logic Module"],a:1,
+   e:"LLM = Large Language Model(거대 언어 모델). 자연스러운 대화·맥락 이해의 기반."},
+  {q:"'AI'의 풀이는?",
+   o:["Automotive Interface","Artificial Intelligence","Audio Integration","Auto-Identification"],a:1,
+   e:"AI = Artificial Intelligence(인공지능)."},
+  {q:"Pleos Playground가 제공하는 'API'의 풀이는?",
+   o:["Auto Performance Index","Application Programming Interface","Always-Plugged Input","Average Power Indicator"],a:1,
+   e:"API = Application Programming Interface. 외부 개발자가 차량 기능을 다루도록 노출되는 프로그래밍 인터페이스."},
+  {q:"개발자 도구 묶음을 뜻하는 'SDK'의 풀이는?",
+   o:["Standard Driver Kit","Software Development Kit","System Diagnostic Kit","Smart Device Key"],a:1,
+   e:"SDK = Software Development Kit(소프트웨어 개발 키트). Playground가 AAOS SDK와 Pleos 확장 SDK를 함께 제공한다."},
+  {q:"'UX'와 'UI'의 풀이로 옳게 짝지어진 것은?",
+   o:["User eXchange / User Input","User Experience / User Interface","Universal eXchange / Unit Integration","Utility eXtension / User Identifier"],a:1,
+   e:"UX = User Experience(사용자 경험), UI = User Interface(사용자 인터페이스)."},
+  {q:"슬림 디스플레이에 표시되는 'ADAS'의 풀이는?",
+   o:["Auto Drive Acceleration System","Advanced Driver Assistance System(s)","Adaptive Display Audio Setup","Automatic Door Access System"],a:1,
+   e:"ADAS = Advanced Driver Assistance System(s). 첨단 운전자 보조 시스템."},
+  {q:"차량 AI 연산용 'NPU'의 풀이는?",
+   o:["Network Processing Unit","Neural Processing Unit","Navigation Power Unit","Node Pairing Utility"],a:1,
+   e:"NPU = Neural Processing Unit. 차량 내 AI·딥러닝 연산을 효율적으로 수행하는 전용 칩."},
+  {q:"셔클(SHUCLE)이 제공하는 'DRT'의 풀이는?",
+   o:["Direct Route Transit","Demand Responsive Transport","Daily Ride Transit","Dynamic Road Tracking"],a:1,
+   e:"DRT = Demand Responsive Transport(수요응답형 교통). 호출 수요에 맞춰 실시간으로 경로가 만들어지는 합승형 모빌리티."},
+  {q:"자율주행차 파운드리 'AVF'의 풀이는?",
+   o:["Autonomous Vehicle Foundry","Automatic Vehicle Function","Advanced Vehicle Framework","Augmented Visual Field"],a:0,
+   e:"AVF = Autonomous Vehicle Foundry. 자율주행 사업자에게 개발 키트·플릿·양산·인증까지 지원하는 플랫폼."},
+  {q:"도시 모빌리티 협의체 'NUMA'의 풀이는?",
+   o:["New Urban Mobility Association","Next Urban Mobility Alliance","National Universal Mobility Act","Networked Urban Multi-modal Alliance"],a:1,
+   e:"NUMA = Next Urban Mobility Alliance. 교통약자·지방 소멸·기후 위기에 대응하는 도시·국가 단위 모빌리티 협력체."},
+  {q:"송창현 사장이 이끄는 'AVP'본부의 풀이는?",
+   o:["Autonomous Vehicle Project","Advanced Vehicle Platform","Auto Visual Production","Adaptive Voice Processor"],a:1,
+   e:"AVP = Advanced Vehicle Platform. 현대차·기아 SDV·소프트웨어를 총괄하는 본부."},
+  {q:"액세서리 무설정 연결 방식 'PnP'의 풀이는?",
+   o:["Pair-and-Pay","Plug and Play","Push-and-Pull","Print-and-Publish"],a:1,
+   e:"PnP = Plug and Play. 클러스터·버튼 바 등 액세서리를 별도 설정 없이 꽂아 바로 쓰는 방식."},
+  {q:"클라우드 모빌리티 존에 전시된 'FMS'의 풀이는?",
+   o:["Fuel Management Service","Fleet Management System","Fast Mobility Setup","Full-stack Mobility Server"],a:1,
+   e:"FMS = Fleet Management System(차량 관제·관리 시스템)."},
+  {q:"디커플링 설계에서 'HW/SW'가 뜻하는 것은?",
+   o:["High Wireless / Soft Wave","Hardware / Software","Heavy Weight / Slim Width","Host Window / Server Web"],a:1,
+   e:"HW = Hardware(하드웨어), SW = Software(소프트웨어). 둘을 분리(디커플링)하는 것이 SDV의 근본 설계 사상."},
+  {q:"초기 앱사 'SBS 고릴라'의 'SBS'는 무엇의 약자인가?",
+   o:["Sound Broadcasting Series","Seoul Broadcasting System","Smart Bluetooth Speaker","Service Bundle Set"],a:1,
+   e:"SBS = Seoul Broadcasting System. 라디오·음원 앱 'SBS 고릴라'를 운영한다."},
+  {q:"파트너사 박재욱 'CEO'에서 'CEO'의 풀이는?",
+   o:["Chief Engineering Officer","Chief Executive Officer","Central Electronics Operator","Customer Experience Officer"],a:1,
+   e:"CEO = Chief Executive Officer(최고경영자). 박재욱 쏘카 CEO가 Pleos 25 발표에 참여했다."},
 ];
 
 const QUIZZES={
-  concept:{icon:"🧠", title:"개념 학습 퀴즈",
-    desc:"키워드의 정의와 사실을 정확히 익혔는지 점검합니다.",
-    color:"var(--c-overview)", qs:CONCEPT_Q},
-  planning:{icon:"🎯", title:"PLEOS27 체험전시 기획 퀴즈",
-    desc:"방문객이 PLEOS 기술·서비스를 직접 체험하도록, 전시 아이템·콘텐츠를 설계하는 감각을 기릅니다.",
-    color:"var(--c-eco)", qs:PLANNING_Q},
+  concept_tech:{icon:"🔧", title:"개념 스터디 · 기술 및 서비스",
+    desc:"OS·아키텍처·인포테인먼트·Gleo AI·개발 생태계 등 PLEOS의 기술과 서비스를 정확히 익혔는지 점검합니다.",
+    color:"var(--c-os)", qs:CONCEPT_TECH_Q},
+  concept_biz:{icon:"🧭", title:"개념 스터디 · 사업 방향 및 기타",
+    desc:"Pleos 25 컨퍼런스·파트너십·자율주행 로드맵·미래 모빌리티·확산 전략 등 사업 방향을 점검합니다.",
+    color:"var(--c-biz)", qs:CONCEPT_BIZ_Q},
+  acronym:{icon:"🔤", title:"개념 스터디 · 약자 학습",
+    desc:"PLEOS·SDV·AAOS·HPVC·NPU·DRT·AVF·NUMA 등 자료에 등장하는 모든 약어가 어떤 단어들의 결합인지 한 번에 익힙니다.",
+    color:"var(--c-ai)", qs:ACRONYM_Q},
 };
 
-let qi=0, score=0, answered=false, order=[], QSET=[], QMETA=null;
+/* 퀴즈별 정답률 구간에 따라 다른 메시지를 보여준다 (한 번에 얼마나 맞췄는가 기준) */
+const RESULT_MSG={
+  concept_tech:[
+    {min:100, t:"🏆 PLEOS 기술 마스터! 한 번에 전부 정답 — OS 계층부터 Connect의 모든 디테일까지 완벽히 짚어냈어요."},
+    {min:90,  t:"🥇 거의 완벽! 기술 스택을 한 번에 그려냈어요. 빠뜨린 1~2개만 학습 탭에서 다시 짚으면 끝."},
+    {min:75,  t:"👏 한 번에 핵심은 잡았어요. HPVC/존 컨트롤러·OTA·Gleo AI 흐름 중 헷갈린 부분만 복습해 보세요."},
+    {min:50,  t:"📖 절반 이상 한 번에 맞췄지만, 디스플레이 구성·NPU·Pleos ID 같은 디테일에서 흔들렸어요. 학습 3·4·5단계를 다시 펼쳐보세요."},
+    {min:0,   t:"💪 한 번에 맞춘 비율이 낮아요. 학습 2단계(두 개의 축)에서 Vehicle OS와 Connect를 먼저 분리해 잡고 다시 도전!"},
+  ],
+  concept_biz:[
+    {min:100, t:"🏆 전략 통찰력 만점! 한 번에 전부 정답 — 컨퍼런스부터 자율주행·NUMA까지 전체 사업 그림을 꿰뚫고 있어요."},
+    {min:90,  t:"🥇 사업 그림이 머릿속에 거의 완성! 한두 개만 다듬으면 전략 자료를 바로 만들 수 있어요."},
+    {min:75,  t:"👏 큰 그림은 명확. 파트너별 협력 영역(구글·삼성·우버 등)이나 일정/숫자에서 살짝 흔들렸어요."},
+    {min:50,  t:"📖 핵심 사실은 인지하고 있어요. 학습 1·7·8단계로 비전·자율주행·확산 목표를 한 번 더 정리해 보세요."},
+    {min:0,   t:"💪 한 번에 맞춘 비율이 낮아요. 학습 8단계 '적용과 비전'과 7단계 '자율주행과 미래 모빌리티'부터 다시 읽어보길 권합니다."},
+  ],
+  acronym:[
+    {min:100, t:"🏆 약어 통달! 한 번에 전부 정답 — 자료 속 모든 머리글자를 사전처럼 풀어내는 기억력!"},
+    {min:90,  t:"🥇 약어 부자! 한두 개만 다듬으면 약어가 더는 장벽이 되지 않아요."},
+    {min:75,  t:"👏 자주 쓰는 약어는 정복. 덜 노출된 NUMA·AVF·FMS 같은 약어 몇 개만 다시 짚어보세요."},
+    {min:50,  t:"📖 절반 이상은 익숙해요. 학습 탭 각 키워드의 영문 풀이(en)를 옆에 두고 한 번 더 훑어보세요."},
+    {min:0,   t:"💪 약어가 많을 때는 학습 탭에서 영문 풀이를 보며 천천히 익히는 게 빠릅니다. 다시 도전!"},
+  ],
+};
+
+let qi=0, score=0, answered=false, order=[], QSET=[], QMETA=null, QKEY=null;
 function shuffle(a){return a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(v=>v[1]);}
 function quizHome(){
   const cards=Object.entries(QUIZZES).map(([key,z])=>
@@ -545,7 +953,7 @@ function quizHome(){
      <div class="modegrid">${cards}</div>`;
 }
 function quizStart(key){
-  QMETA=QUIZZES[key]; QSET=QMETA.qs;
+  QKEY=key; QMETA=QUIZZES[key]; QSET=QMETA.qs;
   qi=0;score=0;answered=false;order=shuffle([...QSET.keys()]);renderQ();
 }
 function renderQ(){
@@ -580,15 +988,15 @@ function answer(i){
 function nextQ(){qi++; if(qi>=QSET.length){quizResult();return;} renderQ();}
 function quizResult(){
   const pct=Math.round(score/QSET.length*100);
-  const planning=QMETA===QUIZZES.planning;
-  let msg=pct===100?(planning?"🏆 기획 감각 완벽! 개념을 자유자재로 연결했어요.":"🏆 완벽합니다! PLEOS 마스터!"):
-          pct>=70?"👏 훌륭해요! 거의 다 이해했어요.":
-          pct>=40?"📖 좋아요. 학습 탭에서 한 번 더 복습해볼까요?":"💪 학습 탭으로 돌아가 키워드를 다시 살펴보세요!";
-  const key=planning?"planning":"concept";
+  const tiers=RESULT_MSG[QKEY]||[{min:0,t:"수고하셨어요!"}];
+  const tier=tiers.find(x=>pct>=x.min) || tiers[tiers.length-1];
   document.getElementById("quizbox").innerHTML=
    `<div class="result"><div class="score" style="color:${QMETA.color}">${score}/${QSET.length}</div>
-      <div class="msg">${QMETA.icon} ${QMETA.title} · ${msg} (정답률 ${pct}%)</div>
-      <button class="btn" style="background:${QMETA.color}" onclick="quizStart('${key}')">다시 풀기</button>
+      <div class="msg" style="font-size:15.5px;line-height:1.55;text-align:left;max-width:560px;margin:14px auto 22px;background:var(--bg2);border:1px solid var(--line);border-left:4px solid ${QMETA.color};border-radius:10px;padding:14px 16px">
+        <div style="font-size:13px;color:var(--sub);margin-bottom:6px">${QMETA.icon} ${QMETA.title} · 정답률 <b style="color:${QMETA.color}">${pct}%</b> (한 번에 ${score}/${QSET.length}개)</div>
+        ${tier.t}
+      </div>
+      <button class="btn" style="background:${QMETA.color}" onclick="quizStart('${QKEY}')">다시 풀기</button>
       <button class="btn ghost" onclick="quizHome()">다른 퀴즈 선택</button>
       <button class="btn ghost" onclick="document.querySelector('[data-view=study]').click()">학습으로</button>
     </div>`;
@@ -604,29 +1012,38 @@ function renderMap(){
 
   const svg=document.getElementById("svg");
   const NS="http://www.w3.org/2000/svg";
-  const CX=800, CY=590, R1=215, R2=400, R3=545;
+  const CX=880, CY=660, R1=235, R2=455, R3=625;
   const edges=[], nodes=[];
 
   nodes.push({x:CX,y:CY,label:"PLEOS",hex:"#00b4e6",type:"center",
     data:{t:"PLEOS",en:"현대차그룹 통합 소프트웨어 브랜드",cat:null,
       d:"라틴어 'Pleo(더 많은)' + OS. 차량을 '바퀴 달린 스마트폰'으로 만드는 현대차그룹의 SDV 소프트웨어 우산 브랜드. 6개 영역으로 구성됩니다.",subs:[]}});
 
-  CATS.forEach((c,i)=>{
-    const cAng=-90 + i*60;
+  // 카테고리별 잎/가중치를 먼저 계산해, 잎 개수에 비례해 360°를 배분한다.
+  // (키워드가 많은 영역은 더 넓은 부채꼴을 차지 → 노드가 늘어도 겹치지 않음)
+  const cap=3;
+  const catInfo=CATS.map(c=>{
+    const leaves=KW.filter(k=>k.cat===c.id);
+    const weights=leaves.map(k=>Math.max(Math.min(k.subs.length,cap),1));
+    const totalW=weights.reduce((a,b)=>a+b,0)||1;
+    return {c,leaves,weights,totalW};
+  });
+  const grandW=catInfo.reduce((a,d)=>a+d.totalW,0);
+  const gap=8;                               // 카테고리 사이 각도 여백(도)
+  const usable=360 - gap*CATS.length;
+  let ang=-90;                               // 12시 방향에서 시작
+  catInfo.forEach(({c,leaves,weights,totalW})=>{
+    const span=usable*totalW/grandW;         // 이 카테고리가 차지하는 각도
+    const cAng=ang+span/2;                    // 카테고리 노드는 구간 중앙
     const ar=cAng*Math.PI/180;
     const cxp=CX+R1*Math.cos(ar), cyp=CY+R1*Math.sin(ar);
     edges.push({x1:CX,y1:CY,x2:cxp,y2:cyp,hex:c.hex,w:3.5});
     nodes.push({x:cxp,y:cyp,label:c.name,hex:c.hex,type:"cat",
       data:{t:c.name,en:"영역",cat:c.id,d:catDesc(c.id),subs:[]}});
 
-    const leaves=KW.filter(k=>k.cat===c.id);
-    const cap=3;
-    const weights=leaves.map(k=>Math.max(Math.min(k.subs.length,cap),1));
-    const totalW=weights.reduce((a,b)=>a+b,0);
-    const sectorW=54;                       // degrees
-    let cursor=cAng - sectorW/2;
+    let cursor=ang;
     leaves.forEach((k,idx)=>{
-      const w=weights[idx], sliceW=sectorW*w/totalW;
+      const sliceW=span*weights[idx]/totalW;
       const leafAng=cursor+sliceW/2;
       const lr=leafAng*Math.PI/180;
       const lx=CX+R2*Math.cos(lr), ly=CY+R2*Math.sin(lr);
@@ -644,6 +1061,7 @@ function renderMap(){
       });
       cursor+=sliceW;
     });
+    ang+=span+gap;
   });
 
   // glow filter for center
@@ -709,6 +1127,9 @@ function setupPanZoom(svg, layer){
   svg.addEventListener("wheel",e=>{e.preventDefault();zoomAround(toUser(e.clientX,e.clientY), e.deltaY<0?1.12:1/1.12);},{passive:false});
 
   // pointer-based pan & pinch
+  // 캡처를 즉시 잡지 않고 실제 드래그가 감지된 뒤에만 잡는다.
+  // 즉시 setPointerCapture를 호출하면 자식 노드의 click 이벤트가 SVG로 재타게팅되어
+  // 노드 onclick 핸들러가 동작하지 않는 문제가 생긴다.
   const pts=new Map(); let prev=null;
   function gesture(){
     const a=[...pts.values()];
@@ -717,11 +1138,20 @@ function setupPanZoom(svg, layer){
       return {mode:2,c:m,d:Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y)};}
     return null;
   }
-  svg.addEventListener("pointerdown",e=>{svg.setPointerCapture(e.pointerId);pts.set(e.pointerId,{x:e.clientX,y:e.clientY});prev=gesture();});
+  svg.addEventListener("pointerdown",e=>{
+    pts.set(e.pointerId,{x:e.clientX,y:e.clientY,sx:e.clientX,sy:e.clientY,captured:false});
+    prev=gesture();
+  });
   svg.addEventListener("pointermove",e=>{
     if(!pts.has(e.pointerId))return;
-    pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    const rec=pts.get(e.pointerId);
+    pts.set(e.pointerId,{x:e.clientX,y:e.clientY,sx:rec.sx,sy:rec.sy,captured:rec.captured});
     const g=gesture(); if(!g||!prev||g.mode!==prev.mode){prev=g;return;}
+    // 드래그/핀치로 인식되는 순간 캡처
+    const r=pts.get(e.pointerId);
+    const moved=Math.hypot(e.clientX-r.sx, e.clientY-r.sy) > 5;
+    if((moved||pts.size>=2) && !r.captured){ try{svg.setPointerCapture(e.pointerId);}catch(_){} r.captured=true; }
+    if(!moved && pts.size<2) { prev=g; return; }   // 임계값 이하 미세 흔들림은 무시
     if(g.mode===1){const Pn=toUser(g.c.x,g.c.y),Pp=toUser(prev.c.x,prev.c.y);tx+=Pn.x-Pp.x;ty+=Pn.y-Pp.y;apply();}
     else{ zoomAround(toUser(g.c.x,g.c.y), g.d/prev.d);
       const Pn=toUser(g.c.x,g.c.y),Pp=toUser(prev.c.x,prev.c.y);tx+=Pn.x-Pp.x;ty+=Pn.y-Pp.y;apply(); }
@@ -734,12 +1164,12 @@ function setupPanZoom(svg, layer){
 }
 function shortLabel(t){return t.split(" (")[0].split(" /")[0];}
 function catDesc(id){return{
-  overview:"PLEOS의 정체성 — 브랜드 의미, 공개 무대(Pleos 25), 지향 패러다임(SDV).",
-  os:"차량 제어 계층 — Vehicle OS와 이를 떠받치는 전자 구조(E&E·HPVC·존 컨트롤러·디커플링·66% 감축).",
-  connect:"사용자가 만나는 인포테인먼트 — AAOS 기반 Pleos Connect와 화면·제스처·OTA.",
+  overview:"PLEOS의 정체성 — 브랜드 의미, 공개 무대(Pleos 25), 지향 패러다임(SDV), 클라우드 모빌리티/AI 정의 차량의 장기 비전, 이끄는 조직(AVP본부·송창현).",
+  os:"차량 제어 계층 — Vehicle OS와 이를 떠받치는 전자 구조(E&E·HPVC·존 컨트롤러·디커플링·66% 감축) 그리고 AI 연산을 담당하는 NPU.",
+  connect:"사용자가 만나는 인포테인먼트 — AAOS 기반 Pleos Connect와 화면 구성·분할 UX·터치프리/물리버튼·OTA·데이터 개인화·내비게이션·Pleos ID.",
   ai:"지능형 인터페이스 — LLM 기반 에이전트 AI 'Gleo AI'.",
-  eco:"개방형 생태계 — Playground·App Market·개발 환경 개방·클라우드/데이터.",
-  biz:"사업·확산 — 최초 탑재 차종, 2030년 2,000만 대 목표."}[id];}
+  eco:"개방형 생태계 — Playground·SDK·App Market·Plug & Play·글로벌 파트너·개발 환경 개방·클라우드/데이터.",
+  biz:"사업·확산과 미래 모빌리티 — 최초 탑재 차종, 2030년 2,000만 대 목표, 레벨 2+ 자율주행(2027), AVF, NUMA, 셔클."}[id];}
 function showDetail(n){
   const d=n.data, color=n.hex;
   const catLabel = d.cat ? catName(d.cat) : (n.type==="cat"?"영역":"중심 브랜드");
@@ -749,6 +1179,912 @@ function showDetail(n){
     `<div class="cat" style="color:${color}">${catLabel}</div>
      <h3>${d.t}</h3><div class="en">${d.en||""}</div>
      <div class="d">${d.d}</div>${chips}`;
+}
+
+/* ============== CONCEPT MAP (relationship graph · cross-insight) ============== */
+const CONCEPTS=[
+  /* overview / brand (top row) */
+  {id:"pleos",      t:"PLEOS",                cat:"overview", x:860, y:600, hub:true,
+   short:"현대차그룹의 통합 모빌리티 소프트웨어 우산 브랜드."},
+  {id:"pleos25",    t:"Pleos 25",             cat:"overview", x:190, y:120,
+   short:"2025.3.28 코엑스 개발자 컨퍼런스 — Vehicle OS·Connect·Playground 공개 무대."},
+  {id:"cloud-mob",  t:"클라우드 모빌리티",    cat:"overview", x:510, y:100,
+   short:"모든 모빌리티가 클라우드 위 SW로 연결되는 장기 비전."},
+  {id:"sdv",        t:"SDV",                  cat:"overview", x:860, y:80,
+   short:"소프트웨어로 정의되는 차량 — PLEOS가 지향하는 패러다임."},
+  {id:"adv",        t:"AI 정의 차량",         cat:"overview", x:1180,y:100,
+   short:"SDV 다음 단계 — AI가 차량 경험을 정의."},
+  {id:"avp",        t:"AVP본부·송창현",       cat:"overview", x:1540,y:120,
+   short:"PLEOS·SDV 전략을 이끄는 현대차·기아 조직과 수장."},
+
+  /* OS cluster (left) */
+  {id:"vos",        t:"Pleos Vehicle OS",     cat:"os",       x:380, y:360, hub:true,
+   short:"차량 제어 계층 OS. 모듈형·표준화·지속 업데이트."},
+  {id:"ee",         t:"E&E 아키텍처",         cat:"os",       x:160, y:300,
+   short:"Vehicle OS의 토대가 되는 전자·전기 구조."},
+  {id:"hpvc",       t:"HPVC",                 cat:"os",       x:75,  y:440,
+   short:"고성능 차량 컴퓨터 — 중앙집중형 축."},
+  {id:"zone",       t:"Zone Controller",      cat:"os",       x:75,  y:570,
+   short:"구역별 컨트롤러 — 배선 단순화."},
+  {id:"decouple",   t:"HW/SW 디커플링",       cat:"os",       x:380, y:490,
+   short:"HW 교체 없이 SW 업데이트만으로 진화."},
+  {id:"reduce66",   t:"제어기 66% 감축",      cat:"os",       x:210, y:700,
+   short:"HPVC + Zone 통합으로 기존 제어기 약 66% 감축."},
+  {id:"npu",        t:"NPU",                  cat:"os",       x:60,  y:710,
+   short:"차량 내 AI·딥러닝 연산 전용 칩."},
+
+  /* Connect cluster (right) */
+  {id:"connect",    t:"Pleos Connect",        cat:"connect",  x:1330,y:360, hub:true,
+   short:"AAOS 기반 차세대 인포테인먼트. 그룹 첫 SDV 결과물."},
+  {id:"aaos",       t:"AAOS",                 cat:"connect",  x:1560,y:280,
+   short:"Connect의 기반 OS — Android Automotive."},
+  {id:"display",    t:"디스플레이 구성",      cat:"connect",  x:1140,y:340,
+   short:"중앙 대화면 3영역(주행정보/앱/하단 바) + 슬림 디스플레이(15~30°)."},
+  {id:"splitfull",  t:"분할·풀스크린",        cat:"connect",  x:1140,y:460,
+   short:"두 앱 동시 실행 또는 정차 시 미디어 풀스크린."},
+  {id:"gesture",    t:"3핑거·물리 버튼",      cat:"connect",  x:1140,y:580,
+   short:"터치프리 제스처 + 스티어링·하단 물리 버튼 하이브리드 조작."},
+  {id:"ota",        t:"OTA",                  cat:"connect",  x:1620,y:410,
+   short:"무선 SW 업데이트 — 출고 후에도 기능 추가."},
+  {id:"pid",        t:"Pleos ID",             cat:"connect",  x:1620,y:540,
+   short:"여러 Connect 차량을 잇는 통합 사용자 프로필."},
+  {id:"personalize",t:"데이터 기반 개인화",   cat:"connect",  x:1340,y:490,
+   short:"사용 데이터를 분석해 화면·메뉴를 맞춤 구성."},
+  {id:"nav",        t:"Pleos 내비게이션",     cat:"connect",  x:1500,y:670,
+   short:"국내 최대 주행 데이터 기반 길안내."},
+
+  /* AI */
+  {id:"gleo",       t:"Gleo AI",              cat:"ai",       x:1000,y:220,
+   short:"LLM 기반 에이전트 AI — 맥락 이해·멀티 커맨드·좌석 인식."},
+
+  /* ECO cluster (bottom right) */
+  {id:"playground", t:"Pleos Playground",     cat:"eco",      x:1310,y:820, hub:true,
+   short:"외부 개발자용 개방형 플랫폼 — SDK·도구·가상 환경."},
+  {id:"sdk",        t:"AAOS SDK·확장 SDK",    cat:"eco",      x:1530,y:820,
+   short:"AAOS 기본 SDK + Pleos Connect 확장 SDK·API."},
+  {id:"market",     t:"App Market",           cat:"eco",      x:1530,y:940,
+   short:"누구나 만든 앱을 차량에 배포·업데이트하는 마켓."},
+  {id:"pnp",        t:"Plug & Play",          cat:"eco",      x:1310,y:940,
+   short:"클러스터·버튼 바 등 액세서리를 무설정으로 연결."},
+  {id:"openeco",    t:"개발 환경 개방",       cat:"eco",      x:1140,y:1010,
+   short:"차량·클라우드·데이터·액세서리 개발 환경을 외부에 개방."},
+  {id:"clouddata",  t:"Pleos Cloud·데이터",   cat:"eco",      x:1140,y:820,
+   short:"주행 데이터를 수집·분석해 서비스를 고도화하는 클라우드 토대."},
+  {id:"partner",    t:"글로벌 파트너",        cat:"eco",      x:1010,y:960,
+   short:"구글·네이버·삼성·쏘카·우버·유니티 등 협력사."},
+
+  /* BIZ cluster (bottom left) */
+  {id:"numa",       t:"NUMA",                 cat:"biz",      x:520, y:800,
+   short:"도시·국가 단위 모빌리티 혁신 협의체."},
+  {id:"shucle",     t:"셔클(SHUCLE)",         cat:"biz",      x:320, y:860,
+   short:"수요응답형 교통(DRT) 플랫폼 — NUMA의 '이동의 자유' 축."},
+  {id:"grand",      t:"더 뉴 그랜저/IONIQ 3", cat:"biz",      x:730, y:820,
+   short:"Connect 최초 탑재 차종 (2026.5 국내 / 유럽)."},
+  {id:"y2030",      t:"2030년 2,000만 대",    cat:"biz",      x:490, y:970,
+   short:"현대·기아·제네시스 전반 Connect 확산 목표."},
+  {id:"avf",        t:"AVF",                  cat:"biz",      x:700, y:970,
+   short:"자율주행차 파운드리 — 개발 키트·플릿·양산·인증."},
+  {id:"l2plus",     t:"레벨 2+ 자율주행",     cat:"biz",      x:850, y:1070,
+   short:"2027년 말 적용 목표. 카메라·레이더+AI 딥러닝."},
+];
+
+const RELATIONS=[
+  /* PLEOS hub */
+  {a:"pleos",b:"sdv",        l:"지향",
+   desc:"PLEOS는 SDV(소프트웨어 정의 차량) 비전을 실현하기 위해 만든 우산 브랜드입니다. SDV가 '왜'라면 PLEOS는 그 '어떻게'에 해당합니다."},
+  {a:"pleos",b:"vos",        l:"차량 제어",
+   desc:"Pleos Vehicle OS는 PLEOS 안에서 '차량 제어' 계층을 담당하는 운영체제입니다."},
+  {a:"pleos",b:"connect",    l:"인포테인먼트",
+   desc:"Pleos Connect는 PLEOS의 '사용자 경험' 계층 제품으로, 그룹의 첫 SDV 가시적 결과물입니다."},
+  {a:"pleos",b:"playground", l:"개발 생태계",
+   desc:"Pleos Playground는 PLEOS 생태계를 외부 개발자로 확장하는 개방형 개발 플랫폼입니다."},
+  {a:"pleos",b:"cloud-mob",  l:"장기 비전",
+   desc:"클라우드 모빌리티는 PLEOS 위에서 모든 모빌리티가 소프트웨어로 연결되는, 송창현 AVP본부장이 제시한 장기 비전입니다."},
+  {a:"pleos",b:"adv",        l:"다음 단계",
+   desc:"PLEOS는 SDV → AI 정의 차량(ADV)으로 진화하는 경로의 출발점입니다."},
+
+  /* OS internals */
+  {a:"vos",b:"ee",           l:"기반",
+   desc:"E&E(전자·전기) 아키텍처는 Pleos Vehicle OS가 돌아가는 토대 구조입니다."},
+  {a:"vos",b:"decouple",     l:"핵심 사상",
+   desc:"HW/SW 디커플링은 Vehicle OS의 모듈형·표준화 구조를 떠받치는 핵심 설계 원칙입니다."},
+  {a:"ee",b:"hpvc",          l:"중앙 컴퓨터",
+   desc:"HPVC는 E&E의 중앙집중형 축으로, 흩어진 다수의 ECU를 통합 처리합니다."},
+  {a:"ee",b:"zone",          l:"구역 제어",
+   desc:"Zone Controller는 차량을 구역별로 나눠 배선·제어를 단순화하는 E&E의 또 다른 축입니다."},
+  {a:"hpvc",b:"zone",        l:"통합 = ECU 66% 감축",
+   desc:"HPVC와 Zone Controller를 결합하면 기존 제어기(ECU) 수가 약 66% 감축됩니다."},
+  {a:"decouple",b:"ota",     l:"가능케 함",
+   desc:"HW/SW 디커플링이 있어야 하드웨어 교체 없이 OTA만으로 신기능 추가·개선이 가능합니다 — SDV의 작동 원리입니다."},
+  {a:"npu",b:"l2plus",       l:"AI 연산 토대",
+   desc:"NPU는 카메라·레이더+딥러닝 기반 레벨 2+ 자율주행 연산을 차량 내에서 효율적으로 수행하기 위한 전용 칩입니다."},
+
+  /* Connect internals */
+  {a:"connect",b:"aaos",     l:"기반 OS",
+   desc:"Pleos Connect는 AAOS(Android Automotive OS)를 기반으로 모바일 친화적 UX와 검증된 앱 생태계를 차량으로 가져옵니다."},
+  {a:"connect",b:"gleo",     l:"두뇌",
+   desc:"Gleo AI는 Connect의 핵심 음성·에이전트 비서로 맥락 이해·멀티 커맨드·좌석 인식 개인화를 담당합니다."},
+  {a:"connect",b:"ota",      l:"지속 진화",
+   desc:"Connect의 기능과 UI는 OTA로 출고 이후에도 계속 추가·개선됩니다."},
+  {a:"connect",b:"pid",      l:"통합 프로필",
+   desc:"Pleos ID 덕분에 어느 Connect 차량에 타든 동일한 개인 맞춤 설정을 그대로 불러올 수 있습니다."},
+  {a:"connect",b:"personalize",l:"맞춤 UI",
+   desc:"Connect는 사용자 행동 데이터를 분석해 메뉴·앱 레이아웃을 자동으로 개인화합니다."},
+  {a:"connect",b:"nav",      l:"내장 서비스",
+   desc:"Pleos 내비게이션은 국내 최대 주행 데이터를 기반으로 한 Connect 내장 길안내입니다."},
+  {a:"connect",b:"market",   l:"앱 채널",
+   desc:"App Market은 Connect 차량에서 외부 앱을 다운로드·업데이트하는 마켓입니다."},
+  {a:"connect",b:"grand",    l:"최초 탑재",
+   desc:"Connect는 2026년 5월 더 뉴 그랜저(국내)에 최초 탑재되고, 유럽에서는 IONIQ 3에 적용됩니다."},
+  {a:"connect",b:"y2030",    l:"확산 목표",
+   desc:"현대·기아·제네시스 전반에 걸쳐 2030년까지 Connect 탑재 약 2,000만 대를 목표로 합니다."},
+  {a:"nav",b:"gleo",         l:"음성 → 길안내",
+   desc:"'판교역 일식집 찾아줘'처럼 Gleo AI 음성 요청이 그대로 Pleos 내비게이션의 길안내로 이어집니다."},
+  {a:"pid",b:"personalize",  l:"개인화 동기화",
+   desc:"Pleos ID가 있어서 데이터 기반 개인화 결과가 여러 차량 간에도 일관되게 유지됩니다."},
+
+  /* Cross-cat: ECO ↔ Connect/OS/Biz */
+  {a:"playground",b:"market",l:"개발 → 배포",
+   desc:"Playground에서 만든 앱이 App Market을 거쳐 차량에 배포·업데이트됩니다 — '개발 → 배포' 한 흐름입니다."},
+  {a:"playground",b:"partner",l:"파트너 참여",
+   desc:"구글·네이버·삼성·쏘카·우버·유니티 등 글로벌 파트너가 Playground 생태계에 합류했습니다."},
+  {a:"market",b:"partner",   l:"초기 앱 공급",
+   desc:"네이버(오토/웨일), 유튜브, 스포티파이, SBS 고릴라, 지니, essential 등 파트너가 초기 앱을 채워갑니다."},
+  {a:"playground",b:"aaos",  l:"SDK 토대",
+   desc:"Playground는 AAOS 기본 SDK에 Pleos 확장 SDK를 더해 차량 고유 기능까지 다룰 수 있게 합니다."},
+
+  /* BIZ chain */
+  {a:"avf",b:"l2plus",       l:"자율주행 사업",
+   desc:"AVF(자율주행차 파운드리)는 개발 키트·플릿·양산·인증을 종합 지원하며 레벨 2+ 자율주행 위에서 운영됩니다."},
+  {a:"avf",b:"partner",      l:"우버 협력",
+   desc:"AVF는 우버와의 로보택시 사업 확장을 매개하는 파운드리 플랫폼입니다."},
+  {a:"numa",b:"avf",         l:"자율주행 축",
+   desc:"NUMA의 '자율주행 생태계' 축을 AVF가 담당합니다."},
+  {a:"numa",b:"cloud-mob",   l:"도시 SW 연결",
+   desc:"NUMA는 클라우드 모빌리티 비전을 도시·국가 단위 모빌리티 협력으로 확장합니다."},
+
+  /* === 확장 — Pleos 25 컨퍼런스 허브 === */
+  {a:"pleos25",b:"pleos",    l:"공개 무대",
+   desc:"Pleos 25는 PLEOS 브랜드와 그 핵심 기술을 처음 공개한 무대입니다 (2025.3.28 서울 코엑스)."},
+  {a:"pleos25",b:"vos",      l:"기술 공개",
+   desc:"Pleos 25에서 자체 개발 차량 OS 'Pleos Vehicle OS'가 처음 공개됐습니다."},
+  {a:"pleos25",b:"connect",  l:"기술 공개",
+   desc:"Pleos 25에서 AAOS 기반 차세대 인포테인먼트 'Pleos Connect'의 연구개발 버전이 처음 시연됐습니다."},
+  {a:"pleos25",b:"playground",l:"플랫폼 공개",
+   desc:"Pleos 25에서 외부 개발자용 'Pleos Playground' 구축 계획이 공개됐습니다."},
+  {a:"pleos25",b:"partner",  l:"26개 개발사 참여",
+   desc:"Pleos 25에 구글·네이버·삼성·쏘카·우버·유니티 등 26개 개발사가 함께해 베타 앱을 시연했습니다."},
+
+  /* === 확장 — AVP본부·송창현 === */
+  {a:"avp",b:"pleos",        l:"전략 총괄",
+   desc:"현대차·기아 AVP(Advanced Vehicle Platform)본부가 PLEOS·SDV·소프트웨어 전략을 총괄합니다 — 송창현 사장."},
+  {a:"avp",b:"cloud-mob",    l:"비전 제시",
+   desc:"송창현 AVP본부장이 '클라우드 모빌리티' 장기 비전을 Pleos 25 키노트에서 직접 제시했습니다."},
+  {a:"avp",b:"pleos25",      l:"키노트",
+   desc:"Pleos 25의 키노트 세션을 송창현 AVP본부장이 맡았습니다."},
+
+  /* === 확장 — 제어기 66% 감축 === */
+  {a:"reduce66",b:"hpvc",    l:"통합 결과",
+   desc:"HPVC가 흩어진 ECU 다수를 통합하면서 제어기 약 66% 감축 효과의 한 축을 만들었습니다."},
+  {a:"reduce66",b:"zone",    l:"통합 결과",
+   desc:"Zone Controller가 구역별 제어로 배선·제어기를 단순화하면서 제어기 약 66% 감축의 또 다른 축이 됩니다."},
+  {a:"reduce66",b:"ee",      l:"E&E 효과",
+   desc:"E&E 아키텍처가 가져온 가장 가시적인 효과 — 기존 제어기 약 66% 감축으로 원가·복잡도가 줄어듭니다."},
+
+  /* === 확장 — Connect 내부 시각/조작 요소 === */
+  {a:"display",b:"connect",  l:"시각 구성",
+   desc:"디스플레이 구성(중앙 대화면 3영역 + 슬림 15~30°)은 Connect 사용자 경험의 시각적 뼈대입니다."},
+  {a:"splitfull",b:"display",l:"화면 모드",
+   desc:"디스플레이 구성 위에서 두 앱 동시 실행(스플릿) 또는 정차 시 풀스크린 모드가 동작합니다."},
+  {a:"splitfull",b:"connect",l:"UX 모드",
+   desc:"Connect가 제공하는 화면 조작 UX 중 하나로, 주행 상태에 맞춰 자연스럽게 전환됩니다."},
+  {a:"gesture",b:"connect",  l:"안전 조작",
+   desc:"세 손가락 제스처와 물리 버튼은 Connect의 '안전성' 가치를 구현하는 핵심 조작 방식입니다."},
+  {a:"gesture",b:"display",  l:"터치프리 보조",
+   desc:"디스플레이를 직접 만지지 않고도 앱을 정리·전환할 수 있게 하는 보조 인터페이스입니다."},
+
+  /* === 확장 — Eco 보강 === */
+  {a:"sdk",b:"playground",   l:"제공 도구",
+   desc:"Playground가 개발자에게 제공하는 핵심 도구 묶음 — SDK 문서·샘플 코드·디버깅 환경의 토대입니다."},
+  {a:"sdk",b:"aaos",         l:"기본 + 확장",
+   desc:"AAOS 기본 SDK 위에 Pleos Connect 확장 SDK·API가 결합되어 차량 고유 기능까지 다룰 수 있습니다."},
+  {a:"pnp",b:"playground",   l:"표준 인터페이스",
+   desc:"Playground가 표준 인터페이스와 하드웨어 개발 정보를 제공해 Plug & Play 액세서리 연결을 지원합니다."},
+  {a:"pnp",b:"market",       l:"액세서리 생태계",
+   desc:"PnP 액세서리 역시 App Market 생태계의 일부로 확장될 수 있습니다."},
+  {a:"openeco",b:"pleos",    l:"전략 정체성",
+   desc:"개발 환경 개방은 PLEOS가 '폐쇄형'이 아닌 '개방형 생태계'임을 보여주는 전략적 정체성입니다."},
+  {a:"openeco",b:"playground",l:"개방의 실체",
+   desc:"개방 전략의 가장 구체적인 실현체가 Pleos Playground입니다."},
+  {a:"openeco",b:"market",   l:"개방의 통로",
+   desc:"App Market 역시 누구나 앱을 차량에 배포할 수 있게 한 개발 환경 개방의 핵심 결과입니다."},
+  {a:"clouddata",b:"personalize",l:"데이터 → 개인화",
+   desc:"Cloud·데이터가 수집·분석한 사용 데이터가 메뉴·앱 자동 개인화의 근거가 됩니다."},
+  {a:"clouddata",b:"nav",    l:"실시간 데이터 공급",
+   desc:"클라우드가 실시간 교통·온라인 지도 데이터를 내비게이션에 동적으로 공급합니다."},
+  {a:"clouddata",b:"cloud-mob",l:"비전 토대",
+   desc:"클라우드 모빌리티 비전의 데이터·서비스 토대가 바로 Pleos Cloud·데이터입니다."},
+
+  /* === 확장 — 셔클 === */
+  {a:"shucle",b:"numa",      l:"이동의 자유 축",
+   desc:"NUMA의 '이동의 자유' 축에서 셔클이 핵심 수요응답형 교통(DRT) 서비스로 기능합니다."},
+  {a:"shucle",b:"cloud-mob", l:"DRT가 곧 클라우드 모빌리티",
+   desc:"호출에 따라 실시간으로 경로가 만들어지는 셔클은 클라우드 모빌리티 비전이 도시에서 작동하는 가장 빠른 사례입니다."},
+];
+
+/* ----- concept map render + interaction ----- */
+let cmapDrawn=false, cSel=[];
+function renderCmap(){
+  const lg=document.getElementById("legend2");
+  if(!lg.childElementCount) lg.innerHTML=CATS.map(c=>`<span><i style="background:${c.hex}"></i>${c.name}</span>`).join("");
+  if(cmapDrawn) return; cmapDrawn=true;
+
+  const svg=document.getElementById("csvg");
+  const NS="http://www.w3.org/2000/svg";
+
+  // arrow defs (none for now) + glow
+  const defs=document.createElementNS(NS,"defs");
+  defs.innerHTML=`<filter id="cglow" x="-50%" y="-50%" width="200%" height="200%">
+    <feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>`;
+  svg.appendChild(defs);
+
+  const layer=document.createElementNS(NS,"g"); layer.setAttribute("id","czoomLayer");
+  svg.appendChild(layer);
+
+  // draw edges (with optional label at midpoint)
+  const edgeMap=new Map();          // key: a|b sorted → svg path element
+  const edgeLabels=[];
+  RELATIONS.forEach(r=>{
+    const A=CONCEPTS.find(n=>n.id===r.a), B=CONCEPTS.find(n=>n.id===r.b);
+    if(!A||!B) return;
+    const hex = catHex(A.cat)===catHex(B.cat) ? catHex(A.cat) : "#7d8ab0";
+    const p=document.createElementNS(NS,"path");
+    const dx=B.x-A.x, dy=B.y-A.y;
+    const mx=(A.x+B.x)/2 - dy*0.07, my=(A.y+B.y)/2 + dx*0.07; // gentle curve
+    p.setAttribute("d",`M${A.x},${A.y} Q${mx},${my} ${B.x},${B.y}`);
+    p.setAttribute("class","cedge");
+    p.setAttribute("stroke",hex);
+    p.setAttribute("stroke-width","1.7");
+    layer.appendChild(p);
+    const key=[r.a,r.b].sort().join("|");
+    edgeMap.set(key,{el:p,r,hex});
+    // edge label (hidden by default)
+    const tx=document.createElementNS(NS,"text");
+    tx.setAttribute("x",mx); tx.setAttribute("y",my-4);
+    tx.setAttribute("class","cedgelabel");
+    tx.setAttribute("text-anchor","middle");
+    tx.textContent=r.l;
+    layer.appendChild(tx);
+    edgeLabels.push({el:tx,key});
+  });
+
+  // draw nodes
+  const nodeEls=new Map();
+  CONCEPTS.forEach(n=>{
+    const hex=catHex(n.cat);
+    const g=document.createElementNS(NS,"g");
+    g.setAttribute("class","cnode");
+    g.setAttribute("data-id",n.id);
+    g.setAttribute("transform",`translate(${n.x},${n.y})`);
+    const fs = n.id==="pleos"?22 : n.hub?15.5 : 13;
+    const padX = n.id==="pleos"?22 : 12;
+    const h = n.id==="pleos"?44 : n.hub?34 : 28;
+    const w = Math.max(n.t.length*fs*0.62 + padX*2, n.id==="pleos"?140:60);
+    const rect=document.createElementNS(NS,"rect");
+    rect.setAttribute("x",-w/2);rect.setAttribute("y",-h/2);
+    rect.setAttribute("width",w);rect.setAttribute("height",h);rect.setAttribute("rx",h/2);
+    if(n.id==="pleos"){rect.setAttribute("fill",hex);rect.setAttribute("filter","url(#cglow)");}
+    else if(n.hub){rect.setAttribute("fill",hex);}
+    else{rect.setAttribute("fill","#161d31");rect.setAttribute("stroke",hex);rect.setAttribute("stroke-width","2");}
+    const tx=document.createElementNS(NS,"text");
+    tx.setAttribute("text-anchor","middle");tx.setAttribute("dy","0.35em");tx.setAttribute("font-size",fs);
+    tx.setAttribute("fill", (n.id==="pleos"||n.hub) ? "#06121c" : hex);
+    tx.textContent=n.t;
+    g.appendChild(rect);g.appendChild(tx);
+    g.onclick=(e)=>{e.stopPropagation(); pickConcept(n.id);};
+    layer.appendChild(g);
+    nodeEls.set(n.id,g);
+  });
+
+  // store for later
+  renderCmap._nodeEls=nodeEls;
+  renderCmap._edgeMap=edgeMap;
+  renderCmap._edgeLabels=edgeLabels;
+
+  // 배경(빈 영역) 클릭 시에만 선택 초기화 — 노드 클릭은 e.target이 rect/text이므로 제외
+  svg.addEventListener("click",e=>{
+    if(e.target===svg && cSel.length){ cSel=[]; updateCmapSel(); }
+  });
+
+  // reset button
+  document.getElementById("cresetSel").onclick=()=>{ cSel=[]; updateCmapSel(); };
+
+  // pan / zoom (centerOn 등 API 반환)
+  renderCmap._zoom = setupCPanZoom(svg, layer);
+
+  // 검색 입력 → 일치 노드 칩 + 일치 노드 강조
+  const sInput=document.getElementById("csearch");
+  const sHits =document.getElementById("csearchHits");
+  function runSearch(){
+    const q=(sInput.value||"").trim().toLowerCase();
+    // 모든 노드의 search-hit 강조 초기화
+    nodeEls.forEach(el=>el.classList.remove("search-hit"));
+    if(!q){ sHits.innerHTML=""; return; }
+    const hits=CONCEPTS.filter(c=>(c.t+" "+(c.short||"")+" "+c.id).toLowerCase().includes(q));
+    sHits.innerHTML = hits.length
+      ? hits.slice(0,20).map(h=>`<span class="csearchhit match" style="color:${catHex(h.cat)};border-color:${catHex(h.cat)}66" data-id="${h.id}">${h.t}</span>`).join("")
+      : `<span style="font-size:12.5px;color:var(--sub);padding:4px 2px">일치하는 개념이 없습니다.</span>`;
+    // 그래프 위 강조
+    hits.forEach(h=>{ const el=nodeEls.get(h.id); if(el) el.classList.add("search-hit"); });
+    sHits.querySelectorAll(".csearchhit").forEach(el=>{
+      el.onclick=()=>{
+        const id=el.dataset.id;
+        // 해당 노드로 자동 이동 + 선택
+        if(renderCmap._zoom) renderCmap._zoom.centerOn(CONCEPTS.find(c=>c.id===id));
+        pickConcept(id);
+      };
+    });
+  }
+  sInput.oninput=runSearch;
+  sInput.onkeydown=e=>{
+    if(e.key==="Enter"){
+      const first=sHits.querySelector(".csearchhit");
+      if(first) first.click();
+    } else if(e.key==="Escape"){
+      sInput.value=""; runSearch();
+    }
+  };
+
+  updateCmapSel();
+}
+
+function pickConcept(id){
+  if(cSel.length===2){ cSel=[id]; }
+  else if(cSel.length===1 && cSel[0]===id){ cSel=[]; }
+  else { cSel.push(id); }
+  updateCmapSel();
+}
+
+function neighbors(id){
+  return RELATIONS.filter(r=>r.a===id||r.b===id).map(r=>r.a===id?r.b:r.a);
+}
+function findRelation(a,b){
+  return RELATIONS.find(r=>(r.a===a&&r.b===b)||(r.a===b&&r.b===a));
+}
+function bfsPath(s,t){
+  if(s===t) return [s];
+  const q=[[s]], seen=new Set([s]);
+  while(q.length){
+    const path=q.shift(), last=path[path.length-1];
+    for(const n of neighbors(last)){
+      if(seen.has(n)) continue;
+      const np=path.concat(n);
+      if(n===t) return np;
+      seen.add(n); q.push(np);
+    }
+  }
+  return null;
+}
+
+function updateCmapSel(){
+  const nodeEls=renderCmap._nodeEls, edgeMap=renderCmap._edgeMap, edgeLabels=renderCmap._edgeLabels;
+  if(!nodeEls) return;
+
+  // reset visual state
+  nodeEls.forEach(el=>el.classList.remove("selected","related","dimmed"));
+  edgeMap.forEach(o=>{o.el.classList.remove("highlight","dimmed");});
+  edgeLabels.forEach(o=>o.el.classList.remove("show"));
+
+  // refresh selection chips
+  const slot1=document.getElementById("csel1"), slot2=document.getElementById("csel2");
+  const setSlot=(slot,id)=>{
+    if(!id){slot.classList.remove("filled"); return;}
+    const n=CONCEPTS.find(c=>c.id===id);
+    slot.classList.add("filled");
+    slot.querySelector(".cval").textContent=n.t;
+  };
+  setSlot(slot1, cSel[0]||null);
+  if(!cSel[0]) slot1.querySelector(".cval").textContent="개념을 클릭하세요";
+  setSlot(slot2, cSel[1]||null);
+  if(!cSel[1]) slot2.querySelector(".cval").textContent=cSel[0]?"두 번째 개념 클릭":"두 번째 개념 클릭";
+
+  const body=document.getElementById("cbody");
+
+  if(cSel.length===0){
+    body.innerHTML=`<div class="hint">두 개념을 차례로 클릭하면 둘 사이의 직접 관계, 공통 접점, 또는 연결 경로가 여기에 표시됩니다.</div>`;
+    return;
+  }
+
+  if(cSel.length===1){
+    const id=cSel[0];
+    const n=CONCEPTS.find(c=>c.id===id);
+    const nei=neighbors(id);
+    // visual: highlight node, related nodes & edges
+    nodeEls.forEach((el,nid)=>{
+      if(nid===id) el.classList.add("selected");
+      else if(nei.includes(nid)) el.classList.add("related");
+      else el.classList.add("dimmed");
+    });
+    edgeMap.forEach((o,key)=>{
+      const [x,y]=key.split("|");
+      if(x===id||y===id){ o.el.classList.add("highlight"); }
+      else o.el.classList.add("dimmed");
+    });
+    edgeLabels.forEach(o=>{ const [x,y]=o.key.split("|"); if(x===id||y===id) o.el.classList.add("show"); });
+    // info
+    const relList = nei.map(nid=>{
+      const r=findRelation(id,nid), other=CONCEPTS.find(c=>c.id===nid);
+      return `<li><b style="color:${catHex(other.cat)}">${other.t}</b> <span style="color:var(--sub)">— ${r.l}</span></li>`;
+    }).join("");
+    body.innerHTML=
+      `<span class="kind solo">선택된 개념</span>
+       <div style="font-size:16px;font-weight:700;margin-bottom:4px;color:${catHex(n.cat)}">${n.t}</div>
+       <div>${n.short}</div>
+       ${nei.length?`<div class="meta" style="margin-top:14px;color:var(--txt);font-weight:600">직접 연결된 ${nei.length}개 개념</div>
+       <ul style="padding-left:18px;margin-top:6px">${relList}</ul>
+       <div class="meta">다른 개념을 하나 더 클릭하면 둘 사이의 교차 인사이트가 나타납니다.</div>`
+       :`<div class="meta">직접 연결된 개념이 없습니다. 다른 개념을 하나 더 클릭해 경로를 확인해 보세요.</div>`}`;
+    return;
+  }
+
+  // two selected → cross insight
+  const [aId,bId]=cSel;
+  const A=CONCEPTS.find(c=>c.id===aId), B=CONCEPTS.find(c=>c.id===bId);
+  // highlight both nodes + path edges
+  nodeEls.forEach((el,nid)=>{
+    if(nid===aId||nid===bId) el.classList.add("selected");
+  });
+
+  let html="";
+  const direct=findRelation(aId,bId);
+  if(direct){
+    const key=[aId,bId].sort().join("|");
+    const eo=edgeMap.get(key); if(eo) eo.el.classList.add("highlight");
+    edgeLabels.forEach(o=>{ if(o.key===key) o.el.classList.add("show"); });
+    nodeEls.forEach((el,nid)=>{ if(nid!==aId&&nid!==bId) el.classList.add("dimmed"); });
+    edgeMap.forEach((o,k)=>{ if(k!==key) o.el.classList.add("dimmed"); });
+    html=`<span class="kind direct">직접 관계</span>
+      <div><b class="pair">${A.t}</b> ↔ <b class="pair">${B.t}</b></div>
+      <div class="meta" style="color:var(--sub);margin:6px 0 10px">관계: ${direct.l}</div>
+      <div>${direct.desc}</div>`;
+  } else {
+    // common neighbors
+    const nA=new Set(neighbors(aId)), nB=new Set(neighbors(bId));
+    const common=[...nA].filter(x=>nB.has(x));
+    if(common.length){
+      // highlight common neighbors + connecting edges
+      common.forEach(cid=>{
+        const el=nodeEls.get(cid); if(el) el.classList.add("related");
+        [[aId,cid],[bId,cid]].forEach(pair=>{
+          const k=pair.sort().join("|");
+          const eo=edgeMap.get(k); if(eo) eo.el.classList.add("highlight");
+          edgeLabels.forEach(o=>{ if(o.key===k) o.el.classList.add("show"); });
+        });
+      });
+      nodeEls.forEach((el,nid)=>{ if(nid!==aId&&nid!==bId&&!common.includes(nid)) el.classList.add("dimmed"); });
+      edgeMap.forEach((o,k)=>{ if(!o.el.classList.contains("highlight")) o.el.classList.add("dimmed"); });
+      const list=common.map(cid=>{
+        const c=CONCEPTS.find(n=>n.id===cid);
+        const ra=findRelation(aId,cid), rb=findRelation(bId,cid);
+        return `<li><b style="color:${catHex(c.cat)}">${c.t}</b> <span style="color:var(--sub)">— ${A.t}와는 '${ra.l}', ${B.t}와는 '${rb.l}'</span></li>`;
+      }).join("");
+      html=`<span class="kind shared">공통 접점으로 이어짐</span>
+        <div><b class="pair">${A.t}</b> ↔ <b class="pair">${B.t}</b></div>
+        <div class="meta" style="color:var(--sub);margin:6px 0 10px">직접 관계는 없지만 다음 ${common.length}개 개념을 매개로 연결됩니다.</div>
+        <ul style="padding-left:18px">${list}</ul>`;
+    } else {
+      // BFS path
+      const path=bfsPath(aId,bId);
+      if(path){
+        // highlight edges along path
+        for(let i=0;i<path.length-1;i++){
+          const k=[path[i],path[i+1]].sort().join("|");
+          const eo=edgeMap.get(k); if(eo) eo.el.classList.add("highlight");
+          edgeLabels.forEach(o=>{ if(o.key===k) o.el.classList.add("show"); });
+        }
+        path.forEach(pid=>{ const el=nodeEls.get(pid); if(el && pid!==aId && pid!==bId) el.classList.add("related"); });
+        nodeEls.forEach((el,nid)=>{ if(!path.includes(nid)) el.classList.add("dimmed"); });
+        edgeMap.forEach((o)=>{ if(!o.el.classList.contains("highlight")) o.el.classList.add("dimmed"); });
+        const labels=path.map(pid=>{
+          const c=CONCEPTS.find(n=>n.id===pid);
+          return `<b style="color:${catHex(c.cat)}">${c.t}</b>`;
+        }).join(" <span style='color:var(--sub)'>→</span> ");
+        const hops=path.length-1;
+        html=`<span class="kind path">${hops}단계 경로로 연결</span>
+          <div>${labels}</div>
+          <div class="meta">직접·공통 연결은 없지만 ${hops}개 관계를 거치면 두 개념이 한 흐름으로 이어집니다.</div>`;
+      } else {
+        nodeEls.forEach((el,nid)=>{ if(nid!==aId&&nid!==bId) el.classList.add("dimmed"); });
+        html=`<span class="kind none">연결 없음</span>
+          <div><b class="pair">${A.t}</b> ↔ <b class="pair">${B.t}</b></div>
+          <div class="meta">현재 정의된 관계망에서는 두 개념을 잇는 경로가 없습니다. 같은 PLEOS 생태계에 속하지만 다른 축의 개념입니다.</div>`;
+      }
+    }
+  }
+  body.innerHTML=html;
+}
+
+/* lightweight pan/zoom for concept map (mirror of mindmap) */
+function setupCPanZoom(svg, layer){
+  let k=1, tx=0, ty=0;
+  const MIN=0.6, MAX=4;
+  const apply=()=>layer.setAttribute("transform",`translate(${tx},${ty}) scale(${k})`);
+  const toUser=(cx,cy)=>{const p=svg.createSVGPoint();p.x=cx;p.y=cy;return p.matrixTransform(svg.getScreenCTM().inverse());};
+  function zoomAround(P,f){
+    const k2=Math.min(MAX,Math.max(MIN,k*f));
+    tx=P.x-(k2/k)*(P.x-tx); ty=P.y-(k2/k)*(P.y-ty); k=k2; apply();
+  }
+  const center=()=>{const r=svg.getBoundingClientRect();return toUser(r.left+r.width/2,r.top+r.height/2);};
+  document.getElementById("czin").onclick=(e)=>{e.stopPropagation();zoomAround(center(),1.25);};
+  document.getElementById("czout").onclick=(e)=>{e.stopPropagation();zoomAround(center(),1/1.25);};
+  document.getElementById("czreset").onclick=(e)=>{e.stopPropagation();k=1;tx=0;ty=0;apply();};
+
+  svg.addEventListener("wheel",e=>{e.preventDefault();zoomAround(toUser(e.clientX,e.clientY), e.deltaY<0?1.12:1/1.12);},{passive:false});
+
+  // 마인드맵과 동일 — 드래그가 감지된 뒤에만 setPointerCapture를 걸어 노드 click을 가로채지 않는다.
+  const pts=new Map(); let prev=null, dragMoved=false;
+  function gesture(){
+    const a=[...pts.values()];
+    if(a.length===1) return {mode:1,c:a[0]};
+    if(a.length>=2){const m={x:(a[0].x+a[1].x)/2,y:(a[0].y+a[1].y)/2};
+      return {mode:2,c:m,d:Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y)};}
+    return null;
+  }
+  svg.addEventListener("pointerdown",e=>{
+    pts.set(e.pointerId,{x:e.clientX,y:e.clientY,sx:e.clientX,sy:e.clientY,captured:false});
+    prev=gesture(); dragMoved=false;
+  });
+  svg.addEventListener("pointermove",e=>{
+    if(!pts.has(e.pointerId))return;
+    const rec=pts.get(e.pointerId);
+    pts.set(e.pointerId,{x:e.clientX,y:e.clientY,sx:rec.sx,sy:rec.sy,captured:rec.captured});
+    const g=gesture(); if(!g||!prev||g.mode!==prev.mode){prev=g;return;}
+    const r=pts.get(e.pointerId);
+    const moved=Math.hypot(e.clientX-r.sx, e.clientY-r.sy) > 5;
+    if((moved||pts.size>=2) && !r.captured){ try{svg.setPointerCapture(e.pointerId);}catch(_){} r.captured=true; dragMoved=true; }
+    if(!moved && pts.size<2) { prev=g; return; }
+    if(g.mode===1){const Pn=toUser(g.c.x,g.c.y),Pp=toUser(prev.c.x,prev.c.y);tx+=Pn.x-Pp.x;ty+=Pn.y-Pp.y;apply();}
+    else{ zoomAround(toUser(g.c.x,g.c.y), g.d/prev.d);
+      const Pn=toUser(g.c.x,g.c.y),Pp=toUser(prev.c.x,prev.c.y);tx+=Pn.x-Pp.x;ty+=Pn.y-Pp.y;apply(); }
+    prev=g;
+  });
+  const up=e=>{pts.delete(e.pointerId);prev=gesture();};
+  svg.addEventListener("pointerup",up);
+  svg.addEventListener("pointercancel",up);
+  svg.addEventListener("pointerleave",up);
+  // 드래그였다면 svg의 배경-클릭 초기화 핸들러로 click이 전파되지 않게 막는다
+  svg.addEventListener("click",e=>{ if(dragMoved){ e.stopPropagation(); dragMoved=false; } },true);
+
+  // 검색에서 호출 — 특정 노드를 화면 중앙으로 이동(부드러운 트랜지션)
+  function centerOn(node){
+    if(!node) return;
+    const vb=svg.viewBox.baseVal;
+    const targetK=Math.max(1.5, Math.min(MAX, k));   // 너무 줌-아웃 상태면 살짝 확대
+    const newK=targetK;
+    // 뷰박스 중앙에 node가 오도록 tx,ty 계산: layer transform = translate(tx,ty) scale(newK)
+    // node가 화면 정중앙에 위치하려면: newK*node.x + tx = vb.x + vb.width/2
+    tx = (vb.x + vb.width/2)  - newK*node.x;
+    ty = (vb.y + vb.height/2) - newK*node.y;
+    k=newK;
+    layer.style.transition="transform .35s ease";
+    apply();
+    setTimeout(()=>{ layer.style.transition=""; }, 420);
+  }
+  return {centerOn};
+}
+
+/* ============== USE-CASE LIBRARY ============== */
+const CASES=[
+  /* ===== 자체 (현대차그룹) ===== */
+  {id:"hmg-connect-grandeur", title:"Pleos Connect 최초 양산 탑재 — 더 뉴 그랜저", brand:"현대자동차그룹",
+   kind:"self", fmt:"양산", cats:["인포테인먼트","SDV"], date:"2026-05",
+   summary:"PLEOS의 첫 SDV 가시적 결과물인 Pleos Connect가 더 뉴 그랜저(국내)와 IONIQ 3(유럽)에 최초 양산 탑재되며 2026년 2분기부터 순차 적용된다.",
+   points:[
+     "AAOS 기반 인포테인먼트로 모바일 친화적 UX 제공",
+     "Gleo AI(LLM 기반 에이전트) 통합 — 맥락 이해·멀티 커맨드·좌석 인식",
+     "OTA로 출고 후에도 기능 지속 추가·개선",
+     "2030년까지 현대·기아·제네시스 전반에 약 2,000만 대 탑재 목표"
+   ],
+   rel:["connect","gleo","ota","grand","y2030"],
+   src:"https://www.hyundaimotorgroup.com/en/news/hyundai-motor-group-redefines-in-vehicle-experience-with-pleos-connect-next-generation-infotainment-system",
+   srcLabel:"현대자동차그룹 보도자료"},
+  {id:"hmg-pleos25", title:"Pleos 25 개발자 컨퍼런스 — PLEOS 브랜드 첫 공개", brand:"현대자동차그룹",
+   kind:"self", fmt:"컨퍼런스", cats:["SDV","개발자생태계"], date:"2025-03-28",
+   summary:"서울 코엑스에서 열린 첫 개발자 컨퍼런스. Vehicle OS·Connect·Playground·App Market·NUMA·AVF 등 SDV 전략을 한 번에 공개하고 외부 개발자에게 차량 SW 환경을 개방한다고 선언.",
+   points:[
+     "24개 트랙 세션 + 26개 개발사 베타 앱 시연 + SDK 실습",
+     "전시 존: SDV 존 · Pleos Connect 앱 존 · 클라우드 모빌리티 존",
+     "구글·삼성·네이버·쏘카·우버·유니티 등 글로벌 파트너 참여",
+     "송창현 AVP본부장 키노트 — '클라우드 모빌리티' 비전 제시"
+   ],
+   rel:["pleos25","pleos","vos","connect","playground","partner","avp","cloud-mob"],
+   src:"https://www.hyundaimotorgroup.com/ko/news/CONT0000000000172880",
+   srcLabel:"현대자동차그룹 뉴스룸"},
+  {id:"hmg-gleo-demo", title:"Gleo AI — '거기 근처 맛집' 맥락 이해 시연", brand:"현대자동차그룹",
+   kind:"self", fmt:"보도자료", cats:["AI 비서","인포테인먼트"], date:"2026-04",
+   summary:"Pleos Connect 공개와 함께 시연된 LLM 기반 에이전트 AI. 정해진 명령어가 아니라 추상 표현·복합 명령·간접 발화까지 해석하고, 좌석별 화자 인식으로 말한 사람 자리만 제어한다.",
+   points:[
+     "'라디오 끄고 에어컨 켜고 무드등 바꿔줘' 등 멀티 커맨드 순차 처리",
+     "'지금 너무 더운데?' 같은 간접 표현에도 능동 대응",
+     "주행 안전에 영향을 주는 명령은 자동 제한",
+     "뉴스·날씨·스포츠 웹 검색과 대화 기록 확인용 앱 제공"
+   ],
+   rel:["gleo","connect","personalize","nav"],
+   src:"https://www.hyundaimotorgroup.com/ko/story/CONT0000000000210298",
+   srcLabel:"현대자동차그룹 스토리"},
+  {id:"hmg-shucle-sejong", title:"세종시 '이응' — 셔클 기반 통합 교통 서비스", brand:"현대자동차",
+   kind:"self", fmt:"시범서비스", cats:["모빌리티서비스"], date:"2022~",
+   summary:"세종시가 셔클 플랫폼을 기반으로 한 통합 교통 서비스 앱 '이응'을 론칭. 수요응답형 교통(DRT)을 도시 단위로 정식 운영하는 국내 대표 사례.",
+   points:[
+     "DRT 플랫폼이 시 차원의 정식 교통 수단으로 채택된 첫 도시급 사례",
+     "버스 노선이 아닌 호출 수요 기반 실시간 합승 라우팅",
+     "NUMA의 '이동의 자유' 축이 도시에서 작동하는 모습"
+   ],
+   rel:["shucle","numa","cloud-mob"],
+   src:"https://www.hyundaimotorgroup.com/ko/news/CONT0000000000155756",
+   srcLabel:"현대자동차그룹 뉴스룸"},
+  {id:"hmg-shucle-hungary", title:"셔클 헝가리 시범 운영 — DRT 플랫폼의 글로벌화", brand:"현대자동차",
+   kind:"self", fmt:"시범서비스", cats:["모빌리티서비스","글로벌"], date:"2024",
+   summary:"헝가리 북부 괴될뢰(Gödöllő) 지역에서 약 12주간 셔클 기반 DRT 시범 운영. 약 11주간 3,138건 호출, 2,950명 이용 — 셔클이 국내를 넘어 글로벌 모빌리티 솔루션으로 확장되는 마중물.",
+   points:[
+     "유럽 첫 셔클 적용 사례",
+     "지방 소멸·교통 사각지대 대응이라는 NUMA의 문제의식 검증",
+     "현지 자치단체 협력 모델로 글로벌 진출 템플릿 마련"
+   ],
+   rel:["shucle","numa","cloud-mob"],
+   src:"https://www.koreapost.co.kr/news/articleView.html?idxno=80992",
+   srcLabel:"코리아포스트"},
+  {id:"hmg-shucle-hwaseong", title:"화성 동탄1 — 교통약자용 이동 서비스", brand:"현대자동차",
+   kind:"self", fmt:"시범서비스", cats:["모빌리티서비스"], date:"2024~",
+   summary:"경기 화성시 동탄1신도시에서 셔클을 활용한 교통약자 전용 이동 서비스 실증. 휠체어 탑승 차량·예약형 호출 등 약자 친화 기능을 결합.",
+   points:[
+     "교통약자 맞춤 차량·UX를 NUMA 'R1·나노 모빌리티' 축과 연결",
+     "지자체-그룹 협력으로 ESG 모빌리티 모델 시도"
+   ],
+   rel:["shucle","numa"],
+   src:"https://biz.heraldcorp.com/article/10455191",
+   srcLabel:"헤럴드경제"},
+  {id:"hmg-motional-uber-lv", title:"IONIQ 5 로보택시 라스베이거스 — 모셔널 × 우버", brand:"현대자동차그룹 · 모셔널 · Uber",
+   kind:"self", fmt:"시범서비스", cats:["자율주행","모빌리티서비스"], date:"2026-03",
+   summary:"현대차그룹의 자율주행 합작법인 모셔널이 우버와 손잡고 2026년 3월 미국 라스베이거스에서 IONIQ 5 로보택시 시범 서비스 공식 개시. FMVSS 인증을 받은 SAE 레벨4 차량.",
+   points:[
+     "리조트 월드 라스베이거스·다운타운·타운스퀘어 상업지구 운영",
+     "2022년 체결한 모셔널-우버 10년 전략 파트너십의 결실",
+     "AVF(자율주행차 파운드리) 전략의 가시화 사례"
+   ],
+   rel:["avf","l2plus","partner","grand"],
+   src:"https://www.sedaily.com/article/20019415",
+   srcLabel:"서울경제"},
+  {id:"hmg-avride-austin", title:"IONIQ 5 로보택시 텍사스 오스틴 — Avride 협력", brand:"현대자동차 · Avride",
+   kind:"self", fmt:"시범서비스", cats:["자율주행","모빌리티서비스"], date:"2025~",
+   summary:"미국 자율주행 스타트업 Avride와 협력해 IONIQ 5 기반 자율주행차를 공동 개발·운영. 2025년 텍사스 오스틴에서 시작해 운영 지역을 확대.",
+   points:[
+     "현대차의 멀티 자율주행 파트너 전략 (모셔널·Avride 병행)",
+     "AVF의 '개발 키트·플릿·양산·인증' 가치 제안을 실증"
+   ],
+   rel:["avf","l2plus","partner"],
+   src:"https://www.soeday.com/2025/07/hyundai-avride-texas-ioniq5-robotaxi.html",
+   srcLabel:"Soeday"},
+
+  /* ===== 외부 벤치마크 ===== */
+  {id:"bench-bmw-idrive9", title:"BMW iDrive 9 — AOSP 기반 인포테인먼트", brand:"BMW",
+   kind:"bench", fmt:"양산", cats:["인포테인먼트","개발자생태계"], date:"2024~",
+   summary:"BMW가 OS9에서 안드로이드 오픈소스(AOSP) 기반으로 전환. 회전 컨트롤러를 없애고 'QuickSelect' 위젯 홈 화면 + 구독형 'Digital Premium'으로 OTA 수익 모델을 강화.",
+   points:[
+     "AOSP 기반 → 앱·서비스 확장과 OTA 유연성 확보",
+     "X1·X2·X3·차세대 1·2 시리즈에 순차 탑재",
+     "Digital Premium 구독으로 YouTube(2025.1) · Zoom 화상회의(2025 여름) 추가",
+     "Hey BMW + Amazon Alexa 음성 연동 (X3)"
+   ],
+   rel:["connect","aaos","ota","display"],
+   src:"https://www.bmwblog.com/2024/12/20/bmw-idrive-9-guide-x3-features-tips/",
+   srcLabel:"BMW Blog · iDrive 9 가이드"},
+  {id:"bench-mercedes-mbux-google", title:"Mercedes MBUX × Google Cloud — Gemini 기반 대화형 내비", brand:"Mercedes-Benz · Google Cloud",
+   kind:"bench", fmt:"보도자료", cats:["AI 비서","인포테인먼트"], date:"2025-01",
+   summary:"Mercedes가 Google Cloud Automotive AI Agent(Gemini on Vertex AI)를 MBUX Virtual Assistant에 통합. '근처 맛집 추천해줘 → 셰프 시그니처가 뭐야?' 같은 멀티턴 대화와 메모리 보유.",
+   points:[
+     "Gemini 기반 — 자연어 POI 검색과 후속 질문 처리",
+     "Google Maps Platform 연동(2.5억 곳, 매일 1억건 업데이트)",
+     "신형 CLA(MB.OS 첫 차량)에 2025년 적용 시작",
+     "Pleos의 Gleo AI 전략과 같은 'LLM × 차량 도메인 데이터' 방향"
+   ],
+   rel:["gleo","nav","clouddata","connect"],
+   src:"https://group.mercedes-benz.com/innovations/product-innovation/technology/ai-powered-conversational-search.html",
+   srcLabel:"Mercedes-Benz 그룹"},
+  {id:"bench-volvo-ex90", title:"Volvo EX90 — Google built-in + Gemini 확장", brand:"Volvo · Google",
+   kind:"bench", fmt:"양산", cats:["인포테인먼트","AI 비서"], date:"2024~",
+   summary:"Volvo EX90이 AAOS 기반 'Google built-in' 인포테인먼트를 양산 탑재. 2026년 5월 Volvo가 Gemini 어시스턴트를 Google built-in 모델 전반으로 확장한다고 발표.",
+   points:[
+     "스마트폰 없이 차량에서 Google Maps·Play·Assistant 사용",
+     "Volvo가 AAOS의 레퍼런스 하드웨어 플랫폼 역할",
+     "Pleos Connect의 AAOS 기반 전략과 가장 가까운 직접 벤치마크"
+   ],
+   rel:["aaos","connect","gleo","display"],
+   src:"https://www.wardsauto.com/news/archive-auto-volvo-cars-google-expand-gemini-android-automotive-partnership-aaos/749053/",
+   srcLabel:"WardsAuto"},
+  {id:"bench-tesla-ota", title:"Tesla — 10년 이상 OTA로 차량을 진화시킨 원조", brand:"Tesla",
+   kind:"bench", fmt:"산업분석", cats:["OTA","SDV","자율주행"], date:"2012~",
+   summary:"Tesla는 슈퍼차저 지원(2012)·오토파일럿(2014~)·V10/V11 UI(2019~21)·FSD를 모두 OTA로 전달. SDV·OTA의 산업 표준을 만든 사례로, 월간 단위 큰 업데이트 + 중간 패치 리듬을 정착.",
+   points:[
+     "성능(가속) 업그레이드까지 SW로 판매한 최초의 양산차",
+     "FSD: end-to-end 신경망 기반 주행 동작 OTA로 반복 개선",
+     "2026 Spring Update — Self-Driving 앱, 기상지도, 미디어 스와이프 등 12+ 기능"
+   ],
+   rel:["ota","decouple","l2plus","sdv"],
+   src:"https://www.tesla.com/support/software-updates",
+   srcLabel:"Tesla Support · Software Updates"},
+  {id:"bench-nio-banyan3", title:"NIO Banyan 3 / NOMI — LLM 기반 차량 비서", brand:"NIO",
+   kind:"bench", fmt:"양산", cats:["AI 비서","인포테인먼트"], date:"2024~",
+   summary:"NIO의 Banyan 3.0이 LLM 기반 차세대 NOMI를 탑재. '음성으로 발렛 호출', '백과사전 Q&A', UWB 디지털 키, HUD 사각 영상 등 LLM·HW 통합 진화를 보여주는 사례.",
+   points:[
+     "NOMI: LLM 기반 인간형 대화 + 캐릭터형 표정 인터랙션",
+     "Banyan 3.3: iPhone UWB 디지털 키·HUD 사각지대 영상·주차 시점 메모리",
+     "QQ Music과 'Premium AI Sound Quality' — 7.1.4 업스케일링"
+   ],
+   rel:["gleo","display","ota","personalize"],
+   src:"https://eletric-vehicles.com/nio/nio-releases-major-software-update-in-china/",
+   srcLabel:"Electric Vehicles · NIO 업데이트"},
+  {id:"bench-stellantis-stla", title:"Stellantis STLA Brain + SmartCockpit — MS Azure 제휴", brand:"Stellantis · Microsoft",
+   kind:"bench", fmt:"보도자료", cats:["SDV","아키텍처","인포테인먼트"], date:"2024~",
+   summary:"Stellantis가 STLA Brain(중앙 컴퓨팅 아키텍처) + STLA SmartCockpit를 Microsoft Azure 위에서 운영. 중앙 처리기로 ECU 수를 약 60개 수준(절반)으로 줄이고 OTA·AI를 14개 브랜드에 확산.",
+   points:[
+     "STLA Brain — 중앙 처리기로 ECU 절반(약 60대) 감축",
+     "STLA SmartCockpit — Microsoft Azure + AI 기반 개인화·OTA",
+     "Applied Intuition과 차량 OS 협력 확장"
+   ],
+   rel:["vos","ee","hpvc","reduce66","ota","connect"],
+   src:"https://www.stellantis.com/en/innovation/intelligent-vehicles-software",
+   srcLabel:"Stellantis · Intelligent Vehicles & Software"},
+  {id:"bench-gm-ford", title:"GM Ultifi · Ford Power-Up · VW Cariad — 빅3 SDV 플랫폼", brand:"GM · Ford · Volkswagen",
+   kind:"bench", fmt:"산업분석", cats:["SDV","OTA","개발자생태계"], date:"2022~",
+   summary:"전통 OEM 빅3의 SDV 대응 — GM은 Ultifi, Ford는 Power-Up OTA, VW는 전담 SW 자회사 Cariad. 자체 OS·앱 플랫폼·OTA를 동시 추진하는 점에서 PLEOS와 같은 카테고리의 경쟁자들.",
+   points:[
+     "GM Ultifi — 차량 OS + OTA + AI 어시스턴트(ChatGPT 검토)",
+     "Ford Power-Up — 정기적 OTA로 SDV 사용자 경험 누적",
+     "VW Cariad — 그룹 차원의 전담 SW 자회사 운영 모델"
+   ],
+   rel:["vos","ota","openeco","sdv"],
+   src:"https://blogs.blackberry.com/en/2022/11/sdvs-get-smart-the-fight-for-the-future-of-vehicles-is-software-defined",
+   srcLabel:"BlackBerry · SDV 산업 분석"},
+  {id:"bench-afeela", title:"Sony Honda Afeela 1 — CES 2026 공개", brand:"Sony Honda Mobility",
+   kind:"bench", fmt:"컨셉카", cats:["SDV","인포테인먼트","AI 비서"], date:"2026-01",
+   summary:"Qualcomm 하드웨어 + Microsoft Azure/OpenAI + Sony 미디어 강점을 결합한 엔터테인먼트 중심 SDV. 다운로드형 앰비언트 라이트·계기판 테마 등 '개인화 패키지' 판매 모델 제시.",
+   points:[
+     "L2+ 지원, 향후 L4 대응 가능한 차세대 E/E 아키텍처",
+     "'AFEELA Co-Creation Program' — Android API 기반 외부 개발자 개방",
+     "온체인 모빌리티 플랫폼으로 크리에이터/유저에 토큰 보상",
+     "2026년 캘리포니아 배송 시작, 시작가 약 $89,900"
+   ],
+   rel:["sdv","connect","openeco","ee"],
+   src:"https://www.shm-afeela.com/en/news/2026-01-06/",
+   srcLabel:"Sony Honda Mobility"},
+  {id:"bench-rivian-gen2", title:"Rivian Gen 2 — 존(Zonal) 아키텍처로 ECU 17→7", brand:"Rivian",
+   kind:"bench", fmt:"산업분석", cats:["아키텍처","SDV"], date:"2025",
+   summary:"2세대 R1T·R1S에서 east·west·south 3-존 아키텍처로 전환. ECU를 17개에서 7개로, 와이어 약 1.6마일(2.6km)을 제거. Pleos의 'HPVC + Zone Controller로 66% 감축' 전략과 직접 비교 가능한 사례.",
+   points:[
+     "존 노드 ↔ 중앙 컴퓨팅 노드를 고속 이더넷으로 연결",
+     "R2·R3 등 후속 모델에도 동일 아키텍처 확장",
+     "OTA로 인포테인먼트·성능·ADAS·구독형 기능까지 갱신"
+   ],
+   rel:["ee","hpvc","zone","reduce66","decouple","ota"],
+   src:"https://www.sonatus.com/resources/vidya-rajagopalan-of-rivian/",
+   srcLabel:"Sonatus · Rivian 아키텍처 인터뷰"},
+
+  /* ===== 업계 분석 ===== */
+  {id:"analysis-aaos-trend", title:"AAOS 채택 확산 — BMW·Volvo·Polestar·Renault·Pleos", brand:"산업 분석",
+   kind:"analysis", fmt:"산업분석", cats:["인포테인먼트","개발자생태계"], date:"2024~",
+   summary:"AAOS(Android Automotive OS)가 차세대 차량 인포테인먼트의 사실상 표준으로 자리잡는 흐름. BMW iDrive 9·Volvo EX90·Polestar 전 라인업·Renault·현대 Pleos Connect까지 모두 AAOS 기반.",
+   points:[
+     "OEM이 직접 검증된 모바일 앱 생태계를 차량에 가져올 수 있음",
+     "구글 빌트인 vs OEM 자체 스킨(Pleos Connect 식) 두 갈래로 분화",
+     "Pleos는 AAOS SDK + Pleos 확장 SDK로 '차량 고유 기능까지' 다루는 방향"
+   ],
+   rel:["aaos","connect","sdk","openeco"],
+   src:"https://insideevs.com/reviews/721081/bmw-idrive-9-infotainment-review/",
+   srcLabel:"InsideEVs"},
+  {id:"analysis-sdv-race", title:"SDV 레이스 — Tesla·Rivian·전통 OEM 모두 같은 방향", brand:"산업 분석",
+   kind:"analysis", fmt:"산업분석", cats:["SDV","아키텍처","OTA"], date:"2024~",
+   summary:"Rivian CEO RJ Scaringe가 '진정한 SDV 경쟁사는 Tesla뿐'이라 언급할 정도로 전통 OEM과 신규 진입자 간 SDV 격차가 벌어지는 중. Pleos가 'E&E + OTA + 개방 생태계'로 빠르게 추격하는 맥락.",
+   points:[
+     "공통 키워드: 중앙집중형 컴퓨팅, HW/SW 디커플링, OTA, 구독형 기능",
+     "PLEOS의 차별점 — 멀티브랜드(현대·기아·제네시스) + 개방형 SDK + NUMA·AVF로 차량 외 모빌리티까지 연결",
+     "2030년 SDV 침투율이 신차의 절반 이상이 될 것이라는 컨센서스"
+   ],
+   rel:["sdv","ota","openeco","cloud-mob"],
+   src:"https://eletric-vehicles.com/rivian/rivian-ceo-names-tesla-as-sole-peer-in-software-defined-vehicle-race/",
+   srcLabel:"Electric Vehicles · Rivian CEO 인터뷰"},
+];
+
+/* 필터 메타 (각 칸은 case의 어떤 필드에서 값을 가져오는지) */
+const LIB_FILTERS=[
+  {key:"kind", label:"유형",   pick:c=>[c.kind]},
+  {key:"fmt",  label:"형식",   pick:c=>[c.fmt]},
+  {key:"cat",  label:"카테고리", pick:c=>c.cats},
+  {key:"brand",label:"브랜드/출처", pick:c=>[c.brand]},
+];
+const KIND_LABEL={self:"자체", bench:"벤치마크", analysis:"업계 분석"};
+
+let libState={q:"", on:{kind:new Set(), fmt:new Set(), cat:new Set(), brand:new Set()}};
+let libRendered=false;
+
+function renderLib(){
+  if(!libRendered){
+    libRendered=true;
+    // 필터 패널 구축
+    const panels=document.getElementById("libFilterPanels");
+    panels.innerHTML=LIB_FILTERS.map(f=>{
+      const all=[...new Set(CASES.flatMap(f.pick))].sort();
+      const chips=all.map(v=>{
+        const label = f.key==="kind" ? (KIND_LABEL[v]||v) : v;
+        return `<span class="libchip" data-fk="${f.key}" data-fv="${escapeAttr(v)}">${label}</span>`;
+      }).join("");
+      return `<h4>${f.label}</h4><div class="libchipgroup">${chips}</div>`;
+    }).join("");
+    panels.querySelectorAll(".libchip").forEach(el=>{
+      el.onclick=()=>{
+        const k=el.dataset.fk, v=el.dataset.fv;
+        const set=libState.on[k];
+        if(set.has(v)) set.delete(v); else set.add(v);
+        el.classList.toggle("on");
+        drawLibGrid();
+      };
+    });
+    document.getElementById("libSearch").oninput=e=>{ libState.q=e.target.value.trim().toLowerCase(); drawLibGrid(); };
+    document.getElementById("libReset").onclick=()=>{
+      libState={q:"", on:{kind:new Set(), fmt:new Set(), cat:new Set(), brand:new Set()}};
+      document.getElementById("libSearch").value="";
+      panels.querySelectorAll(".libchip.on").forEach(el=>el.classList.remove("on"));
+      drawLibGrid();
+    };
+  }
+  drawLibGrid();
+}
+
+function escapeAttr(s){return String(s).replace(/"/g,"&quot;");}
+function escapeHTML(s){return String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));}
+
+function caseMatches(c){
+  const q=libState.q;
+  if(q){
+    const hay=(c.title+" "+c.brand+" "+c.summary+" "+c.points.join(" ")+" "+c.cats.join(" ")+" "+c.fmt).toLowerCase();
+    if(!hay.includes(q)) return false;
+  }
+  for(const f of LIB_FILTERS){
+    const set=libState.on[f.key];
+    if(!set.size) continue;
+    const vals=f.pick(c);
+    if(!vals.some(v=>set.has(v))) return false;
+  }
+  return true;
+}
+function drawLibGrid(){
+  const grid=document.getElementById("libgrid");
+  const cnt =document.getElementById("libCount");
+  const list=CASES.filter(caseMatches);
+  cnt.textContent = `총 ${list.length}건 / ${CASES.length}건`;
+  if(!list.length){ grid.innerHTML=`<div class="libempty">조건에 맞는 사례가 없습니다. 필터를 조정해 보세요.</div>`; return; }
+  grid.innerHTML=list.map(c=>`
+    <article class="libcard kind-${c.kind}">
+      <div class="lhead">
+        <div>
+          <div class="lbrand">${escapeHTML(c.brand)}</div>
+          <h3>${escapeHTML(c.title)}</h3>
+        </div>
+        <span class="lkind kind-${c.kind}">${KIND_LABEL[c.kind]||c.kind}</span>
+      </div>
+      <div class="lmeta">📅 ${escapeHTML(c.date)} · 형식: ${escapeHTML(c.fmt)}</div>
+      <div class="lsum">${escapeHTML(c.summary)}</div>
+      <ul class="lpts">${c.points.map(p=>`<li>${escapeHTML(p)}</li>`).join("")}</ul>
+      <div class="ltags">
+        ${c.cats.map(t=>`<span class="libtag tcat">${escapeHTML(t)}</span>`).join("")}
+        <span class="libtag tfmt">${escapeHTML(c.fmt)}</span>
+      </div>
+      <div class="lfoot">
+        <span>관련 개념: ${c.rel.slice(0,4).map(id=>{const n=CONCEPTS.find(x=>x.id===id);return n?`<span style="color:${catHex(n.cat)}">${n.t}</span>`:id;}).join(", ")}</span>
+        <a href="${escapeAttr(c.src)}" target="_blank" rel="noopener">출처 ↗</a>
+      </div>
+    </article>
+  `).join("");
 }
 </script>
 </body>
